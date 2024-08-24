@@ -10,14 +10,18 @@ class ItemShowCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: horPad, vertical: verPad),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: cardColor,
-          boxShadow: [
-            BoxShadow(
-                offset: const Offset(0, 4),
-                blurRadius: 31,
-                color: const Color(000000).withOpacity(0.25))
-          ]),
+        borderRadius: BorderRadius.circular(16),
+        color: cardColor,
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(2, 3),
+            blurRadius: 6,
+            color: const Color(000000).withOpacity(
+              0.18,
+            ),
+          )
+        ],
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
