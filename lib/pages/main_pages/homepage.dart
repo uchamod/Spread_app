@@ -12,43 +12,59 @@ class HomePage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        //appbar with logo
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          leadingWidth: 210,
-          backgroundColor: Colors.transparent,
-          leading: SvgPicture.asset(
-            "assets/adult/Spread.svg",
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: horPad),
-          child: Stack(
-            children: [
-              Positioned(
-                top: MediaQuery.of(context).size.height * 0.25,
-                child: Image.asset(
-                  "assets/adult/crown.png",
-                  scale: 1.15,
-                ),
+
+        //add coustom scroll viwe
+        body: Stack(
+          children: [
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.30,
+              left: 22,
+              child: Image.asset(
+                "assets/adult/crown.png",
+                scale: 1.15,
               ),
-              SingleChildScrollView(
-                child: GridView.builder(
-                  itemCount: 10,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 8,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: 16 / 20),
-                  itemBuilder: (context, index) {
-                    return ItemShowCard();
-                  },
+            ),
+            CustomScrollView(
+              slivers: <Widget>[
+                //sliver app bar
+                SliverAppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 12,
+
+                  expandedHeight: 50,
+                  floating: false,
+                  pinned: false,
+                  leadingWidth: 200,
+                  leading: IconButton(
+                    onPressed: () {},
+                    icon: SvgPicture.asset(
+                      "assets/adult/Spread.svg",
+                    ),
+                  ),
+                
                 ),
-              )
-            ],
-          ),
+                //add padding for grid viwe
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: horPad, vertical: verPad),
+                  sliver: SliverGrid(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 10,
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 16 / 20),
+                    delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return ItemShowCard();
+                      },
+                      childCount: 10,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ],
         ),
       ),
     );

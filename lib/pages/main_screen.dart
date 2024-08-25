@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: verPad),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(32),
-              color: secondorywhite,
+              color: Colors.transparent,
               boxShadow: [
                 BoxShadow(
                     color: Colors.black.withOpacity(0.3),
@@ -60,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
             borderRadius: BorderRadius.circular(32),
             child: BottomNavigationBar(
                 type: BottomNavigationBarType.shifting,
-                backgroundColor: secondorywhite,
+                backgroundColor: Colors.transparent,
                 currentIndex: _selectedIndex,
                 elevation: 2,
                 selectedItemColor: primaryYellow,
