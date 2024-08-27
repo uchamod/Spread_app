@@ -22,7 +22,7 @@ class ItemShowCard extends StatelessWidget {
               ),
               //coustom card
               child: Container(
-                padding: const EdgeInsets.symmetric(
+                padding:  const EdgeInsets.symmetric(
                     horizontal: horPad, vertical: verPad),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
