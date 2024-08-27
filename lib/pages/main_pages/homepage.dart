@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
                               side: const BorderSide(
                                   color: secondorywhite, width: 2),
                               label: Text(
-                                "Watch Now",
+                                "Artical",
                                 style: Texystyles().subtitle,
                               ),
                               onSelected: (value) {},
@@ -81,7 +81,7 @@ class HomePage extends StatelessWidget {
                               side: const BorderSide(
                                   color: secondorywhite, width: 2),
                               label: Text(
-                                "Habbits",
+                                "Watch Now",
                                 style: Texystyles().subtitle,
                               ),
                               onSelected: (value) {},
@@ -95,7 +95,7 @@ class HomePage extends StatelessWidget {
                               side: const BorderSide(
                                   color: secondorywhite, width: 2),
                               label: Text(
-                                "Dirty",
+                                "People",
                                 style: Texystyles().subtitle,
                               ),
                               onSelected: (value) {},
