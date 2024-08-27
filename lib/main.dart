@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spread/pages/main_screen.dart';
+import 'package:spread/router/go_router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,10 +10,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp.router(
       title: "Spread",
       debugShowCheckedModeBanner: false,
-      home: MainScreen(),
+      routerConfig: RouterClass().router,
     );
   }
 }
