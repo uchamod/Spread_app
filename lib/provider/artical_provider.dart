@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:spread/models/artical.dart';
 
 //initial video artical provider
-class ArticalProvider {
+class ArticalProvider extends ChangeNotifier{
   List<Artical> _initialArtical = [];
   List<Artical> initialArticalData = [];
 
