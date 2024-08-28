@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:spread/models/watch_now.dart';
+
 //initial video data provider
-class VideoProvider {
+class VideoProvider extends ChangeNotifier {
   List<Videos> _initialVideos = [];
   List<Videos> initialvideosData = [];
 
