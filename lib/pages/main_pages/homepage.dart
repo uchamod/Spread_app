@@ -80,55 +80,98 @@ class HomePage extends StatelessWidget {
                                     padding: const EdgeInsets.only(right: 8),
                                     child: FilterChip(
                                       backgroundColor: backgroundBlue,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              filterborder)),
                                       side: const BorderSide(
                                           color: secondorywhite, width: 2),
                                       label: Text(
                                         "All",
                                         style: Textstyles().subtitle,
                                       ),
-                                      onSelected: (value) {},
+                                      selectedColor: backgroundPurple,
+                                      showCheckmark: false,
+                                      selected:
+                                          filterData.getCategory() == "all",
+
+                                      //show all items
+                                      onSelected: (value) {
+                                        filterData.filterDataByCategory("all");
+                                      },
                                     ),
                                   ),
-                                  //watch now
+                                  //articals
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8),
                                     child: FilterChip(
                                       backgroundColor: backgroundBlue,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              filterborder)),
                                       side: const BorderSide(
                                           color: secondorywhite, width: 2),
                                       label: Text(
                                         "Artical",
                                         style: Textstyles().subtitle,
                                       ),
-                                      onSelected: (value) {},
+                                      selectedColor: backgroundPurple,
+                                      showCheckmark: false,
+                                      selected:
+                                          filterData.getCategory() == "artical",
+                                      //ahow articals
+                                      onSelected: (value) {
+                                        filterData
+                                            .filterDataByCategory("artical");
+                                      },
                                     ),
                                   ),
-                                  //habbits
+                                  //videos
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8),
                                     child: FilterChip(
                                       backgroundColor: backgroundBlue,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              filterborder)),
                                       side: const BorderSide(
                                           color: secondorywhite, width: 2),
                                       label: Text(
                                         "Watch Now",
                                         style: Textstyles().subtitle,
                                       ),
-                                      onSelected: (value) {},
+                                      selectedColor: backgroundPurple,
+                                      showCheckmark: false,
+                                      selected:
+                                          filterData.getCategory() == "videos",
+                                      //show videos
+                                      onSelected: (value) {
+                                        filterData
+                                            .filterDataByCategory("videos");
+                                      },
                                     ),
                                   ),
-                                  //dirty
+                                  //people
                                   Padding(
                                     padding: const EdgeInsets.only(right: 8),
                                     child: FilterChip(
                                       backgroundColor: backgroundBlue,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              filterborder)),
                                       side: const BorderSide(
                                           color: secondorywhite, width: 2),
                                       label: Text(
                                         "People",
                                         style: Textstyles().subtitle,
                                       ),
-                                      onSelected: (value) {},
+                                      selectedColor: backgroundPurple,
+                                      showCheckmark: false,
+                                      selected:
+                                          filterData.getCategory() == "people",
+                                      onSelected: (value) {
+                                        filterData
+                                            .filterDataByCategory("people");
+                                      },
                                     ),
                                   )
                                 ],
