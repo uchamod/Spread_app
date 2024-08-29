@@ -11,7 +11,7 @@ class FilterProvider extends ChangeNotifier {
   //data lists
   List<dynamic> _allData = [];
   List<dynamic> _filterdData = [];
-  String selectedCategory = "all";
+  String _selectedCategory = "all";
   //get filterd data
   List<dynamic> get filterData => _filterdData;
 
@@ -38,16 +38,20 @@ class FilterProvider extends ChangeNotifier {
 
   //filter data by selected category
   void filterDataByCategory(String category) {
-    selectedCategory = category;
+    _selectedCategory = category;
     if (category == "all") {
       _filterdData = _allData;
     } else if (category == "artical") {
       _filterdData = _allData.whereType<Artical>().toList();
     } else if (category == "videos") {
       _filterdData = _allData.whereType<Videos>().toList();
-    } else {
+    } else if (category == "people") {
       _filterdData = _allData.whereType<People>().toList();
     }
     notifyListeners();
+  }
+
+  String getCategory() {
+    return _selectedCategory;
   }
 }

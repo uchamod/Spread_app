@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 const double horPad = 15;
 const double verPad = 10;
-
+const double filterborder = 24;
 const Color primaryYellow = Color(0xffF6ED23);
 const Color backgroundBlue = Color(0xff5041A6);
 const Color cardBlue = Color(0xff534CBE);
