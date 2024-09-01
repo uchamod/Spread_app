@@ -8,7 +8,7 @@ class Textstyles {
   TextStyle subtitle = GoogleFonts.poppins(
       fontSize: 18, fontWeight: FontWeight.w400, color: secondorywhite);
   TextStyle body = GoogleFonts.poppins(
-      fontSize: 14, fontWeight: FontWeight.w400, color: secondorywhite);
+      fontSize: 14, fontWeight: FontWeight.bold, color: secondorywhite);
   TextStyle label = GoogleFonts.poppins(
       fontSize: 10, fontWeight: FontWeight.w500, color: secondorywhite);
 }
