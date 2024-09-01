@@ -81,8 +81,9 @@ class HomePage extends StatelessWidget {
                                     child: FilterChip(
                                       backgroundColor: backgroundBlue,
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              filterborder)),
+                                        borderRadius:
+                                            BorderRadius.circular(filterborder),
+                                      ),
                                       side: const BorderSide(
                                           color: secondorywhite, width: 2),
                                       label: Text(
