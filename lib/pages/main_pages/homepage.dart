@@ -43,169 +43,154 @@ class HomePage extends StatelessWidget {
               builder: (context, filterData, child) {
                 final selectedData = filterData.filterData;
                 selectedData.shuffle();
-                return Stack(
-                  children: [
-                    Positioned(
-                      top: MediaQuery.of(context).size.height * 0.30,
-                      left: 22,
-                      child: Image.asset(
-                        "assets/adult/crown.png",
-                        scale: 1.15,
-                      ),
-                    ),
-                    SingleChildScrollView(
-                      child: Container(
-                        height: double.maxFinite,
-                        padding: const EdgeInsets.symmetric(horizontal: horPad),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            //add logo
-                            IconButton(
-                              onPressed: () {},
-                              icon: SvgPicture.asset(
-                                "assets/adult/Spread.svg",
-                                height: 35,
-                              ),
-                            ),
-                            //filter chips
-
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  //all
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: FilterChip(
-                                      backgroundColor: backgroundBlue,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(filterborder),
-                                      ),
-                                      side: const BorderSide(
-                                          color: secondorywhite, width: 2),
-                                      label: Text(
-                                        "All",
-                                        style: Textstyles().subtitle,
-                                      ),
-                                      selectedColor: backgroundPurple,
-                                      showCheckmark: false,
-                                      selected:
-                                          filterData.getCategory() == "all",
-
-                                      //show all items
-                                      onSelected: (value) {
-                                        filterData.filterDataByCategory("all");
-                                      },
-                                    ),
-                                  ),
-                                  //articals
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: FilterChip(
-                                      backgroundColor: backgroundBlue,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              filterborder)),
-                                      side: const BorderSide(
-                                          color: secondorywhite, width: 2),
-                                      label: Text(
-                                        "Artical",
-                                        style: Textstyles().subtitle,
-                                      ),
-                                      selectedColor: backgroundPurple,
-                                      showCheckmark: false,
-                                      selected:
-                                          filterData.getCategory() == "artical",
-                                      //ahow articals
-                                      onSelected: (value) {
-                                        filterData
-                                            .filterDataByCategory("artical");
-                                      },
-                                    ),
-                                  ),
-                                  //videos
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: FilterChip(
-                                      backgroundColor: backgroundBlue,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              filterborder)),
-                                      side: const BorderSide(
-                                          color: secondorywhite, width: 2),
-                                      label: Text(
-                                        "Watch Now",
-                                        style: Textstyles().subtitle,
-                                      ),
-                                      selectedColor: backgroundPurple,
-                                      showCheckmark: false,
-                                      selected:
-                                          filterData.getCategory() == "videos",
-                                      //show videos
-                                      onSelected: (value) {
-                                        filterData
-                                            .filterDataByCategory("videos");
-                                      },
-                                    ),
-                                  ),
-                                  //people
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: FilterChip(
-                                      backgroundColor: backgroundBlue,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              filterborder)),
-                                      side: const BorderSide(
-                                          color: secondorywhite, width: 2),
-                                      label: Text(
-                                        "People",
-                                        style: Textstyles().subtitle,
-                                      ),
-                                      selectedColor: backgroundPurple,
-                                      showCheckmark: false,
-                                      selected:
-                                          filterData.getCategory() == "people",
-                                      onSelected: (value) {
-                                        filterData
-                                            .filterDataByCategory("people");
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            //item grid view
-                            if (selectedData.isNotEmpty)
-                              StaggeredGrid.count(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 8,
-                                mainAxisSpacing: 8,
-                                axisDirection: AxisDirection.down,
-                                children: selectedData.map((item) {
-                                  return GestureDetector(
-                                    onTap: () {},
-                                    child: item is Artical
-                                        ? ArticalItemCard(artical: item)
-                                        : item is Videos
-                                            ? VideoItemCard(video: item)
-                                            : UserItemCard(user: item),
-                                  );
-                                }).toList(),
-                              )
-                            else
-                              const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                          ],
+                return SingleChildScrollView(
+                  child: Container(
+                    //height: double.maxFinite,
+                    padding: const EdgeInsets.symmetric(horizontal: horPad),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        //add logo
+                        IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset(
+                            "assets/adult/Spread.svg",
+                            height: 35,
+                          ),
                         ),
-                      ),
+                        //filter chips
+
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              //all
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: FilterChip(
+                                  backgroundColor: backgroundBlue,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(filterborder),
+                                  ),
+                                  side: const BorderSide(
+                                      color: secondorywhite, width: 2),
+                                  label: Text(
+                                    "All",
+                                    style: Textstyles().subtitle,
+                                  ),
+                                  selectedColor: backgroundPurple,
+                                  showCheckmark: false,
+                                  selected: filterData.getCategory() == "all",
+
+                                  //show all items
+                                  onSelected: (value) {
+                                    filterData.filterDataByCategory("all");
+                                  },
+                                ),
+                              ),
+                              //articals
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: FilterChip(
+                                  backgroundColor: backgroundBlue,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(filterborder)),
+                                  side: const BorderSide(
+                                      color: secondorywhite, width: 2),
+                                  label: Text(
+                                    "Artical",
+                                    style: Textstyles().subtitle,
+                                  ),
+                                  selectedColor: backgroundPurple,
+                                  showCheckmark: false,
+                                  selected:
+                                      filterData.getCategory() == "artical",
+                                  //ahow articals
+                                  onSelected: (value) {
+                                    filterData.filterDataByCategory("artical");
+                                  },
+                                ),
+                              ),
+                              //videos
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: FilterChip(
+                                  backgroundColor: backgroundBlue,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(filterborder)),
+                                  side: const BorderSide(
+                                      color: secondorywhite, width: 2),
+                                  label: Text(
+                                    "Watch Now",
+                                    style: Textstyles().subtitle,
+                                  ),
+                                  selectedColor: backgroundPurple,
+                                  showCheckmark: false,
+                                  selected:
+                                      filterData.getCategory() == "videos",
+                                  //show videos
+                                  onSelected: (value) {
+                                    filterData.filterDataByCategory("videos");
+                                  },
+                                ),
+                              ),
+                              //people
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: FilterChip(
+                                  backgroundColor: backgroundBlue,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(filterborder)),
+                                  side: const BorderSide(
+                                      color: secondorywhite, width: 2),
+                                  label: Text(
+                                    "People",
+                                    style: Textstyles().subtitle,
+                                  ),
+                                  selectedColor: backgroundPurple,
+                                  showCheckmark: false,
+                                  selected:
+                                      filterData.getCategory() == "people",
+                                  onSelected: (value) {
+                                    filterData.filterDataByCategory("people");
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        //item grid view
+                        if (selectedData.isNotEmpty)
+                          StaggeredGrid.count(
+                            crossAxisCount:
+                                filterData.getCategory() == "videos" ? 1 : 2,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            axisDirection: AxisDirection.down,
+                            children: selectedData.map((item) {
+                              return GestureDetector(
+                                onTap: () {},
+                                child: item is Artical
+                                    ? ArticalItemCard(artical: item)
+                                    : item is Videos
+                                        ? VideoItemCard(video: item)
+                                        : UserItemCard(user: item),
+                              );
+                            }).toList(),
+                          )
+                        else
+                          const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                      ],
                     ),
-                  ],
+                  ),
                 );
               },
             );
