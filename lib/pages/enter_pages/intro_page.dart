@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:spread/router/route_names.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 import 'package:spread/widgets/reusable_button.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({super.key});
+
 //intro page
   @override
   Widget build(BuildContext context) {
@@ -64,7 +67,7 @@ class IntroPage extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.08,
             ),
             //button to sing up page 1
-            const ReusableButton(lable: "Next"),
+            const ReusableButton(lable: "Next", routeName: RouterNames.authPage,),
           ],
         ),
       ),

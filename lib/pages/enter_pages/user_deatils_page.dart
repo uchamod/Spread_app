@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:spread/router/route_names.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
@@ -7,20 +7,13 @@ import 'package:spread/widgets/extralogin.dart';
 import 'package:spread/widgets/reusable_button.dart';
 import 'package:spread/widgets/reusable_textformfield.dart';
 
-class AuthPage extends StatelessWidget {
-  AuthPage({super.key});
-
-  //form field controllers
-  final TextEditingController _nameController = TextEditingController();
-
-  final TextEditingController _passwordController = TextEditingController();
-
-  final TextEditingController _passwordConfirmController =
-      TextEditingController();
+class UserDeatilsPage extends StatelessWidget {
+  UserDeatilsPage({super.key});
+  final TextEditingController _discriptionController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
 
   //form key
   final _formKey = GlobalKey<FormState>();
-
   //varibels
   final double filedpad = 12;
 
@@ -28,7 +21,6 @@ class AuthPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final double topPad = MediaQuery.of(context).size.height * 0.10;
     return Container(
-      height: MediaQuery.of(context).size.height * 1,
       padding: EdgeInsets.only(left: horPad, right: horPad, top: topPad),
       decoration: const BoxDecoration(
         //add greadient background
@@ -45,77 +37,79 @@ class AuthPage extends StatelessWidget {
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                //sticker
-                SvgPicture.asset(
-                  "assets/adult/Spread.svg",
+                //avatar
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: secondorywhite.withOpacity(0.3),
+                      radius: 65,
+                    ),
+                    const Positioned(
+                        bottom: 0,
+                        right: 8,
+                        child: Icon(
+                          CupertinoIcons.camera_circle,
+                          color: secondorywhite,
+                          size: 40,
+                        ))
+                  ],
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
+                  height: MediaQuery.of(context).size.height * 0.05,
                 ),
-                //username
+                //discription
                 ReusableTextformfield(
-                  controller: _nameController,
-                  hint: "nickname",
+                  controller: _discriptionController,
+                  hint: "Something about you...",
                   inputAction: TextInputAction.next,
                   inputType: TextInputType.name,
                   isShow: false,
-                  maxLine: 1,
+                  maxLine: 4,
                 ),
                 SizedBox(
                   height: filedpad,
                 ),
-                //password
+                //location
                 ReusableTextformfield(
-                  controller: _passwordController,
-                  hint: "password",
-                  inputAction: TextInputAction.next,
-                  inputType: TextInputType.name,
-                  isShow: true,
-                  maxLine: 1,
-                ),
-                SizedBox(
-                  height: filedpad,
-                ),
-                //confirm password
-                ReusableTextformfield(
-                  controller: _passwordConfirmController,
-                  hint: "confirm password",
+                  controller: _locationController,
+                  hint: "location",
                   inputAction: TextInputAction.done,
                   inputType: TextInputType.name,
                   isShow: true,
                   maxLine: 1,
                 ),
                 SizedBox(
+                  height: filedpad,
+                ),
+
+                SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 const ReusableButton(
-                  lable: "Next",
-                  routeName: RouterNames.userDetailsPage,
+                  lable: "Sing In",
+                  routeName: RouterNames.home,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 const Extralogin(),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.1,
-                // ),
-                Positioned(
-                  top: MediaQuery.of(context).size.height * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Already have an account?",
-                        style: Textstyles().body,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text("Sing Up",
-                          style:
-                              Textstyles().body.copyWith(color: primaryYellow)),
-                    ],
-                  ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.06,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Already have an account?",
+                      style: Textstyles().body,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text("Sing Up",
+                        style:
+                            Textstyles().body.copyWith(color: primaryYellow)),
+                  ],
                 )
               ],
             ),
