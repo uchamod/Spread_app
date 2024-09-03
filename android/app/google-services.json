@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1097341686312",
-    "project_id": "spread-63b20",
-    "storage_bucket": "spread-63b20.appspot.com"
+    "project_number": "970896066422",
+    "project_id": "spread-edfc6",
+    "storage_bucket": "spread-edfc6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1097341686312:android:28100b7a42da8820f71b1d",
+        "mobilesdk_app_id": "1:970896066422:android:8568d6d19729557ededc57",
         "android_client_info": {
           "package_name": "com.example.spread"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDJlpJavCeB9oYNVW1O2q7WSrW8CuMIH3g"
+          "current_key": "AIzaSyDcwMUqXSUhyiWNhml4L35hsudlaWs4A30"
         }
       ],
       "services": {

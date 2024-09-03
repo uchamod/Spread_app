@@ -18,6 +18,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       backgroundColor: Colors.transparent,
       body: SafeArea(
         //get data from future builder
@@ -45,7 +46,6 @@ class HomePage extends StatelessWidget {
                 selectedData.shuffle();
                 return SingleChildScrollView(
                   child: Container(
-                    //height: double.maxFinite,
                     padding: const EdgeInsets.symmetric(horizontal: horPad),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

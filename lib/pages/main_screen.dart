@@ -43,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
+        extendBody: true,
         body: _pages[_selectedIndex],
         //add radious
         bottomNavigationBar: Container(

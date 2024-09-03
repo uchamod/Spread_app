@@ -86,7 +86,7 @@ class UserDeatilsPage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 const ReusableButton(
-                  lable: "Sing In",
+                  lable: "Sing Up",
                   routeName: RouterNames.home,
                 ),
                 SizedBox(
@@ -94,7 +94,7 @@ class UserDeatilsPage extends StatelessWidget {
                 ),
                 const Extralogin(),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.06,
+                  height: MediaQuery.of(context).size.height * 0.1,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -106,7 +106,7 @@ class UserDeatilsPage extends StatelessWidget {
                     const SizedBox(
                       width: 4,
                     ),
-                    Text("Sing Up",
+                    Text("Sing In",
                         style:
                             Textstyles().body.copyWith(color: primaryYellow)),
                   ],
