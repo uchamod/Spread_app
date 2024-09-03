@@ -27,19 +27,19 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double topPad = MediaQuery.of(context).size.height * 0.10;
-    return Container(
-      height: MediaQuery.of(context).size.height * 1,
-      padding: EdgeInsets.only(left: horPad, right: horPad, top: topPad),
-      decoration: const BoxDecoration(
-        //add greadient background
-        gradient: LinearGradient(
-            colors: [backgroundBlue, backgroundPurple],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        height: MediaQuery.of(context).size.height * 1,
+        padding: EdgeInsets.only(left: horPad, right: horPad, top: topPad),
+        decoration: const BoxDecoration(
+          //add greadient background
+          gradient: LinearGradient(
+              colors: [backgroundBlue, backgroundPurple],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight),
+        ),
+        child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
@@ -96,26 +96,23 @@ class AuthPage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 const Extralogin(),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.1,
-                // ),
-                Positioned(
-                  top: MediaQuery.of(context).size.height * 0.9,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Already have an account?",
-                        style: Textstyles().body,
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text("Sing Up",
-                          style:
-                              Textstyles().body.copyWith(color: primaryYellow)),
-                    ],
-                  ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Already have an account?",
+                      style: Textstyles().body,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text("Sing In",
+                        style:
+                            Textstyles().body.copyWith(color: primaryYellow)),
+                  ],
                 )
               ],
             ),
