@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spread/router/route_names.dart';
+import 'package:spread/services/common_functions.dart';
 import 'package:spread/services/firestore.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
@@ -36,7 +37,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
 
   //varibels
   final double filedpad = 12;
-
+  bool isloading = false;
   //select image
   Future<void> imagePicker(ImageSource source) async {
     ImagePicker _imgPicker = ImagePicker();
@@ -49,21 +50,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
   }
 
   //scafoold massage
-  void massage(String res, BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.only(top: verPad, left: horPad, right: horPad),
-        duration: const Duration(seconds: 2),
-        dismissDirection: DismissDirection.up,
-        backgroundColor: primaryYellow,
-        content: Text(
-          res,
-          style: Textstyles().body.copyWith(color: secondoryBlack),
-        ),
-      ),
-    );
-  }
+ 
 
   //create new user
   Future<void> createNewUser(
@@ -73,15 +60,22 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
       String discription,
       String location,
       BuildContext context) async {
+    setState(() {
+      isloading = true;
+    });
     try {
       String result = await _firestoreServices.saveNewUser(
           username, password, profileImage, discription, location);
-      massage(result, context);
+      CommonFunctions().massage(result, Icons.check_circle, Colors.green, context);
     } catch (err) {
-      massage("Something went wrong", context);
+      CommonFunctions().massage("Something went wrong", Icons.cancel, errorColor, context);
     }
+    setState(() {
+      isloading = false;
+    });
   }
 
+//dispose user data
   @override
   void dispose() {
     _discriptionController.dispose();
@@ -190,8 +184,9 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                       GoRouter.of(context).goNamed(RouterNames.home);
                     }
                   },
-                  child: const ReusableButton(
+                  child: ReusableButton(
                     lable: "Sing Up",
+                    isLoad: isloading,
                   ),
                 ),
                 SizedBox(

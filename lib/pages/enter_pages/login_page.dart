@@ -1,22 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:spread/router/route_names.dart';
+import 'package:spread/services/common_functions.dart';
+import 'package:spread/services/firebase_auth.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 import 'package:spread/widgets/extralogin.dart';
 import 'package:spread/widgets/reusable_button.dart';
 import 'package:spread/widgets/reusable_textformfield.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final TextEditingController _nameController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
 
+  final AuthServices _authServices = AuthServices();
+
   final _formKey = GlobalKey<FormState>();
+
   //varibels
   final double filedpad = 12;
+  //load controller
+  bool isloading = false;
+
+  //sing in user
+  Future<void> singIn(String username, String password) async {
+    setState(() {
+      isloading = true;
+    });
+    try {
+      await _authServices.singInUser(username, password);
+      CommonFunctions().massage(
+          "LogIn Succsussfuly", Icons.check_circle, Colors.green, context);
+    } catch (err) {
+      CommonFunctions()
+          .massage("Attempt Lost", Icons.cancel, errorColor, context);
+    }
+
+    setState(() {
+      isloading = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final double topPad = MediaQuery.of(context).size.height * 0.15;
@@ -35,7 +68,6 @@ class LoginPage extends StatelessWidget {
           child: Form(
             key: _formKey,
             child: Column(
-              
               children: [
                 //sticker
                 SvgPicture.asset(
@@ -73,10 +105,20 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
-             const ReusableButton(lable: "Sing Up",),
+
+                InkWell(
+                  onTap: () {
+                    singIn(_nameController.text, _passwordController.text);
+                  },
+                  child: ReusableButton(
+                    lable: "Sing Up",
+                    isLoad: isloading,
+                  ),
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
+                //sing in with google or anonymously
                 const Extralogin(),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
@@ -93,7 +135,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     //route to auth page
                     GestureDetector(
-                         onTap: () {
+                      onTap: () {
                         GoRouter.of(context).goNamed(RouterNames.authPage);
                       },
                       child: Text("Sing Up",

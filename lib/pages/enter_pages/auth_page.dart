@@ -135,6 +135,7 @@ class _AuthPageState extends State<AuthPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
+                //go to user details page
                 InkWell(
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
@@ -147,6 +148,7 @@ class _AuthPageState extends State<AuthPage> {
                   },
                   child: const ReusableButton(
                     lable: "Next",
+                    isLoad: false,
                   ),
                 ),
                 SizedBox(
