@@ -25,4 +25,31 @@ class AuthServices {
   //massage hadler
 
   mapFirebaseAuthExceptionCode(String code) {}
+  //get current user
+  User? getCurrentUser() {
+    return _auth.currentUser;
+  }
+
+  //singout user
+  Future<void> singOut() async {
+    try {
+      _auth.signOut();
+    } catch (err) {
+      print("sing out error : ${err.toString()}");
+      throw Exception(err);
+    }
+  }
+
+  //singIn User with Username&password
+  Future<void> singInUser(String username, String password) async {
+    String email = "$username@gmail.com";
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseException catch (e) {
+      print('Error signing in: ${mapFirebaseAuthExceptionCode(e.code)}');
+    } catch (err) {
+      print("error while SingIn: ${err.toString()}");
+      throw Exception(err);
+    }
+  }
 }

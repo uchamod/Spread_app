@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 
 class ReusableButton extends StatelessWidget {
   final String lable;
-  
+  final bool isLoad;
   const ReusableButton({
     super.key,
     required this.lable,
-    
+    required this.isLoad,
   });
 
   //reusable button
@@ -28,12 +27,17 @@ class ReusableButton extends StatelessWidget {
         ],
       ),
       child: Center(
-        child: Text(
-          lable,
-          style: Textstyles()
-              .title
-              .copyWith(color: secondoryBlack, fontSize: 24),
-        ),
+        child: isLoad
+            ? const CircularProgressIndicator(
+                color: secondoryBlack,
+                strokeWidth: 8,
+              )
+            : Text(
+                lable,
+                style: Textstyles()
+                    .title
+                    .copyWith(color: secondoryBlack, fontSize: 24),
+              ),
       ),
     );
   }

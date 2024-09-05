@@ -73,6 +73,7 @@ class IntroPage extends StatelessWidget {
                 },
                 child: const ReusableButton(
                   lable: "Next",
+                  isLoad: false,
                 )),
           ],
         ),
