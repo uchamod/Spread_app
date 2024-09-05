@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spread/router/route_names.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
@@ -7,9 +8,14 @@ import 'package:spread/widgets/extralogin.dart';
 import 'package:spread/widgets/reusable_button.dart';
 import 'package:spread/widgets/reusable_textformfield.dart';
 
-class AuthPage extends StatelessWidget {
+class AuthPage extends StatefulWidget {
   AuthPage({super.key});
 
+  @override
+  State<AuthPage> createState() => _AuthPageState();
+}
+
+class _AuthPageState extends State<AuthPage> {
   //form field controllers
   final TextEditingController _nameController = TextEditingController();
 
@@ -23,6 +29,21 @@ class AuthPage extends StatelessWidget {
 
   //varibels
   final double filedpad = 12;
+
+  //regexp for password
+  final RegExp passwordRegExp =
+      RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$');
+
+  //reg exp for username
+  final RegExp usernameRegExp = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _passwordController.dispose();
+    _passwordConfirmController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +64,6 @@ class AuthPage extends StatelessWidget {
           child: Form(
             key: _formKey,
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 //sticker
                 SvgPicture.asset(
@@ -60,6 +80,15 @@ class AuthPage extends StatelessWidget {
                   inputType: TextInputType.name,
                   isShow: false,
                   maxLine: 1,
+                  validchecker: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter your name";
+                    }
+                    if (usernameRegExp.hasMatch(value)) {
+                      return "username cannot contain symbols";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: filedpad,
@@ -72,6 +101,15 @@ class AuthPage extends StatelessWidget {
                   inputType: TextInputType.name,
                   isShow: true,
                   maxLine: 1,
+                  validchecker: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter your password";
+                    }
+                    if (!passwordRegExp.hasMatch(value)) {
+                      return "Invalid password format";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: filedpad,
@@ -84,13 +122,32 @@ class AuthPage extends StatelessWidget {
                   inputType: TextInputType.name,
                   isShow: true,
                   maxLine: 1,
+                  validchecker: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter your password";
+                    }
+                    if (value != _passwordController.text) {
+                      return "Password mismatching";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
-                const ReusableButton(
-                  lable: "Next",
-                  routeName: RouterNames.userDetailsPage,
+                InkWell(
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      GoRouter.of(context).goNamed(RouterNames.userDetailsPage,
+                          extra: {
+                            "username": _nameController.text,
+                            "password": _passwordController.text
+                          });
+                    }
+                  },
+                  child: const ReusableButton(
+                    lable: "Next",
+                  ),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
@@ -109,9 +166,15 @@ class AuthPage extends StatelessWidget {
                     const SizedBox(
                       width: 4,
                     ),
-                    Text("Sing In",
-                        style:
-                            Textstyles().body.copyWith(color: primaryYellow)),
+                    //route to login page
+                    GestureDetector(
+                      onTap: () {
+                        GoRouter.of(context).goNamed(RouterNames.loginPage);
+                      },
+                      child: Text("Sing In",
+                          style:
+                              Textstyles().body.copyWith(color: primaryYellow)),
+                    ),
                   ],
                 )
               ],

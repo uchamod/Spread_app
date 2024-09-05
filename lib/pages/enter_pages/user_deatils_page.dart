@@ -1,21 +1,93 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:spread/router/route_names.dart';
+import 'package:spread/services/firestore.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 import 'package:spread/widgets/extralogin.dart';
 import 'package:spread/widgets/reusable_button.dart';
 import 'package:spread/widgets/reusable_textformfield.dart';
 
-class UserDeatilsPage extends StatelessWidget {
-  UserDeatilsPage({super.key});
+class UserDeatilsPage extends StatefulWidget {
+  final String username;
+  final String password;
+
+  UserDeatilsPage({super.key, required this.username, required this.password});
+
+  @override
+  State<UserDeatilsPage> createState() => _UserDeatilsPageState();
+}
+
+class _UserDeatilsPageState extends State<UserDeatilsPage> {
+  final FirestoreServices _firestoreServices = FirestoreServices();
+  //textfield conttrollers
   final TextEditingController _discriptionController = TextEditingController();
+
   final TextEditingController _locationController = TextEditingController();
+  //selected Image
+  File? _imagefile;
 
   //form key
   final _formKey = GlobalKey<FormState>();
+
   //varibels
   final double filedpad = 12;
+
+  //select image
+  Future<void> imagePicker(ImageSource source) async {
+    ImagePicker _imgPicker = ImagePicker();
+    final image = await _imgPicker.pickImage(source: source);
+    if (image != null) {
+      setState(() {
+        _imagefile = File(image.path);
+      });
+    }
+  }
+
+  //scafoold massage
+  void massage(String res, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.only(top: verPad, left: horPad, right: horPad),
+        duration: const Duration(seconds: 2),
+        dismissDirection: DismissDirection.up,
+        backgroundColor: primaryYellow,
+        content: Text(
+          res,
+          style: Textstyles().body.copyWith(color: secondoryBlack),
+        ),
+      ),
+    );
+  }
+
+  //create new user
+  Future<void> createNewUser(
+      String username,
+      String password,
+      File profileImage,
+      String discription,
+      String location,
+      BuildContext context) async {
+    try {
+      String result = await _firestoreServices.saveNewUser(
+          username, password, profileImage, discription, location);
+      massage(result, context);
+    } catch (err) {
+      massage("Something went wrong", context);
+    }
+  }
+
+  @override
+  void dispose() {
+    _discriptionController.dispose();
+    _locationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +107,29 @@ class UserDeatilsPage extends StatelessWidget {
           child: Form(
             key: _formKey,
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 //avatar
                 Stack(
                   children: [
                     CircleAvatar(
+                      backgroundImage: _imagefile != null
+                          ? FileImage(_imagefile!)
+                          : const AssetImage("assets/avatar2.png"),
                       backgroundColor: secondorywhite.withOpacity(0.3),
                       radius: 65,
                     ),
-                    const Positioned(
+                    Positioned(
                         bottom: 0,
-                        right: 8,
-                        child: Icon(
-                          CupertinoIcons.camera_circle,
-                          color: secondorywhite,
-                          size: 40,
+                        right: -6,
+                        child: IconButton(
+                          onPressed: () {
+                            imagePicker(ImageSource.gallery);
+                          },
+                          icon: const Icon(
+                            CupertinoIcons.camera_circle,
+                            color: secondorywhite,
+                            size: 40,
+                          ),
                         ))
                   ],
                 ),
@@ -65,6 +144,12 @@ class UserDeatilsPage extends StatelessWidget {
                   inputType: TextInputType.name,
                   isShow: false,
                   maxLine: 4,
+                  validchecker: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter your discription";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: filedpad,
@@ -75,8 +160,14 @@ class UserDeatilsPage extends StatelessWidget {
                   hint: "location",
                   inputAction: TextInputAction.done,
                   inputType: TextInputType.name,
-                  isShow: true,
+                  isShow: false,
                   maxLine: 1,
+                  validchecker: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter your location";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: filedpad,
@@ -85,9 +176,23 @@ class UserDeatilsPage extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
-                const ReusableButton(
-                  lable: "Sing Up",
-                  routeName: RouterNames.home,
+                //register button
+                InkWell(
+                  onTap: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await createNewUser(
+                          widget.username,
+                          widget.password,
+                          _imagefile!,
+                          _discriptionController.text,
+                          _locationController.text,
+                          context);
+                      GoRouter.of(context).goNamed(RouterNames.home);
+                    }
+                  },
+                  child: const ReusableButton(
+                    lable: "Sing Up",
+                  ),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
@@ -106,9 +211,15 @@ class UserDeatilsPage extends StatelessWidget {
                     const SizedBox(
                       width: 4,
                     ),
-                    Text("Sing In",
-                        style:
-                            Textstyles().body.copyWith(color: primaryYellow)),
+                    //route to login page
+                    GestureDetector(
+                      onTap: () {
+                        GoRouter.of(context).goNamed(RouterNames.loginPage);
+                      },
+                      child: Text("Sing In",
+                          style:
+                              Textstyles().body.copyWith(color: primaryYellow)),
+                    ),
                   ],
                 )
               ],

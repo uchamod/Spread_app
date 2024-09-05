@@ -9,18 +9,20 @@ class ReusableTextformfield extends StatelessWidget {
   final bool isShow;
   final String hint;
   final int maxLine;
+  final String? Function(String?)? validchecker;
   const ReusableTextformfield(
       {super.key,
       required this.controller,
       required this.inputType,
       required this.inputAction,
       required this.isShow,
-      required this.hint, required this.maxLine});
+      required this.hint, required this.maxLine, this.validchecker});
 
   @override
   Widget build(BuildContext context) {
     //formfield
     return TextFormField(
+      validator: validchecker,
       maxLines:maxLine ,
       cursorColor: secondorywhite,
       controller: controller,

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
+//layout constraints
+const double webLayoutConstraints = 600;
+//padding varibels
 const double horPad = 15;
 const double verPad = 10;
 const double filterborder = 24;
+
+//colors
 const Color primaryYellow = Color(0xffF6ED23);
 const Color backgroundBlue = Color(0xff5041A6);
 const Color cardBlue = Color(0xff534CBE);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:go_router/go_router.dart';
 import 'package:spread/router/route_names.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
@@ -67,7 +67,13 @@ class IntroPage extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.08,
             ),
             //button to sing up page 1
-            const ReusableButton(lable: "Next", routeName: RouterNames.authPage,),
+            InkWell(
+                onTap: () {
+                  GoRouter.of(context).goNamed(RouterNames.authPage);
+                },
+                child: const ReusableButton(
+                  lable: "Next",
+                )),
           ],
         ),
       ),
