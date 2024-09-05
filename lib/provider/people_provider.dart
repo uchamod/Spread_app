@@ -17,6 +17,8 @@ class PeopleProvider extends ChangeNotifier {
         image: 'assets/images/john_doe.png',
         followers: [],
         followings: [],
+        joinedDate: DateTime.now(),
+        updatedDate: DateTime.now(),
       ),
       People(
         userId: '002',
@@ -27,6 +29,8 @@ class PeopleProvider extends ChangeNotifier {
         image: 'assets/images/jane_smith.png',
         followers: [],
         followings: [],
+        joinedDate: DateTime.now(),
+        updatedDate: DateTime.now(),
       ),
       People(
         userId: '003',
@@ -37,6 +41,8 @@ class PeopleProvider extends ChangeNotifier {
         image: 'assets/images/emily_johnson.png',
         followers: [],
         followings: [],
+        joinedDate: DateTime.now(),
+        updatedDate: DateTime.now(),
       ),
       People(
         userId: '004',
@@ -47,6 +53,8 @@ class PeopleProvider extends ChangeNotifier {
         image: 'assets/images/michael_brown.png',
         followers: [],
         followings: [],
+        joinedDate: DateTime.now(),
+        updatedDate: DateTime.now(),
       ),
       People(
         userId: '005',
@@ -57,6 +65,8 @@ class PeopleProvider extends ChangeNotifier {
         image: 'assets/images/sophia_davis.png',
         followers: [],
         followings: [],
+        joinedDate: DateTime.now(),
+        updatedDate: DateTime.now(),
       ),
     ];
     initialPeopleData = List.from(_initialPeople);

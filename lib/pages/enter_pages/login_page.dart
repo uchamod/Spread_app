@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:spread/router/route_names.dart';
 import 'package:spread/util/constants.dart';
@@ -34,7 +35,7 @@ class LoginPage extends StatelessWidget {
           child: Form(
             key: _formKey,
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              
               children: [
                 //sticker
                 SvgPicture.asset(
@@ -72,7 +73,7 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
-             const ReusableButton(lable: "Sing Up",routeName: RouterNames.home,),
+             const ReusableButton(lable: "Sing Up",),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
@@ -90,9 +91,15 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(
                       width: 4,
                     ),
-                    Text("Sing In",
-                        style:
-                            Textstyles().body.copyWith(color: primaryYellow)),
+                    //route to auth page
+                    GestureDetector(
+                         onTap: () {
+                        GoRouter.of(context).goNamed(RouterNames.authPage);
+                      },
+                      child: Text("Sing Up",
+                          style:
+                              Textstyles().body.copyWith(color: primaryYellow)),
+                    ),
                   ],
                 )
               ],

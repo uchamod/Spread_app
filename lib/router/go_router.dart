@@ -5,15 +5,23 @@ import 'package:spread/pages/enter_pages/login_page.dart';
 import 'package:spread/pages/enter_pages/user_deatils_page.dart';
 import 'package:spread/pages/main_screen.dart';
 import 'package:spread/router/route_names.dart';
+import 'package:spread/wrapper.dart';
 
 //router class
 class RouterClass {
   final router = GoRouter(initialLocation: "/intro", routes: [
     GoRoute(
-      path: "/",
+      path: "/home",
       name: RouterNames.home,
       builder: (context, state) {
         return const MainScreen();
+      },
+    ),
+    GoRoute(
+      path: "/",
+      //  name: RouterNames.home,
+      builder: (context, state) {
+        return const Wrapper();
       },
     ),
     GoRoute(
@@ -34,7 +42,13 @@ class RouterClass {
       path: "/deatils",
       name: RouterNames.userDetailsPage,
       builder: (context, state) {
-        return UserDeatilsPage();
+        final String username =
+            (state.extra as Map<String, dynamic>)["username"];
+        final String password =    (state.extra as Map<String, dynamic>)["password"];
+        return UserDeatilsPage(
+          username: username,
+          password: password,
+        );
       },
     ),
     GoRoute(
