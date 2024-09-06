@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spread/router/route_names.dart';
 import 'package:spread/services/common_functions.dart';
+import 'package:spread/services/firebase_auth.dart';
 import 'package:spread/services/firestore.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
@@ -17,7 +18,7 @@ class UserDeatilsPage extends StatefulWidget {
   final String username;
   final String password;
 
-  UserDeatilsPage({super.key, required this.username, required this.password});
+  const UserDeatilsPage({super.key, required this.username, required this.password});
 
   @override
   State<UserDeatilsPage> createState() => _UserDeatilsPageState();
@@ -25,6 +26,7 @@ class UserDeatilsPage extends StatefulWidget {
 
 class _UserDeatilsPageState extends State<UserDeatilsPage> {
   final FirestoreServices _firestoreServices = FirestoreServices();
+ 
   //textfield conttrollers
   final TextEditingController _discriptionController = TextEditingController();
 
@@ -50,7 +52,6 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
   }
 
   //scafoold massage
- 
 
   //create new user
   Future<void> createNewUser(
@@ -66,9 +67,11 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
     try {
       String result = await _firestoreServices.saveNewUser(
           username, password, profileImage, discription, location);
-      CommonFunctions().massage(result, Icons.check_circle, Colors.green, context);
+      CommonFunctions()
+          .massage(result, Icons.check_circle, Colors.green, context);
     } catch (err) {
-      CommonFunctions().massage("Something went wrong", Icons.cancel, errorColor, context);
+      CommonFunctions()
+          .massage("Something went wrong", Icons.cancel, errorColor, context);
     }
     setState(() {
       isloading = false;
@@ -184,6 +187,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                       GoRouter.of(context).goNamed(RouterNames.home);
                     }
                   },
+                  //sing up button
                   child: ReusableButton(
                     lable: "Sing Up",
                     isLoad: isloading,
@@ -192,7 +196,8 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
-                const Extralogin(),
+                //sing in with google and anonymolusy
+                Extralogin(),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spread/router/route_names.dart';
+
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 import 'package:spread/widgets/extralogin.dart';
@@ -9,7 +10,7 @@ import 'package:spread/widgets/reusable_button.dart';
 import 'package:spread/widgets/reusable_textformfield.dart';
 
 class AuthPage extends StatefulWidget {
-  AuthPage({super.key});
+  const AuthPage({super.key});
 
   @override
   State<AuthPage> createState() => _AuthPageState();
@@ -23,7 +24,7 @@ class _AuthPageState extends State<AuthPage> {
 
   final TextEditingController _passwordConfirmController =
       TextEditingController();
-
+ 
   //form key
   final _formKey = GlobalKey<FormState>();
 
@@ -154,7 +155,10 @@ class _AuthPageState extends State<AuthPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
-                const Extralogin(),
+                //sing in with google or anonymoulsly
+                const Extralogin(
+          
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.15,
                 ),
