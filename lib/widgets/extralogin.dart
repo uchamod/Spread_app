@@ -27,7 +27,16 @@ class _ExtraloginState extends State<Extralogin> {
       GoRouter.of(context).goNamed(RouterNames.home);
     } catch (e) {
       print('Error signing in with Google: $e');
-   
+    }
+  }
+
+  //sing in anonymously
+  Future<void> _singInWithAnonymously(BuildContext context) async {
+    try {
+      await _authServices.anonymousSingIn(context);
+      GoRouter.of(context).goNamed(RouterNames.home);
+    } catch (e) {
+      print("just error $e");
     }
   }
 
@@ -86,7 +95,9 @@ class _ExtraloginState extends State<Extralogin> {
             ),
             //anonymous login
             InkWell(
-              onTap: () {},
+              onTap: () async {
+              await  _singInWithAnonymously(context);
+              },
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(

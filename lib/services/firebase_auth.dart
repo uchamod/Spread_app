@@ -109,4 +109,21 @@ class AuthServices {
   }
 
   //anomymous sing in
+  Future<void> anonymousSingIn(BuildContext context) async {
+    try {
+      UserCredential userCredential = await _auth.signInAnonymously();
+      User? user = userCredential.user;
+      if (user != null) {
+        print("succssussfuly sing in");
+        CommonFunctions()
+            .massage("Sing In anonymous", Icons.check_circle, Colors.green, context);
+      }
+    } on FirebaseAuthException catch (error) {
+      throw mapFirebaseAuthExceptionCode(error.code);
+    } catch (err) {
+         print("google sing in error: ${err.toString()}");
+      CommonFunctions()
+          .massage("Something went wrong", Icons.cancel, errorColor, context);
+    }
+  }
 }
