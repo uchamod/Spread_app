@@ -140,7 +140,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                   inputAction: TextInputAction.next,
                   inputType: TextInputType.name,
                   isShow: false,
-                  maxLine: 4,
+                  maxLine:5,
                   validchecker: (value) {
                     if (value == null || value.isEmpty) {
                       return "Please enter your discription";
