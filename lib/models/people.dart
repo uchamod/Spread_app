@@ -53,7 +53,7 @@ class People {
         joinedDate: (json["joinedDate"] ?? "" as Timestamp).toDate(),
         updatedDate: (json["updatedDate"] ?? "" as Timestamp).toDate(),
         image: json["image"] ?? "",
-        followers: json["followers"] ?? "",
-        followings: json["followings"] ?? "");
+        followers: json["followers"] ?? [],
+        followings: json["followings"] ?? []);
   }
 }
