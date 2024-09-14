@@ -3,10 +3,10 @@ class Artical {
   final String articalId;
   final String title;
   final String discription;
-  final String category;
+  final List tags;
   final String userId;
-  final List? images;
-  final dynamic likes;
+  final String images;
+  final List? likes;
   final DateTime publishedDate;
   final String? weblink;
 
@@ -14,7 +14,7 @@ class Artical {
     required this.articalId,
     required this.title,
     required this.discription,
-    required this.category,
+    required this.tags,
     required this.userId,
     required this.likes,
     required this.publishedDate,
@@ -27,7 +27,7 @@ class Artical {
     return {
       "articalId": articalId,
       "title": title,
-      "category": category,
+      "tags": tags,
       "discription": discription,
       "userId": userId,
       "Images": images,
@@ -42,7 +42,7 @@ class Artical {
     return Artical(
         articalId: json["articalId"],
         title: json["title"],
-        category: json["category"],
+       tags: json["tags"],
         discription: json["discription"],
         userId: json["userId"],
         images: json["Images"],

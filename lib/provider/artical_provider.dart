@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spread/models/artical.dart';
 
 //initial video artical provider
-class ArticalProvider extends ChangeNotifier{
+class ArticalProvider extends ChangeNotifier {
   List<Artical> _initialArtical = [];
   List<Artical> initialArticalData = [];
 
@@ -13,55 +13,55 @@ class ArticalProvider extends ChangeNotifier{
         title: 'The Future of Technology',
         discription:
             'Exploring the advancements and innovations in technology.',
-        category: 'Technology',
+        tags: [],
         userId: '001',
-        likes: 450,
+        likes: [],
         publishedDate: DateTime(2024, 5, 12),
-        images: ['assets/images/future_tech.png'],
+        images: 'assets/images/future_tech.png',
         weblink: 'https://techfuture.com/future-of-technology',
       ),
       Artical(
         articalId: 'A002',
         title: 'Healthy Living Tips',
         discription: 'A guide to maintaining a healthy lifestyle.',
-        category: 'Health',
+        tags: [],
         userId: '002',
-        likes: 300,
+        likes: [],
         publishedDate: DateTime(2024, 6, 20),
-        images: ['assets/images/healthy_living.png'],
+        images: 'assets/images/healthy_living.png',
         weblink: 'https://healthyliving.com/tips',
       ),
       Artical(
         articalId: 'A003',
         title: 'Exploring the Art of Minimalism',
         discription: 'Understanding the principles and benefits of minimalism.',
-        category: 'Lifestyle',
+        tags: [],
         userId: '003',
-        likes: 220,
+        likes: [],
         publishedDate: DateTime(2024, 7, 15),
-        images: ['assets/images/minimalism_art.png'],
+        images: 'assets/images/minimalism_art.png',
         weblink: 'https://lifestyle.com/minimalism',
       ),
       Artical(
         articalId: 'A004',
         title: 'Top Travel Destinations in 2024',
         discription: 'A look at the best places to visit in 2024.',
-        category: 'Travel',
+        tags: [],
         userId: '004',
-        likes: 500,
+        likes: [],
         publishedDate: DateTime(2024, 8, 1),
-        images: ['assets/images/top_travel.png'],
+        images: 'assets/images/top_travel.png',
         weblink: 'https://travelguide.com/top-destinations-2024',
       ),
       Artical(
         articalId: 'A005',
         title: 'The Impact of Climate Change',
         discription: 'An in-depth analysis of climate change and its effects.',
-        category: 'Environment',
+        tags: [],
         userId: '005',
-        likes: 350,
+        likes: [],
         publishedDate: DateTime(2024, 9, 10),
-        images: ['assets/images/climate_change.png'],
+        images: 'assets/images/climate_change.png',
         weblink: 'https://environmentalnews.com/climate-change-impact',
       ),
     ];
