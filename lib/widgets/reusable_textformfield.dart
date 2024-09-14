@@ -8,7 +8,7 @@ class ReusableTextformfield extends StatelessWidget {
   final TextInputAction inputAction;
   final bool isShow;
   final String hint;
-  final int maxLine;
+  final int? maxLine;
   final String? Function(String?)? validchecker;
   const ReusableTextformfield(
       {super.key,
