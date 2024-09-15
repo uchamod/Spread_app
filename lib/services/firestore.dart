@@ -56,10 +56,10 @@ class FirestoreServices {
     try {
       //get image url
       String imageUrl =
-          await StorageServices().uploadImage("MicroBlogPosts", image, true);
+          await StorageServices().uploadBlogImage("MicroBlogPosts", image);
 
       User? user = FirebaseAuth.instance.currentUser;
-      String blogId = Uuid().v4();
+      String blogId = Uuid().v1();
       Artical artical = Artical(
           articalId: blogId,
           title: title,
