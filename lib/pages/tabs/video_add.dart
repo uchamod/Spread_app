@@ -29,6 +29,7 @@ class _VideoAddState extends State<VideoAdd> {
           children: [
             //title
             ReusableTextformfield(
+              isTagFiled: false,
                 controller: _titleController,
                 inputType: TextInputType.name,
                 inputAction: TextInputAction.next,
@@ -45,6 +46,7 @@ class _VideoAddState extends State<VideoAdd> {
             ),
             //tags
             ReusableTextformfield(
+              isTagFiled: false,
                 controller: _tagsController,
                 inputType: TextInputType.name,
                 inputAction: TextInputAction.next,
@@ -56,6 +58,7 @@ class _VideoAddState extends State<VideoAdd> {
             ),
             //link
             ReusableTextformfield(
+              isTagFiled: false,
                 controller: _linkController,
                 inputType: TextInputType.name,
                 inputAction: TextInputAction.next,

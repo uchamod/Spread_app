@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:spread/router/route_names.dart';
 import 'package:spread/services/firestore.dart';
 import 'package:spread/util/constants.dart';
+import 'package:spread/util/texystyles.dart';
 import 'package:spread/widgets/reusable_button.dart';
 import 'package:spread/widgets/reusable_textformfield.dart';
 
@@ -92,6 +93,7 @@ class _MiceoblogAddState extends State<MiceoblogAdd> {
             children: [
               //title
               ReusableTextformfield(
+                isTagFiled: false,
                 controller: _titleController,
                 inputType: TextInputType.name,
                 inputAction: TextInputAction.next,
@@ -128,6 +130,7 @@ class _MiceoblogAddState extends State<MiceoblogAdd> {
               ),
               //content
               ReusableTextformfield(
+                isTagFiled: false,
                 controller: _contentController,
                 inputType: TextInputType.multiline,
                 inputAction: TextInputAction.next,
@@ -146,6 +149,7 @@ class _MiceoblogAddState extends State<MiceoblogAdd> {
               ),
               //tags
               ReusableTextformfield(
+                isTagFiled: true,
                 controller: _tagsController,
                 inputType: TextInputType.name,
                 inputAction: TextInputAction.next,
@@ -153,17 +157,46 @@ class _MiceoblogAddState extends State<MiceoblogAdd> {
                 hint: "Tag",
                 maxLine: 1,
                 validchecker: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "Please enter the least 3 tags";
+                  if (_tags.isEmpty) {
+                    return "Please enter the at least 1 tag";
                   }
                   return null;
                 },
+                addTag: () {
+                  _addTag(_tagsController.text);
+                },
+              ),
+             
+              //show tags
+              Wrap(
+                spacing: 8.0,
+                children: _tags.map((tag) {
+                  return Chip(
+                    side: BorderSide.none,
+                    label: Text(
+                      tag,
+                      style: Textstyles().label.copyWith(color: secondoryBlack),
+                    ),
+                    backgroundColor: secondorywhite,
+                    deleteIcon: const Icon(
+                      Icons.close,
+                      color: secondoryBlack,
+                      grade: 15,
+                    ),
+                    onDeleted: () {
+                      setState(() {
+                        _tags.remove(tag);
+                      });
+                    },
+                  );
+                }).toList(),
               ),
               const SizedBox(
                 height: verPad,
               ),
               //link
               ReusableTextformfield(
+                  isTagFiled: false,
                   controller: _linkController,
                   inputType: TextInputType.name,
                   inputAction: TextInputAction.next,
@@ -177,12 +210,12 @@ class _MiceoblogAddState extends State<MiceoblogAdd> {
               InkWell(
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
-                      // _uploadBlog(
-                      //     _titleController.text,
-                      //     _contentController.text,
-                      //     _image!,
-                      //     //_tagsController.text,
-                      //     _linkController.text);
+                      _uploadBlog(
+                          _titleController.text,
+                          _contentController.text,
+                          _image!,
+                          _tags,
+                          _linkController.text);
                     }
                   },
                   child: ReusableButton(lable: "Publish", isLoad: _isLoading)),

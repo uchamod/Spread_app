@@ -75,6 +75,7 @@ class _AuthPageState extends State<AuthPage> {
                 ),
                 //username
                 ReusableTextformfield(
+                  isTagFiled: false,
                   controller: _nameController,
                   hint: "nickname",
                   inputAction: TextInputAction.next,
@@ -96,6 +97,7 @@ class _AuthPageState extends State<AuthPage> {
                 ),
                 //password
                 ReusableTextformfield(
+                  isTagFiled: false,
                   controller: _passwordController,
                   hint: "password",
                   inputAction: TextInputAction.next,
@@ -117,6 +119,7 @@ class _AuthPageState extends State<AuthPage> {
                 ),
                 //confirm password
                 ReusableTextformfield(
+                  isTagFiled: false,
                   controller: _passwordConfirmController,
                   hint: "confirm password",
                   inputAction: TextInputAction.done,

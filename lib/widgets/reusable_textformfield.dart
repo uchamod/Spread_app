@@ -8,22 +8,29 @@ class ReusableTextformfield extends StatelessWidget {
   final TextInputAction inputAction;
   final bool isShow;
   final String hint;
+  final bool isTagFiled;
   final int? maxLine;
   final String? Function(String?)? validchecker;
-  const ReusableTextformfield(
-      {super.key,
-      required this.controller,
-      required this.inputType,
-      required this.inputAction,
-      required this.isShow,
-      required this.hint, required this.maxLine, this.validchecker});
+  final void Function()? addTag;
+  const ReusableTextformfield({
+    super.key,
+    required this.controller,
+    required this.inputType,
+    required this.inputAction,
+    required this.isShow,
+    required this.hint,
+    required this.maxLine,
+    this.validchecker,
+    this.addTag,
+    required this.isTagFiled,
+  });
 
   @override
   Widget build(BuildContext context) {
     //formfield
     return TextFormField(
       validator: validchecker,
-      maxLines:maxLine ,
+      maxLines: maxLine,
       cursorColor: secondorywhite,
       controller: controller,
       textInputAction: inputAction,
@@ -31,6 +38,15 @@ class ReusableTextformfield extends StatelessWidget {
       obscureText: isShow,
       style: Textstyles().body.copyWith(fontSize: 16),
       decoration: InputDecoration(
+        suffixIcon: isTagFiled
+            ? IconButton(
+                onPressed: addTag,
+                icon: const Icon(
+                  Icons.add,
+                  color: secondorywhite,
+                ),
+              )
+            : const SizedBox(),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: horPad, vertical: 15),
         hintText: hint,

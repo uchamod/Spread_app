@@ -103,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 //username
                 ReusableTextformfield(
+                  isTagFiled: false,
                   controller: _nameController,
                   hint: "nickname",
                   inputAction: TextInputAction.next,
@@ -122,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 //password
                 ReusableTextformfield(
+                  isTagFiled: false,
                   controller: _passwordController,
                   hint: "password",
                   inputAction: TextInputAction.done,

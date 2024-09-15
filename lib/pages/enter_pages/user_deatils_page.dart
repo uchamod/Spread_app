@@ -135,6 +135,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                 ),
                 //discription
                 ReusableTextformfield(
+                  isTagFiled: false,
                   controller: _discriptionController,
                   hint: "Something about you...",
                   inputAction: TextInputAction.next,
@@ -153,6 +154,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                 ),
                 //location
                 ReusableTextformfield(
+                  isTagFiled: false,
                   controller: _locationController,
                   hint: "location",
                   inputAction: TextInputAction.done,
