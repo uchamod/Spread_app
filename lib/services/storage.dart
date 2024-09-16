@@ -33,18 +33,17 @@ class StorageServices {
       print("upload task error: ${err.toString()}");
       throw Exception(err.toString());
     }
-  }//upload blog post
-  Future<String> uploadBlogImage(
-      String folder, File image) async {
+  }
+
+  //upload blog post
+  Future<String> uploadBlogImage(String folder, File image) async {
     try {
-          String blogId = const Uuid().v1();
-      Reference reference =
-          _storage.ref().child(folder).child(_auth.currentUser!.uid).child(blogId);
-      // if (isNotProfile) {
-      //   String extraId = const Uuid().v1();
-      //   reference.child(extraId);
-      //   print("set extra id");
-      // }
+      String blogId = const Uuid().v1();
+      Reference reference = _storage
+          .ref()
+          .child(folder)
+          .child(_auth.currentUser!.uid)
+          .child(blogId);
 
       UploadTask uploadTask = reference.putFile(
         image,
@@ -59,6 +58,24 @@ class StorageServices {
     } catch (err) {
       print("upload task error: ${err.toString()}");
       throw Exception(err.toString());
+    }
+  }
+
+  //upload video
+  Future<String> uploadVideo(File videofile) async {
+    try {
+      String videoId = const Uuid().v1();
+      Reference reference = await _storage
+          .ref()
+          .child("videos")
+          .child(_auth.currentUser!.uid)
+          .child(videoId);
+      await reference.putFile(videofile);
+      String url = await reference.getDownloadURL();
+      return url;
+    } catch (err) {
+      print('Error uploading video: $err');
+      throw err;
     }
   }
 }

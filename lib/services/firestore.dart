@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spread/models/artical.dart';
 import 'package:spread/models/people.dart';
+import 'package:spread/models/watch_now.dart';
 import 'package:spread/services/common_functions.dart';
 import 'package:spread/services/firebase_auth.dart';
 import 'package:spread/services/storage.dart';
@@ -18,6 +19,9 @@ class FirestoreServices {
   //microblog collection
   final CollectionReference _blogCollection =
       FirebaseFirestore.instance.collection("microblogs");
+  //video collection
+  final CollectionReference _videoCollection =
+      FirebaseFirestore.instance.collection("videos");
   final AuthServices _authServices = AuthServices();
 
   //save new user in database
@@ -77,6 +81,38 @@ class FirestoreServices {
           Icons.check_circle, Colors.green, context);
     } catch (err) {
       print("blog uploding error $err");
+      CommonFunctions()
+          .massage("Fail to Upload", Icons.cancel, errorColor, context);
+    }
+  }
+
+  //add new video
+  Future<void> addVideo(String title, File image, File videofile,
+      List<String> tags, String url, BuildContext context) async {
+    try {
+      String videoId = Uuid().v1();
+      //get video url
+      String videoUrl = await StorageServices().uploadVideo(videofile);
+      //get thubnail url
+      String imageUrl =
+          await StorageServices().uploadBlogImage("thubnails", image);
+      User? user = FirebaseAuth.instance.currentUser;
+      Videos video = Videos(
+          videoId: videoId,
+          title: title,
+          tags: tags,
+          videoUrl: videoUrl,
+          tubnail: imageUrl,
+          userId: user!.uid,
+          likes: [],
+          publishedDate: DateTime.now(),
+          weblink: url);
+      //upload video
+      await _videoCollection.add(video.toJson());
+      CommonFunctions().massage("Upload video Succsussfuly", Icons.check_circle,
+          Colors.green, context);
+    } catch (err) {
+      print("video uploding error $err");
       CommonFunctions()
           .massage("Fail to Upload", Icons.cancel, errorColor, context);
     }
