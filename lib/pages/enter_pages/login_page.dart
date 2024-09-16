@@ -38,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
     });
     try {
       await _authServices.singInUser(username, password);
+      GoRouter.of(context).goNamed(RouterNames.home);
       CommonFunctions().massage(
           "LogIn Succsussfuly", Icons.check_circle, Colors.green, context);
     } catch (err) {
@@ -59,19 +60,6 @@ class _LoginPageState extends State<LoginPage> {
       GoRouter.of(context).goNamed(RouterNames.home);
     } catch (e) {
       print('Error signing in with Google: $e');
-      // showDialog(
-      //   context: context,
-      //   builder: (context) => AlertDialog(
-      //     title: const Text('Error'),
-      //     content: Text('Error signing in with Google: $e'),
-      //     actions: [
-      //       TextButton(
-      //         onPressed: () => Navigator.of(context).pop(),
-      //         child: const Text('OK'),
-      //       ),
-      //     ],
-      //   ),
-      // );
     }
   }
 
@@ -162,9 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
                 //sing in with google or anonymously
-                const Extralogin(
-        
-                ),
+                const Extralogin(),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
                 ),

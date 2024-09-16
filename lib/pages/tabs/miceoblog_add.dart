@@ -166,7 +166,7 @@ class _MiceoblogAddState extends State<MiceoblogAdd> {
                   _addTag(_tagsController.text);
                 },
               ),
-             
+
               //show tags
               Wrap(
                 spacing: 8.0,
