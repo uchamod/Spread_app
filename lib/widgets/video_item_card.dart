@@ -43,9 +43,13 @@ class VideoItemCard extends StatelessWidget {
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16)),
-                child: Image.asset(
-                  "assets/Untitled design.png",
-                  fit: BoxFit.fitWidth,
+                //thubnail
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Image.network(
+                    video.tubnail,
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
               ),
               Padding(
@@ -56,12 +60,6 @@ class VideoItemCard extends StatelessWidget {
                     Text(
                       video.title,
                       style: Textstyles().title,
-                    ),
-                    Text(
-                      video.publishedDate.toString(),
-                      style: Textstyles().body,
-                      maxLines: 10,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),

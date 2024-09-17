@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Videos {
   final String videoId;
   final String title;
@@ -6,7 +8,7 @@ class Videos {
   final String tubnail;
   final String userId;
   final List likes;
-  final DateTime publishedDate;
+  final Timestamp publishedDate;
   final String? weblink;
 
   Videos(

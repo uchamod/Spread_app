@@ -6,8 +6,10 @@ import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 
 class ProfilePage extends StatefulWidget {
+  final String userId;
   const ProfilePage({
     super.key,
+    required this.userId,
   });
 
   @override

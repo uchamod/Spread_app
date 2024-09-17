@@ -29,7 +29,9 @@ class HomePage extends StatelessWidget {
             //check state and provide context
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: secondorywhite,
+                ),
               );
             } else if (snapshot.hasError) {
               return Center(
@@ -53,7 +55,9 @@ class HomePage extends StatelessWidget {
                       children: [
                         //add logo
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            
+                          },
                           icon: SvgPicture.asset(
                             "assets/adult/Spread.svg",
                             height: 35,
@@ -174,6 +178,7 @@ class HomePage extends StatelessWidget {
                             mainAxisSpacing: 8,
                             axisDirection: AxisDirection.down,
                             children: selectedData.map((item) {
+                              //item
                               return GestureDetector(
                                 onTap: () {},
                                 child: item is Artical
