@@ -1,4 +1,6 @@
 //articals
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Artical {
   final String articalId;
   final String title;
@@ -7,7 +9,7 @@ class Artical {
   final String userId;
   final String images;
   final List? likes;
-  final DateTime publishedDate;
+  final Timestamp publishedDate;
   final String? weblink;
 
   Artical({

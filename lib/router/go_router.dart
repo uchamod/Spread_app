@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:spread/models/artical.dart';
 import 'package:spread/pages/enter_pages/auth_page.dart';
 import 'package:spread/pages/enter_pages/intro_page.dart';
 import 'package:spread/pages/enter_pages/login_page.dart';
 import 'package:spread/pages/enter_pages/user_deatils_page.dart';
 import 'package:spread/pages/error_page.dart';
+import 'package:spread/pages/extra_pages/single_artical_page.dart';
+import 'package:spread/pages/main_pages/profilepage.dart';
 import 'package:spread/pages/main_screen.dart';
 import 'package:spread/router/route_names.dart';
 import 'package:spread/wrapper.dart';
@@ -14,7 +17,7 @@ class RouterClass {
   final router = GoRouter(
       initialLocation: "/",
       errorPageBuilder: (context, state) {
-        return const MaterialPage(child:  ErrorPage());
+        return const MaterialPage(child: ErrorPage());
       },
       routes: [
         GoRoute(
@@ -41,7 +44,7 @@ class RouterClass {
           path: "/auth",
           name: RouterNames.authPage,
           builder: (context, state) {
-            return AuthPage();
+            return const AuthPage();
           },
         ),
         GoRoute(
@@ -64,6 +67,35 @@ class RouterClass {
           builder: (context, state) {
             return LoginPage();
           },
-        )
+        ),
+        //route to profile page
+        GoRoute(
+          path: "/profile",
+          name: RouterNames.profilePage,
+          builder: (context, state) {
+            final String user = state.extra as String;
+            return ProfilePage(
+              userId: user,
+            );
+          },
+        ),
+        GoRoute(
+          path: "/articalPage",
+          name: RouterNames.singleArticalPage,
+          builder: (context, state) {
+            final artical = state.extra as Artical;
+            return SingleArticalPage(artical: artical,);
+          },
+        ),
+        // GoRoute(
+        //   path: "/profile",
+        //   name: RouterNames.profilePage,
+        //   builder: (context, state) {
+        //     final String user = state.extra as String;
+        //     return ProfilePage(
+        //       userId: user,
+        //     );
+        //   },
+        // )
       ]);
 }

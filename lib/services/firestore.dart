@@ -71,7 +71,7 @@ class FirestoreServices {
           tags: tags,
           userId: user!.uid,
           likes: [],
-          publishedDate: DateTime.now(),
+          publishedDate: Timestamp.now(),
           images: imageUrl,
           weblink: url);
 
@@ -105,7 +105,7 @@ class FirestoreServices {
           tubnail: imageUrl,
           userId: user!.uid,
           likes: [],
-          publishedDate: DateTime.now(),
+          publishedDate: Timestamp.now(),
           weblink: url);
       //upload video
       await _videoCollection.add(video.toJson());

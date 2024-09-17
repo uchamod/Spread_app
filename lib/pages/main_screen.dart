@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spread/pages/main_pages/add_items.dart';
@@ -5,6 +6,7 @@ import 'package:spread/pages/main_pages/homepage.dart';
 import 'package:spread/pages/main_pages/items.dart';
 import 'package:spread/pages/main_pages/profilepage.dart';
 import 'package:spread/pages/main_pages/watch_page.dart';
+import 'package:spread/services/firebase_auth.dart';
 import 'package:spread/util/constants.dart';
 
 class MainScreen extends StatefulWidget {
@@ -15,15 +17,33 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final AuthServices _authServices = AuthServices();
+
+  String id = "";
+  List<Widget> _pages = [];
+  @override
+  void initState() {
+    _pages = [
+      const HomePage(),
+      const WatchPage(),
+      const AddItems(),
+      const Items(),
+      ProfilePage(
+        userId: _authServices.getCurrentUser()!.uid,
+      ),
+    ];
+    super.initState();
+  }
+
+  //get the user details
+  Future<String> getUser() async {
+    final User? user = _authServices.getCurrentUser();
+    String userId = user!.uid;
+    return userId;
+  }
+
   int _selectedIndex = 0;
-  //screens
-  static const List<Widget> _pages = [
-    HomePage(),
-    WatchPage(),
-    AddItems(),
-    Items(),
-    ProfilePage(),
-  ];
+  
   //page changer
   void _onTapIcon(int index) {
     setState(() {
@@ -44,6 +64,7 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         extendBody: true,
+        //add pages
         body: _pages[_selectedIndex],
         //add radious
         bottomNavigationBar: Container(
@@ -54,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
               boxShadow: [
                 BoxShadow(
                     color: Colors.black.withOpacity(0.3),
-                    offset: Offset(2, 4),
+                    offset: const Offset(2, 4),
                     blurRadius: 4)
               ]),
           child: ClipRRect(
