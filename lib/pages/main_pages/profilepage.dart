@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool _isLoading = true;
   bool _hasError = false;
   late Future<People?> _showUser;
-
+  String _inUserId = "";
   @override
   void initState() {
     _showUser = _getUser();
@@ -31,10 +31,11 @@ class _ProfilePageState extends State<ProfilePage> {
 //get the user details
   Future<People?> _getUser() async {
     try {
-      final userId = await _authServices.getCurrentUser()?.uid ?? "";
-      final user = await UserServices().getUserById(userId);
+      String inUserId = await _authServices.getCurrentUser()!.uid;
+      final user = await UserServices().getUserById(widget.userId);
 
       setState(() {
+        _inUserId = inUserId;
         _isLoading = false;
         if (user == null) {
           _hasError = true;
@@ -167,6 +168,26 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ],
+                  ),
+                  const SizedBox(
+                    height: verPad,
+                  ),
+                  //edit or follow
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: primaryYellow,
+                          borderRadius: BorderRadius.circular(24)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: horPad, vertical: verPad),
+                      child: Text(
+                        _inUserId == widget.userId ? "Edit Profile" : "Follow",
+                        style: Textstyles()
+                            .subtitle
+                            .copyWith(color: secondoryBlack),
+                      ),
+                    ),
                   )
                 ],
               ),
