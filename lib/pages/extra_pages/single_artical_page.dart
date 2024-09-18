@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spread/models/artical.dart';
+import 'package:spread/router/route_names.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 
@@ -25,7 +27,16 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-
+          //back to home
+          leading: IconButton(
+              onPressed: () {
+                GoRouter.of(context).goNamed(RouterNames.home);
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+                color: secondorywhite,
+                size: 25,
+              )),
         ),
         body: Padding(
           padding:
@@ -71,7 +82,7 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
                     //content
                     Text(
                       widget.artical.discription,
-                      style: Textstyles().body,
+                      style: Textstyles().subtitle.copyWith(fontSize: 12),
                     ),
                     const SizedBox(
                       height: verPad,
