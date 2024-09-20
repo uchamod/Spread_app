@@ -50,9 +50,12 @@ class ArticalItemCard extends StatelessWidget {
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16)),
                   //artical image
-                  child: Image.network(
-                    artical.images,
-                    fit: BoxFit.fitWidth,
+                  child: AspectRatio(
+                    aspectRatio: 16/9,
+                    child: Image.network(
+                      artical.images,
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
                 ),
                 Padding(
