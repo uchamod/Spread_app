@@ -10,6 +10,15 @@ class AuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  //get current user
+  Future<People> getUserDetails() async {
+    User? user = _auth.currentUser;
+    DocumentSnapshot snapshot =
+        await _firestore.collection("users").doc(user!.uid).get();
+
+    return People.fromJson((snapshot.data() as Map<String, dynamic>));
+  }
+
   //signup user from username and password
   Future<UserCredential> createUserWithUsernameAndPassword(
       String username, String password) async {
@@ -85,7 +94,7 @@ class AuthServices {
           discription: "",
           location: "",
           password: user.email ?? "",
-          image: user.photoURL,
+          image: user.photoURL!,
           followers: [],
           followings: [],
           joinedDate: DateTime.now(),
@@ -115,13 +124,13 @@ class AuthServices {
       User? user = userCredential.user;
       if (user != null) {
         print("succssussfuly sing in");
-        CommonFunctions()
-            .massage("Sing In anonymous", Icons.check_circle, Colors.green, context);
+        CommonFunctions().massage(
+            "Sing In anonymous", Icons.check_circle, Colors.green, context);
       }
     } on FirebaseAuthException catch (error) {
       throw mapFirebaseAuthExceptionCode(error.code);
     } catch (err) {
-         print("google sing in error: ${err.toString()}");
+      print("google sing in error: ${err.toString()}");
       CommonFunctions()
           .massage("Something went wrong", Icons.cancel, errorColor, context);
     }

@@ -67,8 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
       }
       _followersCount = user!.followers.length;
       _followingCount = count;
-      print("following count $_followingCount");
-      print("followers count $_followersCount");
+     
       setState(() {
         _inUserId = inUserId;
         _isLoading = false;

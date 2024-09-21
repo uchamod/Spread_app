@@ -6,7 +6,7 @@ const double webLayoutConstraints = 600;
 const double horPad = 15;
 const double verPad = 10;
 const double filterborder = 24;
-
+const double commonpad = 8;
 //colors
 const Color primaryYellow = Color(0xffF6ED23);
 const Color backgroundBlue = Color(0xff5041A6);

@@ -7,6 +7,7 @@ import 'package:spread/pages/enter_pages/intro_page.dart';
 import 'package:spread/pages/enter_pages/login_page.dart';
 import 'package:spread/pages/enter_pages/user_deatils_page.dart';
 import 'package:spread/pages/error_page.dart';
+import 'package:spread/pages/extra_pages/comment_page.dart';
 import 'package:spread/pages/extra_pages/single_artical_page.dart';
 import 'package:spread/pages/extra_pages/single_video_page.dart';
 import 'package:spread/pages/main_pages/profilepage.dart';
@@ -99,6 +100,14 @@ class RouterClass {
           builder: (context, state) {
             final video = state.extra as Videos;
             return SingleVideoPage(video: video);
+          },
+        ),
+        GoRoute(
+          path: "/commentPage",
+          name: RouterNames.commentPage,
+          builder: (context, state) {
+            final String articalId = state.extra as String;
+            return CommentPage(articalId: articalId,);
           },
         )
       ]);

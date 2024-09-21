@@ -9,7 +9,7 @@ class People {
   final String password;
   final DateTime joinedDate;
   final DateTime updatedDate;
-  final String? image;
+  final String image;
   final List followers;
   final List followings;
 
