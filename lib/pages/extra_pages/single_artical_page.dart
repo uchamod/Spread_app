@@ -30,7 +30,7 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
       DocumentSnapshot articalSnapshot = await FirebaseFirestore.instance
           .collection("microblogs")
           .doc(widget.artical.articalId)
-          .get();
+          .get(); 
 
       List likes = (articalSnapshot.data() as Map<String, dynamic>)["likes"];
       _likeCount = likes.length;

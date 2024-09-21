@@ -24,8 +24,6 @@ class UserServices {
     }
   }
 
-   
-
   //follow user
   Future<void> followUser(
       String userId, String foreingId, BuildContext context) async {
