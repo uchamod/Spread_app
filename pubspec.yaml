@@ -54,6 +54,7 @@ dependencies:
   google_sign_in: ^6.2.1
   video_player: ^2.9.1
   chewie: ^1.8.5
+  flutter_inappwebview: ^6.0.0
 
   
  

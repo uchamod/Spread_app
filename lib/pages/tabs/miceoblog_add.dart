@@ -52,8 +52,12 @@ class _MiceoblogAddState extends State<MiceoblogAdd> {
           title, content, image, tags, url, context);
       setState(() {
         _isLoading = false;
-        GoRouter.of(context).goNamed(RouterNames.home);
+        _titleController.clear();
+        _contentController.clear();
+        _linkController.clear();
+        _tagsController.clear();
       });
+      GoRouter.of(context).goNamed(RouterNames.home);
     } catch (err) {
       print("something went wrong");
     }
@@ -116,9 +120,12 @@ class _MiceoblogAddState extends State<MiceoblogAdd> {
                   imagePicker(ImageSource.gallery);
                 },
                 child: _image != null
-                    ? Image.file(
-                        _image!,
-                        fit: BoxFit.fitWidth,
+                    ? AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Image.file(
+                          _image!,
+                          fit: BoxFit.fitWidth,
+                        ),
                       )
                     : Image.asset(
                         "assets/tubnail.png",

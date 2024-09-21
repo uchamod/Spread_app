@@ -64,6 +64,9 @@ class _VideoAddState extends State<VideoAdd> {
           title, image, video, tags, url, context);
       setState(() {
         _isLoading = false;
+        _titleController.clear();
+        _tagsController.clear();
+        _linkController.clear();
       });
       GoRouter.of(context).goNamed(RouterNames.home);
     } catch (err) {
@@ -152,7 +155,8 @@ class _VideoAddState extends State<VideoAdd> {
                   pickThubnaill();
                 },
                 child: _image != null
-                    ? Image.file(_image!)
+                    ? AspectRatio(
+                        aspectRatio: 16 / 9, child: Image.file(_image!))
                     : Image.asset(
                         "assets/tubnail.png",
                         fit: BoxFit.fitWidth,
@@ -222,10 +226,10 @@ class _VideoAddState extends State<VideoAdd> {
               //button
               InkWell(
                 onTap: () {
-                //  if (_formKey.currentState!.validate()) {
-                    _videoUpload(_titleController.text, _video!, _image!, _tags,
-                        _linkController.text);
-                //  }
+                  //  if (_formKey.currentState!.validate()) {
+                  _videoUpload(_titleController.text, _video!, _image!, _tags,
+                      _linkController.text);
+                  //  }
                 },
                 child: ReusableButton(lable: "Publish", isLoad: _isLoading),
               ),

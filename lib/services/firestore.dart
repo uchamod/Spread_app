@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spread/models/artical.dart';
+import 'package:spread/models/comment.dart';
 import 'package:spread/models/people.dart';
 import 'package:spread/models/watch_now.dart';
 import 'package:spread/services/common_functions.dart';
@@ -117,4 +118,31 @@ class FirestoreServices {
           .massage("Fail to Upload", Icons.cancel, errorColor, context);
     }
   }
+
+  //comment on video or microblog
+  Future<void> commentOnMedia(
+      Comment comment, bool isForVideo, BuildContext context) async {
+    try {
+      if (isForVideo) {
+        await _videoCollection
+            .doc(comment.docId)
+            .collection("comments")
+            .doc(comment.commentId)
+            .set(comment.toJson());
+      } else {
+        await _blogCollection
+            .doc(comment.docId)
+            .collection("comments")
+            .doc(comment.commentId)
+            .set(comment.toJson());
+      }
+     
+    } catch (err) {
+      print("Fail to comment $err");
+      CommonFunctions()
+          .massage("Fail to Upload", Icons.cancel, errorColor, context);
+    }
+  }
+
+  
 }

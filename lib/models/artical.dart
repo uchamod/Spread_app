@@ -8,7 +8,7 @@ class Artical {
   final List tags;
   final String userId;
   final String images;
-  final List? likes;
+  final List likes;
   final Timestamp publishedDate;
   final String? weblink;
 

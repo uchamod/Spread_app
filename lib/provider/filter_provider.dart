@@ -3,19 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:spread/models/artical.dart';
 import 'package:spread/models/people.dart';
 import 'package:spread/models/watch_now.dart';
+import 'package:spread/services/firebase_auth.dart';
 
 class FilterProvider extends ChangeNotifier {
   //data lists
   List<dynamic> _allData = [];
+  List<dynamic> _userData = [];
   List<dynamic> _filterdData = [];
   String _selectedCategory = "all";
   List<People> userList = [];
   List<Artical> articalList = [];
   List<Videos> videosList = [];
-
+  People _currentUser = People(
+      userId: "",
+      name: "",
+      discription: "",
+      location: "",
+      password: "",
+      image: "",
+      followers: [],
+      followings: [],
+      joinedDate: DateTime.timestamp(),
+      updatedDate: DateTime.timestamp());
   //get filterd data
   List<dynamic> get filterData => _filterdData;
-
+  List<dynamic> get allData => _allData;
+  List<dynamic> get userData => _userData;
+  People get getCurrentUser => _currentUser;
+  //constructor
+  FilterProvider() {
+    refreshUser();
+  }
   //get & set the data from other providers
   Future<void> setData(BuildContext context) async {
     //ensure build is over
@@ -64,6 +82,22 @@ class FilterProvider extends ChangeNotifier {
     } else if (category == "people") {
       _filterdData = _allData.whereType<People>().toList();
     }
+    notifyListeners();
+  }
+
+  //get video and blogs by userid
+  Future<void> filterByUserId(String user) async {
+    videosList = videosList.where((video) => video.userId == user).toList();
+    articalList =
+        articalList.where((artical) => artical.userId == user).toList();
+    _userData = [...videosList, ...articalList];
+   
+    notifyListeners();
+  }
+
+  Future<void> refreshUser() async {
+    People currentUser = await AuthServices().getUserDetails();
+    _currentUser = currentUser;
     notifyListeners();
   }
 
