@@ -109,7 +109,7 @@ class FirestoreServices {
           publishedDate: Timestamp.now(),
           weblink: url);
       //upload video
-      await _videoCollection.add(video.toJson());
+      await _videoCollection.doc(videoId).set(video.toJson());
       CommonFunctions().massage("Upload video Succsussfuly", Icons.check_circle,
           Colors.green, context);
     } catch (err) {
@@ -136,13 +136,10 @@ class FirestoreServices {
             .doc(comment.commentId)
             .set(comment.toJson());
       }
-     
     } catch (err) {
       print("Fail to comment $err");
       CommonFunctions()
           .massage("Fail to Upload", Icons.cancel, errorColor, context);
     }
   }
-
-  
 }

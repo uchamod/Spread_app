@@ -14,8 +14,10 @@ import 'package:spread/widgets/reusable_textformfield.dart';
 import 'package:uuid/uuid.dart';
 
 class CommentPage extends StatefulWidget {
-  final String articalId;
-  const CommentPage({super.key, required this.articalId});
+  final String mediaId;
+  final bool isForVideo;
+  const CommentPage(
+      {super.key, required this.mediaId, required this.isForVideo});
 
   @override
   State<CommentPage> createState() => _CommentPageState();
@@ -39,12 +41,15 @@ class _CommentPageState extends State<CommentPage> {
           commentId: commentId,
           comment: comment,
           userId: user.userId,
-          userProUrl: user.image!,
+          userProUrl: user.image,
           userName: user.name,
-          docId: widget.articalId,
+          docId: widget.mediaId,
           publishDate: DateTime.now(),
           likes: []);
-      await FirestoreServices().commentOnMedia(userComment, false, context);
+
+      await FirestoreServices()
+          .commentOnMedia(userComment, widget.isForVideo, context);
+      _commentController.clear();
     } catch (err) {
       print("erro while commenting $err");
     }
@@ -62,12 +67,20 @@ class _CommentPageState extends State<CommentPage> {
       backgroundColor: Colors.transparent,
       appBar: AppBar(),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("microblogs")
-            .doc(widget.articalId)
-            .collection("comments")
-            .orderBy("publishDate", descending: true)
-            .snapshots(),
+        //fethch data
+        stream: widget.isForVideo
+            ? FirebaseFirestore.instance
+                .collection("videos")
+                .doc(widget.mediaId)
+                .collection("comments")
+                .orderBy("publishDate", descending: true)
+                .snapshots()
+            : FirebaseFirestore.instance
+                .collection("microblogs")
+                .doc(widget.mediaId)
+                .collection("comments")
+                .orderBy("publishDate", descending: true)
+                .snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -87,6 +100,7 @@ class _CommentPageState extends State<CommentPage> {
           );
         },
       ),
+      //comment area
       bottomNavigationBar: SafeArea(
           child: Container(
         height: kToolbarHeight,

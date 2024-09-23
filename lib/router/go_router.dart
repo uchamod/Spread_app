@@ -106,8 +106,14 @@ class RouterClass {
           path: "/commentPage",
           name: RouterNames.commentPage,
           builder: (context, state) {
-            final String articalId = state.extra as String;
-            return CommentPage(articalId: articalId,);
+            final String mediaId =
+                (state.extra as Map<String, dynamic>)["MediaId"];
+            final bool isForVideo =
+                (state.extra as Map<String, dynamic>)["isVideo"];
+            return CommentPage(
+              mediaId: mediaId,
+              isForVideo: isForVideo,
+            );
           },
         )
       ]);

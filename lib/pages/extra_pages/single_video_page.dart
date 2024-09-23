@@ -44,7 +44,7 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
         });
       }
     } catch (err) {
-      print("error while like to blog $err");
+      print("error while like to video $err");
     }
   }
 
@@ -177,9 +177,24 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                     _dislikeCount.toString(),
                     style: Textstyles().label,
                   ),
+                  const Spacer(),
+                  //to comment screen
+                  IconButton(
+                      onPressed: () {
+                        GoRouter.of(context)
+                            .pushNamed(RouterNames.commentPage, extra: {
+                          "MediaId": widget.video.videoId,
+                          "isVideo": true,
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.comment_outlined,
+                        color: secondorywhite,
+                        size: 28,
+                      ))
                 ],
               ),
-              //other videos
+            
               // FutureBuilder(
               //   future:
               //       Provider.of<FilterProvider>(context, listen: false)
@@ -200,15 +215,15 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
               //         style: Textstyles().body,
               //       ));
               //     }
+
+                //other videos
               Expanded(
                 child: Consumer<FilterProvider>(
                   builder: (context, filterdata, child) {
                     List<Videos> videoData =
                         filterdata.filterData.whereType<Videos>().toList();
                     return ListView.builder(
-                      // gridDelegate:
-                      //     const SliverGridDelegateWithFixedCrossAxisCount(
-                      //         crossAxisCount: 1, mainAxisSpacing: 15),
+                    
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       //todo : check lenth in future
