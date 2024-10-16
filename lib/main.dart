@@ -7,11 +7,13 @@ import 'package:spread/notificaion/local_notification.dart';
 import 'package:spread/provider/filter_provider.dart';
 
 import 'package:spread/router/go_router.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //initilize local notofication
   await LocalNotification.notificatonInitilizer();
+  tz.initializeTimeZones();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

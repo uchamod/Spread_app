@@ -229,13 +229,20 @@ class _ProfilePageState extends State<ProfilePage> {
                       : _isFollowing
                           ? GestureDetector(
                               onTap: () {
+                                DateTime scheduleTime = DateTime.now()
+                                    .add(const Duration(seconds: 5));
                                 followUser();
                                 setState(() {
                                   _followersCount = _followersCount! - 1;
                                   _isFollowing = false;
                                 });
-                                LocalNotification.instantNotification(
-                                    title: "Spread Alert", body: "Unfollow "+user.name);
+                                LocalNotification.schedulNotification(
+                                    title: "Spread Alert",
+                                    body: "Unfollow " + user.name,
+                                    schedulTime: scheduleTime);
+                                // LocalNotification.instantNotification(
+                                //     title: "Spread Alert",
+                                //     body: "Unfollow " + user.name);
                               },
                               child: toggleButton("Following"))
                           : GestureDetector(
@@ -245,10 +252,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   _followersCount = _followersCount! + 1;
                                   _isFollowing = true;
                                 });
-                                 LocalNotification.instantNotification(
-                                    title: "Spread Alert", body: "You start to follow "+user.name);
+                                LocalNotification.instantNotification(
+                                    title: "Spread Alert",
+                                    body: "You start to follow " + user.name);
                               },
-                              
                               child: toggleButton("follow"),
                             ),
                   //user blogs and videos
