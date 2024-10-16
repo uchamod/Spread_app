@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:spread/models/artical.dart';
 import 'package:spread/models/people.dart';
+import 'package:spread/notificaion/local_notification.dart';
 import 'package:spread/pages/extra_pages/edit_profile.dart';
 import 'package:spread/provider/filter_provider.dart';
 import 'package:spread/services/firebase_auth.dart';
@@ -67,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage> {
       }
       _followersCount = user!.followers.length;
       _followingCount = count;
-     
+
       setState(() {
         _inUserId = inUserId;
         _isLoading = false;
@@ -233,6 +234,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   _followersCount = _followersCount! - 1;
                                   _isFollowing = false;
                                 });
+                                LocalNotification.instantNotification(
+                                    title: "Spread Alert", body: "Unfollow "+user.name);
                               },
                               child: toggleButton("Following"))
                           : GestureDetector(
@@ -242,7 +245,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                   _followersCount = _followersCount! + 1;
                                   _isFollowing = true;
                                 });
+                                 LocalNotification.instantNotification(
+                                    title: "Spread Alert", body: "You start to follow "+user.name);
                               },
+                              
                               child: toggleButton("follow"),
                             ),
                   //user blogs and videos
@@ -250,8 +256,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: horPad,
                   ),
                   FutureBuilder(
-                    future:
-                        Provider.of<FilterProvider>(context,listen: false).setData(context),
+                    future: Provider.of<FilterProvider>(context, listen: false)
+                        .setData(context),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
@@ -265,7 +271,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       return Consumer<FilterProvider>(
                         builder: (context, filterData, child) {
                           filterData.filterByUserId(widget.userId);
-                          List<dynamic> selectedData = filterData. userData;
+                          List<dynamic> selectedData = filterData.userData;
                           selectedData.shuffle();
                           return MasonryGridView.count(
                             crossAxisCount: 2,
