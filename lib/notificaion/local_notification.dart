@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:spread/services/common_functions.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotification {
@@ -82,10 +83,39 @@ class LocalNotification {
     await _flutterLocalNotificationsPlugin.zonedSchedule(0, title, body,
         tz.TZDateTime.from(schedulTime, tz.local), _platformDetails,
         uiLocalNotificationDateInterpretation:
-           UILocalNotificationDateInterpretation.absoluteTime,
-           matchDateTimeComponents: DateTimeComponents.time);
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time);
   }
 
   //Recurring notification
+  static Future<void> recurrsiveSchedulNotification(
+      {required title,
+      required body,
+      required DateTime scheduleTime,
+      required Day day}) async {
+    const NotificationDetails _platformDetails = NotificationDetails(
+      android: AndroidNotificationDetails(
+        "android_chanel_id",
+        "android_chanel_name",
+        importance: Importance.max,
+        priority: Priority.high,
+      ),
+      iOS: DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+      ),
+    );
 
+    //schedule the recurresive notification
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        title,
+        body,
+        CommonFunctions().toNextTimeSchedule(scheduleTime, day),
+        _platformDetails,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.time);
+  }
 }
