@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:spread/pages/tabs/miceoblog_add.dart';
-import 'package:spread/pages/tabs/video_add.dart';
+import 'package:spread/pages/tabs/searchItem.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 
-class AddItems extends StatelessWidget {
-  const AddItems({super.key});
+class Items extends StatelessWidget {
+  const Items({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //add tab bar
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -20,6 +18,7 @@ class AddItems extends StatelessWidget {
             "Add Your favourites",
             style: Textstyles().title,
           ),
+          //tap bar properties
           bottom: TabBar(
               dividerColor: secondorywhite,
               indicatorColor: primaryYellow,
@@ -29,14 +28,30 @@ class AddItems extends StatelessWidget {
               unselectedLabelColor: secondorywhite,
               tabs: const [
                 Tab(
-                  text: "Blog",
+                  text: "Users",
                 ),
                 Tab(
-                  text: "Video",
+                  text: "Micro Blogs",
+                ),
+                Tab(
+                  text: "Videos",
                 ),
               ]),
         ),
-        body: const TabBarView(children: [MiceoblogAdd(), VideoAdd()]),
+        body: const TabBarView(children: [
+          //user
+          Serchitem(
+            index: 0,
+          ),
+          //micro blogs
+          Serchitem(
+            index: 1,
+          ),
+          //videos
+          Serchitem(
+            index: 2,
+          )
+        ]),
       ),
     );
   }

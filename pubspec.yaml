@@ -55,6 +55,8 @@ dependencies:
   video_player: ^2.9.1
   chewie: ^1.8.5
   flutter_inappwebview: ^6.0.0
+  flutter_local_notifications: ^17.2.3
+  timezone: ^0.9.4
 
   
  

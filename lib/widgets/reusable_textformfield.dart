@@ -12,6 +12,7 @@ class ReusableTextformfield extends StatelessWidget {
   final int? maxLine;
   final String? Function(String?)? validchecker;
   final void Function()? addTag;
+  final void Function(String)? onSubmit;
   const ReusableTextformfield({
     super.key,
     required this.controller,
@@ -22,13 +23,14 @@ class ReusableTextformfield extends StatelessWidget {
     required this.maxLine,
     this.validchecker,
     this.addTag,
-    required this.isTagFiled,
+    required this.isTagFiled, this.onSubmit,
   });
 
   @override
   Widget build(BuildContext context) {
     //formfield
     return TextFormField(
+      onFieldSubmitted: onSubmit,
       validator: validchecker,
       maxLines: maxLine,
       cursorColor: secondorywhite,

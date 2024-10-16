@@ -194,9 +194,10 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
           elevation: 1,
           hoverColor: cardBlue,
           onPressed: () {
-            GoRouter.of(context).pushNamed(RouterNames.commentPage,
-                extra: widget.artical.articalId);
-            print("route to comment page");
+            GoRouter.of(context).pushNamed(RouterNames.commentPage, extra: {
+              "MediaId": widget.artical.articalId,
+              "isVideo": false,
+            });
           },
           child: const Icon(
             Icons.comment_outlined,

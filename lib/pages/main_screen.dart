@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spread/pages/main_pages/add_items.dart';
 import 'package:spread/pages/main_pages/homepage.dart';
-import 'package:spread/pages/main_pages/items.dart';
+import 'package:spread/pages/main_pages/searchpage.dart';
 import 'package:spread/pages/main_pages/profilepage.dart';
 import 'package:spread/pages/main_pages/watch_page.dart';
 import 'package:spread/services/firebase_auth.dart';

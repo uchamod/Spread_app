@@ -24,8 +24,6 @@ class UserServices {
     }
   }
 
-   
-
   //follow user
   Future<void> followUser(
       String userId, String foreingId, BuildContext context) async {
@@ -65,7 +63,9 @@ class UserServices {
       DocumentSnapshot documentSnapshot = isVideo
           ? await _videoCollection.doc(mediaId).get()
           : await _arrticalCollection.doc(mediaId).get();
+      print(documentSnapshot.data());
       List likes = (documentSnapshot.data() as Map<String, dynamic>)["likes"];
+      print(likes.length);
       if (likes.contains(userId)) {
         //dislike
         isVideo
