@@ -50,7 +50,9 @@ class UserItemCard extends StatelessWidget {
               children: [
                 //avatar
                 CircleAvatar(
-                  backgroundImage: NetworkImage(user.image!),
+                  backgroundImage: NetworkImage(
+                    user.image,
+                  ),
                   radius: 60,
                 ),
                 //username

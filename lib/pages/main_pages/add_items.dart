@@ -13,30 +13,31 @@ class AddItems extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            title: Text(
-              "Add Your favourites",
-              style: Textstyles().title,
-            ),
-            bottom: TabBar(
-                dividerColor: secondorywhite,
-                indicatorColor: primaryYellow,
-                labelColor: primaryYellow,
-                indicatorSize: TabBarIndicatorSize.label,
-                labelStyle: Textstyles().body,
-                unselectedLabelColor: secondorywhite,
-                tabs: const [
-                  Tab(
-                    text: "Blog",
-                  ),
-                  Tab(
-                    text: "Video",
-                  ),
-                ]),
+          title: Text(
+            "Add Your favourites",
+            style: Textstyles().title,
           ),
-          body: const TabBarView(children: [MiceoblogAdd(), VideoAdd()])),
+          bottom: TabBar(
+              dividerColor: secondorywhite,
+              indicatorColor: primaryYellow,
+              labelColor: primaryYellow,
+              indicatorSize: TabBarIndicatorSize.label,
+              labelStyle: Textstyles().body,
+              unselectedLabelColor: secondorywhite,
+              tabs: const [
+                Tab(
+                  text: "Blog",
+                ),
+                Tab(
+                  text: "Video",
+                ),
+              ]),
+        ),
+        body: const TabBarView(children: [MiceoblogAdd(), VideoAdd()]),
+      ),
     );
   }
 }
