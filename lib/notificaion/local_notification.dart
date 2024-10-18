@@ -118,4 +118,41 @@ class LocalNotification {
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time);
   }
+
+  //big picture notification
+  static Future<void> bigPictureNotification(
+      {required String title,
+      required String body,
+      required String imageUri}) async {
+    //initilize bitmap image
+    final BigPictureStyleInformation bigPictureStyleInformation =
+        BigPictureStyleInformation(DrawableResourceAndroidBitmap(imageUri),
+            largeIcon: DrawableResourceAndroidBitmap(imageUri),
+            contentTitle: title,
+            summaryText: body,
+            htmlFormatContent: true,
+            htmlFormatContentTitle: true);
+    //define platfoem details
+    NotificationDetails _platformDetails = NotificationDetails(
+      android: AndroidNotificationDetails(
+          "android_chanel_id", "android_chanel_name",
+          importance: Importance.max,
+          priority: Priority.high,
+          styleInformation: bigPictureStyleInformation),
+      iOS: DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+        attachments: [DarwinNotificationAttachment(imageUri)],
+      ),
+    );
+
+    //show notification
+    await _flutterLocalNotificationsPlugin.show(
+        0, title, body, _platformDetails);
+  }
+  //canceel
+  Future cancelNotification() async {
+    await _flutterLocalNotificationsPlugin.cancelAll();
+  }
 }

@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:spread/notificaion/push_notification.dart';
 import 'package:spread/router/route_names.dart';
 import 'package:spread/services/common_functions.dart';
-import 'package:spread/services/firebase_auth.dart';
 import 'package:spread/services/firestore.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
@@ -18,7 +19,8 @@ class UserDeatilsPage extends StatefulWidget {
   final String username;
   final String password;
 
-  const UserDeatilsPage({super.key, required this.username, required this.password});
+  const UserDeatilsPage(
+      {super.key, required this.username, required this.password});
 
   @override
   State<UserDeatilsPage> createState() => _UserDeatilsPageState();
@@ -26,7 +28,7 @@ class UserDeatilsPage extends StatefulWidget {
 
 class _UserDeatilsPageState extends State<UserDeatilsPage> {
   final FirestoreServices _firestoreServices = FirestoreServices();
- 
+
   //textfield conttrollers
   final TextEditingController _discriptionController = TextEditingController();
 
@@ -69,6 +71,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
           username, password, profileImage, discription, location);
       CommonFunctions()
           .massage(result, Icons.check_circle, Colors.green, context);
+           await PushNotification.getFcmToken(FirebaseAuth.instance.currentUser!.uid);
     } catch (err) {
       CommonFunctions()
           .massage("Something went wrong", Icons.cancel, errorColor, context);
@@ -141,7 +144,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                   inputAction: TextInputAction.next,
                   inputType: TextInputType.name,
                   isShow: false,
-                  maxLine:5,
+                  maxLine: 5,
                   validchecker: (value) {
                     if (value == null || value.isEmpty) {
                       return "Please enter your discription";

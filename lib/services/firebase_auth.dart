@@ -47,7 +47,7 @@ class AuthServices {
   //singout user
   Future<void> singOut() async {
     try {
-      _auth.signOut();
+    await  _auth.signOut();
     } catch (err) {
       print("sing out error : ${err.toString()}");
       throw Exception(err);
