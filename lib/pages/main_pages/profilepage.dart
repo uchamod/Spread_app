@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:spread/models/artical.dart';
 import 'package:spread/models/people.dart';
 import 'package:spread/notificaion/local_notification.dart';
 import 'package:spread/pages/extra_pages/edit_profile.dart';
 import 'package:spread/provider/filter_provider.dart';
+import 'package:spread/router/route_names.dart';
 import 'package:spread/services/firebase_auth.dart';
 import 'package:spread/services/user_services.dart';
 import 'package:spread/util/constants.dart';
@@ -28,6 +32,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final AuthServices _authServices = AuthServices();
   bool _isLoading = true;
+  bool _isSingOut = false;
   bool _hasError = false;
   late Future<People?> _showUser;
   String _inUserId = "";
@@ -99,6 +104,20 @@ class _ProfilePageState extends State<ProfilePage> {
         ));
   }
 
+  //singout progress indicator
+  Future<void> _singOutWithProgress() async {
+    setState(() {
+      _isSingOut = true;
+    });
+    // Set a timer for the duration (e.g., 5 seconds) and then stop the progress bar
+    await Future.delayed(Duration(seconds: 3));
+    await _authServices.singOut();
+    setState(() {
+      _isSingOut = false;
+    });
+    GoRouter.of(context).goNamed(RouterNames.loginPage);
+  }
+
   final double widgetHeight = 5;
 
   get builder => null;
@@ -109,14 +128,21 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          TextButton(
-              onPressed: () {
-                _authServices.singOut();
-              },
-              child: Text(
-                "Sing Out",
-                style: Textstyles().subtitle.copyWith(color: secondorywhite),
-              )),
+          //sing out button
+          _inUserId == widget.userId
+              ? TextButton(
+                  onPressed: () async {
+                    await _singOutWithProgress();
+                  },
+                  child: Text(
+                    "Sing Out",
+                    style:
+                        Textstyles().subtitle.copyWith(color: secondorywhite),
+                  ),
+                )
+              : const SizedBox(
+                  width: 10,
+                ),
         ],
       ),
       body: FutureBuilder<People?>(
@@ -229,20 +255,24 @@ class _ProfilePageState extends State<ProfilePage> {
                       : _isFollowing
                           ? GestureDetector(
                               onTap: () {
-                                DateTime scheduleTime = DateTime.now()
-                                    .add(const Duration(seconds: 5));
+                                //  DateTime scheduleTime = DateTime.now()
+                                //       .add(const Duration(seconds: 5));
                                 followUser();
                                 setState(() {
                                   _followersCount = _followersCount! - 1;
                                   _isFollowing = false;
                                 });
-                                LocalNotification.schedulNotification(
-                                    title: "Spread Alert",
-                                    body: "Unfollow " + user.name,
-                                    schedulTime: scheduleTime);
-                                // LocalNotification.instantNotification(
+                                // LocalNotification.schedulNotification(
                                 //     title: "Spread Alert",
-                                //     body: "Unfollow " + user.name);
+                                //     body: "Unfollow " + user.name,
+                                //     schedulTime: scheduleTime);
+                                // LocalNotification.bigPictureNotification(
+                                //     title: "Spread Alert",
+                                //     body: "Unfollow " + user.name,
+                                //     imageUri: "@mipmap/launcher_icon");
+                                LocalNotification.instantNotification(
+                                    title: "Spread Alert",
+                                    body: "Unfollow " + user.name);
                               },
                               child: toggleButton("Following"))
                           : GestureDetector(
