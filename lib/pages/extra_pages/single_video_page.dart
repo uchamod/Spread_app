@@ -24,6 +24,7 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
   final AuthServices _authServices = AuthServices();
   final UserServices _userServices = UserServices();
   bool _isLike = false;
+  bool _isDisLike = false;
   int? _likeCount = 0;
   int? _dislikeCount = 0;
 
@@ -37,10 +38,19 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
           .get();
 
       List likes = (videoSnapshot.data() as Map<String, dynamic>)["likes"];
+      List dislikes = (videoSnapshot.data() as Map<String, dynamic>)["dislike"];
       _likeCount = likes.length;
+      _dislikeCount = dislikes.length;
+      //update like list
       if (likes.contains(userId)) {
         setState(() {
           _isLike = true;
+        });
+      }
+      //update dislike list
+      if (dislikes.contains(userId)) {
+        setState(() {
+          _isDisLike = true;
         });
       }
     } catch (err) {
@@ -52,6 +62,11 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
   Future<void> _likeOnMedia() async {
     String userId = await _authServices.getCurrentUser()!.uid;
     await _userServices.likeOnMedia(userId, widget.video.videoId, true);
+  }
+
+  Future<void> _dislikeOnMedia() async {
+    String userId = await _authServices.getCurrentUser()!.uid;
+    await _userServices.disLikeOnMedia(userId, widget.video.videoId, true);
   }
 
   @override
@@ -84,166 +99,193 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                 size: 25,
               )),
         ),
-        body: Padding(
-          padding:
-              const EdgeInsets.symmetric(horizontal: horPad, vertical: verPad),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //video
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child: CoustomVideoPlayer(videoUrl: widget.video.videoUrl),
-              ),
-              const SizedBox(
-                height: verPad,
-              ),
-              //title
-              Text(
-                widget.video.title,
-                style: Textstyles().title,
-              ),
-              const SizedBox(
-                height: verPad,
-              ),
-              //tags
-              Row(
-                children: [
-                  for (int i = 0; i < widget.video.tags.length; i++)
-                    Wrap(
-                      children: [
-                        Text(
-                          widget.video.tags[i],
-                          style: Textstyles().label,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        )
-                      ],
-                    )
-                ],
-              ),
-              const SizedBox(
-                height: verPad,
-              ),
-              //like dislike
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //like
-                  _isLike
-                      ? IconButton(
-                          onPressed: () {
-                            _likeOnMedia();
-                            setState(() {
-                              _likeCount = _likeCount! - 1;
-                              _isLike = false;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.thumb_up_alt_sharp,
-                            color: secondorywhite,
-                            size: 24,
-                          ))
-                      : IconButton(
-                          onPressed: () {
-                            _likeOnMedia();
-                            setState(() {
-                              _likeCount = _likeCount! + 1;
-                              _isLike = true;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.thumb_up_alt_outlined,
-                            color: secondorywhite,
-                            size: 24,
-                          )),
-                  Text(
-                    _likeCount.toString(),
-                    style: Textstyles().label,
-                  ),
-                  const SizedBox(
-                    width: horPad,
-                  ),
-                  //dislike
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.thumb_down_alt_outlined,
-                        color: secondorywhite,
-                        size: 24,
-                      )),
-                  Text(
-                    _dislikeCount.toString(),
-                    style: Textstyles().label,
-                  ),
-                  const Spacer(),
-                  //to comment screen
-                  IconButton(
-                      onPressed: () {
-                        GoRouter.of(context)
-                            .pushNamed(RouterNames.commentPage, extra: {
-                          "MediaId": widget.video.videoId,
-                          "isVideo": true,
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.comment_outlined,
-                        color: secondorywhite,
-                        size: 28,
-                      ))
-                ],
-              ),
-            
-              // FutureBuilder(
-              //   future:
-              //       Provider.of<FilterProvider>(context, listen: false)
-              //           .setData(context),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.connectionState ==
-              //         ConnectionState.waiting) {
-              //       return const Center(
-              //         child: CircularProgressIndicator(
-              //           color: secondorywhite,
-              //         ),
-              //       );
-              //     }
-              //     if (snapshot.hasError) {
-              //       return Center(
-              //           child: Text(
-              //         "Network Error",
-              //         style: Textstyles().body,
-              //       ));
-              //     }
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: horPad, vertical: verPad),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //video
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: CoustomVideoPlayer(videoUrl: widget.video.videoUrl),
+                ),
+                const SizedBox(
+                  height: verPad,
+                ),
+                //title
+                Text(
+                  widget.video.title,
+                  style: Textstyles().title,
+                ),
+                const SizedBox(
+                  height: verPad,
+                ),
+                //tags
+                Row(
+                  children: [
+                    for (int i = 0; i < widget.video.tags.length; i++)
+                      Wrap(
+                        children: [
+                          Text(
+                            widget.video.tags[i],
+                            style: Textstyles().label,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          )
+                        ],
+                      )
+                  ],
+                ),
+                const SizedBox(
+                  height: verPad,
+                ),
+                //like dislike
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //like
+                    _isLike
+                        ? IconButton(
+                            onPressed: () {
+                              _likeOnMedia();
+                              setState(() {
+                                _likeCount = _likeCount! - 1;
+                                _isLike = false;
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.thumb_up_alt_sharp,
+                              color: secondorywhite,
+                              size: 24,
+                            ))
+                        : IconButton(
+                            onPressed: () {
+                              _likeOnMedia();
+                              setState(() {
+                                _likeCount = _likeCount! + 1;
+                                _dislikeCount =
+                                    _dislikeCount == 0 ? 0 : _dislikeCount! - 1;
+                                _isLike = true;
+                                _isDisLike = false;
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.thumb_up_alt_outlined,
+                              color: secondorywhite,
+                              size: 24,
+                            )),
+                    Text(
+                      _likeCount.toString(),
+                      style: Textstyles().label,
+                    ),
+                    const SizedBox(
+                      width: horPad,
+                    ),
+                    //dislike
+                    _isDisLike
+                        ? IconButton(
+                            onPressed: () {
+                              _dislikeOnMedia();
+                              setState(() {
+                                _dislikeCount = _dislikeCount! - 1;
+                                _isDisLike = false;
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.thumb_down_alt_rounded,
+                              color: secondorywhite,
+                              size: 24,
+                            ))
+                        : IconButton(
+                            onPressed: () {
+                              _dislikeOnMedia();
+                              setState(() {
+                                _dislikeCount = _dislikeCount! + 1;
+                                _likeCount =
+                                    _likeCount == 0 ? 0 : _likeCount! - 1;
+                                _isDisLike = true;
+                                _isLike = false;
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.thumb_down_off_alt_rounded,
+                              color: secondorywhite,
+                              size: 24,
+                            )),
+                    Text(
+                      _dislikeCount.toString(),
+                      style: Textstyles().label,
+                    ),
+                    const Spacer(),
+                    //to comment screen
+                    IconButton(
+                        onPressed: () {
+                          GoRouter.of(context)
+                              .pushNamed(RouterNames.commentPage, extra: {
+                            "MediaId": widget.video.videoId,
+                            "isVideo": true,
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.comment_outlined,
+                          color: secondorywhite,
+                          size: 28,
+                        ))
+                  ],
+                ),
+
+                // FutureBuilder(
+                //   future:
+                //       Provider.of<FilterProvider>(context, listen: false)
+                //           .setData(context),
+                //   builder: (context, snapshot) {
+                //     if (snapshot.connectionState ==
+                //         ConnectionState.waiting) {
+                //       return const Center(
+                //         child: CircularProgressIndicator(
+                //           color: secondorywhite,
+                //         ),
+                //       );
+                //     }
+                //     if (snapshot.hasError) {
+                //       return Center(
+                //           child: Text(
+                //         "Network Error",
+                //         style: Textstyles().body,
+                //       ));
+                //     }
 
                 //other videos
-              Expanded(
-                child: Consumer<FilterProvider>(
-                  builder: (context, filterdata, child) {
-                    List<Videos> videoData =
-                        filterdata.filterData.whereType<Videos>().toList();
-                    return ListView.builder(
-                    
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      //todo : check lenth in future
-                      itemCount: videoData.length,
-                      itemBuilder: (context, index) {
-                        // if (videoData[index].videoId !=
-                        //     widget.video.videoId) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: VideoItemCard(video: videoData[index]),
-                        );
-                        //     }
-                      },
-                    );
-                  },
+                Expanded(
+                  child: Consumer<FilterProvider>(
+                    builder: (context, filterdata, child) {
+                      List<Videos> videoData =
+                          filterdata.filterData.whereType<Videos>().toList();
+                      return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        //todo : check lenth in future
+                        itemCount: videoData.length,
+                        itemBuilder: (context, index) {
+                          // if (videoData[index].videoId !=
+                          //     widget.video.videoId) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: VideoItemCard(video: videoData[index]),
+                          );
+                          //     }
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-              // },
-              // )
-            ],
+                // },
+                // )
+              ],
+            ),
           ),
         ),
       ),

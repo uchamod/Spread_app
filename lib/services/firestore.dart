@@ -76,7 +76,8 @@ class FirestoreServices {
           likes: [],
           publishedDate: Timestamp.now(),
           images: imageUrl,
-          weblink: url);
+          weblink: url,
+          dislike: []);
 
       //uploading
       await _blogCollection.doc(blogId).set(artical.toJson());
@@ -93,7 +94,7 @@ class FirestoreServices {
         String? token = followerDoc['fcmToken'];
 
         if (token != null) {
-          await sendNotification(token, user.displayName!, title,artical);
+          await sendNotification(token, user.displayName!, title, artical);
         }
       }
     } catch (err) {
@@ -123,7 +124,8 @@ class FirestoreServices {
           userId: user!.uid,
           likes: [],
           publishedDate: Timestamp.now(),
-          weblink: url);
+          weblink: url,
+          dislike: []);
       //upload video
       await _videoCollection.doc(videoId).set(video.toJson());
       CommonFunctions().massage("Upload video Succsussfuly", Icons.check_circle,
@@ -161,7 +163,7 @@ class FirestoreServices {
 
   //get followers tokens
   Future<void> sendNotification(
-      String token, String userName, String title,Artical artical) async {
+      String token, String userName, String title, Artical artical) async {
     final String serverKey =
         'AIzaSyDcwMUqXSUhyiWNhml4L35hsudlaWs4A30'; // Add your Firebase Cloud Messaging server key here
 
@@ -177,7 +179,7 @@ class FirestoreServices {
           'title': 'New Post Alert!',
           'body': '$userName posted a new $title. Check it out!',
           'sound': 'default',
-          'artical':artical
+          'artical': artical
         }
       }),
     );
