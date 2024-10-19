@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   //varibels
-  final double filedpad = 12;
+  final double filedpad = 10;
   //load controller
   bool isloading = false;
 
@@ -65,19 +65,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final double topPad = MediaQuery.of(context).size.height * 0.15;
-    return Container(
-      padding: EdgeInsets.only(left: horPad, right: horPad, top: topPad),
-      decoration: const BoxDecoration(
-        //add greadient background
-        gradient: LinearGradient(
-            colors: [backgroundBlue, backgroundPurple],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
+    final double topPad = MediaQuery.of(context).size.height * 0.1;
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(horPad, topPad, horPad, 0),
+        child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
@@ -126,13 +118,9 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                   },
                 ),
+               
                 SizedBox(
-                  height: filedpad,
-                ),
-                //confirm password
-
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 //sing in button
                 InkWell(
@@ -147,12 +135,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 //sing in with google or anonymously
                 const Extralogin(),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
+                  height: MediaQuery.of(context).size.height * 0.2,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

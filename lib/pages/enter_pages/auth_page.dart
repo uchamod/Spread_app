@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spread/router/route_names.dart';
-
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 import 'package:spread/widgets/extralogin.dart';
@@ -24,12 +23,9 @@ class _AuthPageState extends State<AuthPage> {
 
   final TextEditingController _passwordConfirmController =
       TextEditingController();
- 
+
   //form key
   final _formKey = GlobalKey<FormState>();
-
-  //varibels
-  final double filedpad = 12;
 
   //regexp for password
   final RegExp passwordRegExp =
@@ -48,19 +44,10 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    final double topPad = MediaQuery.of(context).size.height * 0.10;
+    final double topPad = MediaQuery.of(context).size.height * 0.1;
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Container(
-        height: MediaQuery.of(context).size.height * 1,
-        padding: EdgeInsets.only(left: horPad, right: horPad, top: topPad),
-        decoration: const BoxDecoration(
-          //add greadient background
-          gradient: LinearGradient(
-              colors: [backgroundBlue, backgroundPurple],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight),
-        ),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(horPad, topPad, horPad, 0),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -92,7 +79,7 @@ class _AuthPageState extends State<AuthPage> {
                     return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: filedpad,
                 ),
                 //password
@@ -114,7 +101,7 @@ class _AuthPageState extends State<AuthPage> {
                     return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: filedpad,
                 ),
                 //confirm password
@@ -137,7 +124,7 @@ class _AuthPageState extends State<AuthPage> {
                   },
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 //go to user details page
                 InkWell(
@@ -156,12 +143,10 @@ class _AuthPageState extends State<AuthPage> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 //sing in with google or anonymoulsly
-                const Extralogin(
-          
-                ),
+                const Extralogin(),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.15,
                 ),

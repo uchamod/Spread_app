@@ -7,6 +7,7 @@ import 'package:spread/notificaion/local_notification.dart';
 import 'package:spread/notificaion/push_notification.dart';
 import 'package:spread/provider/filter_provider.dart';
 import 'package:spread/router/go_router.dart';
+import 'package:spread/util/constants.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
@@ -18,7 +19,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   //initilize push notification
-   await PushNotification.initilization();
+  await PushNotification.initilization();
 
   //listen incomming background message
   FirebaseMessaging.onBackgroundMessage(
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: "Spread",
+      theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: secondoryBlack),
       debugShowCheckedModeBanner: false,
       routerConfig: RouterClass().router,
     );

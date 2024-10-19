@@ -19,7 +19,7 @@ class VideoItemCard extends StatelessWidget {
             .pushNamed(RouterNames.singleVideoPage, extra: video);
       },
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(commonpad),
         child: BackdropFilter(
           //add blur effeect
           filter: ImageFilter.blur(
@@ -29,8 +29,9 @@ class VideoItemCard extends StatelessWidget {
           //coustom video card
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: cardColor,
+              borderRadius: BorderRadius.circular(commonpad),
+              color: secondoryBlack,
+              border: Border.all(color: secondorywhite, width: 0.5),
               boxShadow: [
                 BoxShadow(
                   offset: const Offset(2, 3),
@@ -48,8 +49,8 @@ class VideoItemCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16)),
+                      topLeft: Radius.circular(commonpad),
+                      topRight: Radius.circular(commonpad)),
                   //thubnail
                   child: AspectRatio(
                     aspectRatio: 16 / 9,
@@ -66,7 +67,7 @@ class VideoItemCard extends StatelessWidget {
                     children: [
                       Text(
                         video.title,
-                        style: Textstyles().title,
+                        style: Textstyles().subtitle,
                       ),
                     ],
                   ),
