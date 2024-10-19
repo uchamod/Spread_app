@@ -11,7 +11,6 @@ import 'package:spread/services/common_functions.dart';
 import 'package:spread/services/firestore.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
-import 'package:spread/widgets/extralogin.dart';
 import 'package:spread/widgets/reusable_button.dart';
 import 'package:spread/widgets/reusable_textformfield.dart';
 
@@ -40,7 +39,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
   final _formKey = GlobalKey<FormState>();
 
   //varibels
-  final double filedpad = 12;
+
   bool isloading = false;
   //select image
   Future<void> imagePicker(ImageSource source) async {
@@ -71,7 +70,8 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
           username, password, profileImage, discription, location);
       CommonFunctions()
           .massage(result, Icons.check_circle, Colors.green, context);
-           await PushNotification.getFcmToken(FirebaseAuth.instance.currentUser!.uid);
+      await PushNotification.getFcmToken(
+          FirebaseAuth.instance.currentUser!.uid);
     } catch (err) {
       CommonFunctions()
           .massage("Something went wrong", Icons.cancel, errorColor, context);
@@ -91,19 +91,11 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final double topPad = MediaQuery.of(context).size.height * 0.10;
-    return Container(
-      padding: EdgeInsets.only(left: horPad, right: horPad, top: topPad),
-      decoration: const BoxDecoration(
-        //add greadient background
-        gradient: LinearGradient(
-            colors: [backgroundBlue, backgroundPurple],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
+    final double topPad = MediaQuery.of(context).size.height * 0.1;
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(horPad, topPad, horPad, 0),
+        child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
@@ -134,7 +126,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                   ],
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 //discription
                 ReusableTextformfield(
@@ -152,7 +144,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                     return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: filedpad,
                 ),
                 //location
@@ -171,12 +163,9 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: filedpad,
-                ),
 
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 //register button
                 InkWell(
@@ -192,20 +181,16 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                       GoRouter.of(context).goNamed(RouterNames.home);
                     }
                   },
-                  //sing up button
                   child: ReusableButton(
                     lable: "Sing Up",
                     isLoad: isloading,
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.2,
                 ),
-                //sing in with google and anonymolusy
-                Extralogin(),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
-                ),
+
+                //go to login page
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

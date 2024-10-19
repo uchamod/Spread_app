@@ -11,17 +11,24 @@ class UserServices {
   final CollectionReference _arrticalCollection =
       FirebaseFirestore.instance.collection("microblogs");
   //get user by user id
-  Future<People?> getUserById(String id) async {
-    try {
-      final userDocument =
-          await _firebaseFirestore.collection("users").doc(id).get();
-      if (userDocument.exists) {
-        return People.fromJson(userDocument.data() as Map<String, dynamic>);
-      }
-    } catch (err) {
-      print("error from getUserById method $err");
-      return null;
+  Future<People> getUserById(String id) async {
+    final userDocument =
+        await _firebaseFirestore.collection("users").doc(id).get();
+    if (userDocument.exists) {
+      return People.fromJson(userDocument.data() as Map<String, dynamic>);
     }
+
+    return People(
+        userId: "",
+        name: "UnKnown",
+        discription: "none",
+        location: "out of",
+        password: "1234",
+        image: "",
+        followers: [],
+        followings: [],
+        joinedDate: DateTime.now(),
+        updatedDate: DateTime.now());
   }
 
   //follow user

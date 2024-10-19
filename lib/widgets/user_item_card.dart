@@ -19,7 +19,7 @@ class UserItemCard extends StatelessWidget {
             .pushNamed(RouterNames.profilePage, extra: user.userId);
       },
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(commonpad),
         child: BackdropFilter(
           //add blur effect
           filter: ImageFilter.blur(
@@ -31,8 +31,9 @@ class UserItemCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
                 horizontal: horPad, vertical: verPad),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: cardColor,
+              borderRadius: BorderRadius.circular(commonpad),
+              color: secondoryBlack,
+              border: Border.all(color: secondorywhite, width: 0.5),
               boxShadow: [
                 BoxShadow(
                   offset: const Offset(2, 3),
@@ -58,12 +59,12 @@ class UserItemCard extends StatelessWidget {
                 //username
                 Text(
                   user.name,
-                  style: Textstyles().title,
+                  style: Textstyles().subtitle,
                 ),
                 //discription
                 Text(
                   user.discription,
-                  style: Textstyles().body,
+                  style: Textstyles().label,
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
                 ),
