@@ -9,6 +9,7 @@ class Artical {
   final String userId;
   final String images;
   final List likes;
+  final List dislike;
   final Timestamp publishedDate;
   final String? weblink;
 
@@ -19,6 +20,7 @@ class Artical {
     required this.tags,
     required this.userId,
     required this.likes,
+    required this.dislike,
     required this.publishedDate,
     required this.images,
     required this.weblink,
@@ -34,6 +36,7 @@ class Artical {
       "userId": userId,
       "Images": images,
       "likes": likes,
+      "dislike": dislike,
       "publishedDate": publishedDate,
       "weblink": weblink,
     };
@@ -44,11 +47,12 @@ class Artical {
     return Artical(
         articalId: json["articalId"],
         title: json["title"],
-       tags: json["tags"],
+        tags: json["tags"],
         discription: json["discription"],
         userId: json["userId"],
         images: json["Images"],
         likes: json["likes"],
+        dislike: json["dislike"],
         publishedDate: json["publishedDate"],
         weblink: json["weblink"]);
   }

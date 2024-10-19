@@ -63,9 +63,10 @@ class UserServices {
       DocumentSnapshot documentSnapshot = isVideo
           ? await _videoCollection.doc(mediaId).get()
           : await _arrticalCollection.doc(mediaId).get();
-      print(documentSnapshot.data());
+
       List likes = (documentSnapshot.data() as Map<String, dynamic>)["likes"];
-      print(likes.length);
+      List dislikes =
+          (documentSnapshot.data() as Map<String, dynamic>)["dislike"];
       if (likes.contains(userId)) {
         //dislike
         isVideo
@@ -77,12 +78,66 @@ class UserServices {
               });
       } else {
         //like
+        if (dislikes.contains(userId)) {
+          isVideo
+              ? await _videoCollection.doc(mediaId).update({
+                  "dislike": FieldValue.arrayRemove([userId])
+                })
+              : await _arrticalCollection.doc(mediaId).update({
+                  "dislike": FieldValue.arrayRemove([userId])
+                });
+        }
         isVideo
             ? await _videoCollection.doc(mediaId).update({
                 "likes": FieldValue.arrayUnion([userId])
               })
             : await _arrticalCollection.doc(mediaId).update({
                 "likes": FieldValue.arrayUnion([userId])
+              });
+      }
+    } catch (err) {
+      print("fail to like $err");
+    }
+  }
+
+  //dislike
+  Future<void> disLikeOnMedia(
+      String userId, String mediaId, bool isVideo) async {
+    try {
+      DocumentSnapshot documentSnapshot = isVideo
+          ? await _videoCollection.doc(mediaId).get()
+          : await _arrticalCollection.doc(mediaId).get();
+
+      List dislikes =
+          (documentSnapshot.data() as Map<String, dynamic>)["dislike"];
+      List likes = (documentSnapshot.data() as Map<String, dynamic>)["likes"];
+      if (dislikes.contains(userId)) {
+        //remove dislike
+        isVideo
+            ? await _videoCollection.doc(mediaId).update({
+                "dislike": FieldValue.arrayRemove([userId])
+              })
+            : await _arrticalCollection.doc(mediaId).update({
+                "dislike": FieldValue.arrayRemove([userId])
+              });
+      } else {
+        //dislike
+
+        if (likes.contains(userId)) {
+          isVideo
+              ? await _videoCollection.doc(mediaId).update({
+                  "likes": FieldValue.arrayRemove([userId])
+                })
+              : await _arrticalCollection.doc(mediaId).update({
+                  "likes": FieldValue.arrayRemove([userId])
+                });
+        }
+        isVideo
+            ? await _videoCollection.doc(mediaId).update({
+                "dislike": FieldValue.arrayUnion([userId])
+              })
+            : await _arrticalCollection.doc(mediaId).update({
+                "dislike": FieldValue.arrayUnion([userId])
               });
       }
     } catch (err) {

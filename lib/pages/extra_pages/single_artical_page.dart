@@ -20,6 +20,7 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
   final AuthServices _authServices = AuthServices();
   final UserServices _userServices = UserServices();
   bool _isLike = false;
+  bool _isDisLike = false;
   int? _likeCount = 0;
   int? _dislikeCount = 0;
 
@@ -33,10 +34,20 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
           .get();
 
       List likes = (articalSnapshot.data() as Map<String, dynamic>)["likes"];
+      List dislikes =
+          (articalSnapshot.data() as Map<String, dynamic>)["dislike"];
       _likeCount = likes.length;
+      _dislikeCount = dislikes.length;
+      //update like count
       if (likes.contains(userId)) {
         setState(() {
           _isLike = true;
+        });
+      }
+      //update dislike count
+      if (dislikes.contains(userId)) {
+        setState(() {
+          _isDisLike = true;
         });
       }
     } catch (err) {
@@ -48,6 +59,12 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
   Future<void> _likeOnMedia() async {
     String userId = await _authServices.getCurrentUser()!.uid;
     await _userServices.likeOnMedia(userId, widget.artical.articalId, false);
+  }
+
+  //disLike
+  Future<void> _disLikeOnMedia() async {
+    String userId = await _authServices.getCurrentUser()!.uid;
+    await _userServices.disLikeOnMedia(userId, widget.artical.articalId, false);
   }
 
   @override
@@ -80,112 +97,137 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
                 size: 25,
               )),
         ),
-        body: Padding(
-          padding:
-              const EdgeInsets.symmetric(horizontal: horPad, vertical: verPad),
-          child: Column(
-            children: [
-              //artical
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                    color: cardColor,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                          offset: const Offset(1, 4),
-                          blurRadius: 8,
-                          color: secondoryBlack.withOpacity(0.5))
-                    ]),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: verPad,
-                    ),
-                    //title
-                    Text(
-                      widget.artical.title,
-                      style: Textstyles().title,
-                    ),
-                    const SizedBox(
-                      height: verPad,
-                    ),
-                    //image
-                    AspectRatio(
-                        aspectRatio: 16 / 10,
-                        child: Image.network(
-                          widget.artical.images,
-                          fit: BoxFit.fitWidth,
-                        )),
-                    const SizedBox(
-                      height: verPad,
-                    ),
-                    //content
-                    Text(
-                      widget.artical.discription,
-                      style: Textstyles().subtitle.copyWith(fontSize: 12),
-                    ),
-                    const SizedBox(
-                      height: verPad,
-                    ),
-                    //like or dislike
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        //like
-                        _isLike
-                            ? IconButton(
-                                onPressed: () {
-                                  _likeOnMedia();
-                                  setState(() {
-                                    _likeCount = _likeCount! - 1;
-                                    _isLike = false;
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.thumb_up_alt_sharp,
-                                  color: secondorywhite,
-                                  size: 24,
-                                ))
-                            : IconButton(
-                                onPressed: () {
-                                  _likeOnMedia();
-                                  setState(() {
-                                    _likeCount = _likeCount! + 1;
-                                    _isLike = true;
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.thumb_up_alt_outlined,
-                                  color: secondorywhite,
-                                  size: 24,
-                                )),
-                        Text(
-                          _likeCount.toString(),
-                          style: Textstyles().label,
-                        ),
-                        const SizedBox(
-                          width: horPad,
-                        ),
-                        //dislike
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.thumb_down_alt_outlined,
-                              color: secondorywhite,
-                              size: 24,
-                            )),
-                        Text(
-                          _dislikeCount.toString(),
-                          style: Textstyles().label,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: horPad, vertical: verPad),
+            child: Column(
+              children: [
+                //artical
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                      color: cardColor,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                            offset: const Offset(1, 4),
+                            blurRadius: 8,
+                            color: secondoryBlack.withOpacity(0.5))
+                      ]),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: verPad,
+                      ),
+                      //title
+                      Text(
+                        widget.artical.title,
+                        style: Textstyles().title,
+                      ),
+                      const SizedBox(
+                        height: verPad,
+                      ),
+                      //image
+                      Image.network(
+                        widget.artical.images,
+                        fit: BoxFit.fitWidth,
+                      ),
+                      const SizedBox(
+                        height: verPad,
+                      ),
+                      //content
+                      Text(
+                        widget.artical.discription,
+                        style: Textstyles().subtitle.copyWith(fontSize: 12),
+                      ),
+                      const SizedBox(
+                        height: verPad,
+                      ),
+                      //like or dislike
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          //like
+                          _isLike
+                              ? IconButton(
+                                  onPressed: () {
+                                    _likeOnMedia();
+                                    setState(() {
+                                      _likeCount = _likeCount! - 1;
+                                      _isLike = false;
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.thumb_up_alt_sharp,
+                                    color: secondorywhite,
+                                    size: 24,
+                                  ))
+                              : IconButton(
+                                  onPressed: () {
+                                    _likeOnMedia();
+                                    setState(() {
+                                      _likeCount = _likeCount! + 1;
+                                      _dislikeCount =_dislikeCount == 0 ? 0 : _dislikeCount! - 1;
+                                      _isLike = true;
+                                      _isDisLike = false;
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.thumb_up_alt_outlined,
+                                    color: secondorywhite,
+                                    size: 24,
+                                  )),
+                          Text(
+                            _likeCount.toString(),
+                            style: Textstyles().label,
+                          ),
+                          const SizedBox(
+                            width: horPad,
+                          ),
+
+                          //dislike
+                          _isDisLike
+                              ? IconButton(
+                                  onPressed: () {
+                                    _disLikeOnMedia();
+                                    setState(() {
+                                      _dislikeCount = _dislikeCount! - 1;
+                                      _isDisLike = false;
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.thumb_down_alt_rounded,
+                                    color: secondorywhite,
+                                    size: 24,
+                                  ))
+                              : IconButton(
+                                  onPressed: () {
+                                    _disLikeOnMedia();
+                                    setState(() {
+                                      _dislikeCount = _dislikeCount! + 1;
+                                      _likeCount =_likeCount == 0 ? 0 : _likeCount! - 1;
+                                      _isDisLike = true;
+                                      _isLike = false;
+                                    });
+                                  },
+                                  icon: const Icon(
+                                    Icons.thumb_down_off_alt_rounded,
+                                    color: secondorywhite,
+                                    size: 24,
+                                  )),
+                          Text(
+                            _dislikeCount.toString(),
+                            style: Textstyles().label,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         //route to comment page

@@ -188,8 +188,11 @@ class HomePage extends StatelessWidget {
                             }).toList(),
                           )
                         else
-                          const Center(
-                            child: CircularProgressIndicator(),
+                          Center(
+                            child: Text(
+                              "No Data to show",
+                              style: Textstyles().subtitle,
+                            ),
                           ),
                       ],
                     ),
