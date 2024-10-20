@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:spread/models/artical.dart';
 import 'package:spread/models/people.dart';
 import 'package:spread/models/watch_now.dart';
@@ -22,29 +23,73 @@ class _SerchitemState extends State<Serchitem> {
   final TextEditingController _searchController = TextEditingController();
   bool isDataShow = false;
 
+  //combine two   Stream<QuerySnapshot<Map<String, dynamic>>>?
+
+  Stream<List<QueryDocumentSnapshot<Map<String, dynamic>>>>? combineStreams(
+    Stream<QuerySnapshot<Map<String, dynamic>>>? stream1,
+    Stream<QuerySnapshot<Map<String, dynamic>>>? stream2,
+  ) {
+    if (stream1 == null || stream2 == null) {
+      return null;
+    }
+    return Rx.combineLatest2(
+      stream1,
+      stream2,
+      (QuerySnapshot<Map<String, dynamic>> querySnapshot1,
+          QuerySnapshot<Map<String, dynamic>> querySnapshot2) {
+        // You can merge the snapshots as you like here.
+        // In this example, we combine the documents from both snapshots.
+
+        List<QueryDocumentSnapshot<Map<String, dynamic>>> combinedDocs = [
+          ...querySnapshot1.docs,
+          ...querySnapshot2.docs,
+        ];
+
+        // Create a new QuerySnapshot or return a custom stream
+        return combinedDocs;
+      },
+    );
+  }
+
   //method for filter data
-  Stream<QuerySnapshot<Map<String, dynamic>>>? _searchData(int index) {
+  Stream<List<QueryDocumentSnapshot<Map<String, dynamic>>>>? _searchData(
+      int index) {
+    Stream<QuerySnapshot<Map<String, dynamic>>>? data1;
+    Stream<QuerySnapshot<Map<String, dynamic>>>? data2;
     if (index == 0) {
-      return FirebaseFirestore.instance
+      data1 = FirebaseFirestore.instance
           .collection("users")
           .where("name", isGreaterThanOrEqualTo: _searchController.text)
           .where("name", isLessThan: '${_searchController.text}z')
           .snapshots();
+      data2 = FirebaseFirestore.instance
+          .collection("users")
+          .where("location", isGreaterThanOrEqualTo: _searchController.text)
+          .where("location", isLessThan: '${_searchController.text}z')
+          .snapshots();
     } else if (index == 1) {
-      return FirebaseFirestore.instance
+      data1 = FirebaseFirestore.instance
+          .collection("microblogs")
+          .where("tags", arrayContains: _searchController.text)
+          .snapshots();
+      data2 = FirebaseFirestore.instance
           .collection("microblogs")
           .where("title", isGreaterThanOrEqualTo: _searchController.text)
           .where("title", isLessThan: '${_searchController.text}z')
-          .where("tags", arrayContains: _searchController.text)
           .snapshots();
     } else {
-      return FirebaseFirestore.instance
+      data1 = FirebaseFirestore.instance
+          .collection("videos")
+          .where("tags", arrayContains: _searchController.text)
+          .snapshots();
+      data2 = FirebaseFirestore.instance
           .collection("videos")
           .where("title", isGreaterThanOrEqualTo: _searchController.text)
           .where("title", isLessThan: '${_searchController.text}z')
-          .where("tags", arrayContains: _searchController.text)
           .snapshots();
     }
+
+    return combineStreams(data1, data2);
   }
 
   @override
@@ -81,11 +126,10 @@ class _SerchitemState extends State<Serchitem> {
               ),
               //render data
               isDataShow
-                  ? StreamBuilder(
+                  ? StreamBuilder<
+                      List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
                       stream: _searchData(widget.index),
-                      builder: (context,
-                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                              snapshot) {
+                      builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Center(
@@ -106,9 +150,9 @@ class _SerchitemState extends State<Serchitem> {
                           children: [
                             ListView.builder(
                               shrinkWrap: true,
-                              itemCount: snapshot.requireData.size,
+                              itemCount: snapshot.requireData.length,
                               itemBuilder: (context, index) {
-                                List document = snapshot.requireData.docs
+                                List document = snapshot.requireData
                                     .map((doc) => doc.data())
                                     .toList();
 

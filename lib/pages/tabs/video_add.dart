@@ -226,10 +226,14 @@ class _VideoAddState extends State<VideoAdd> {
               //button
               InkWell(
                 onTap: () {
-                    // if (_formKey.currentState!.validate()) {
-                  _videoUpload(_titleController.text, _video!, _image!, _tags,
-                      _linkController.text);
-                   // }
+                  // if (_formKey.currentState!.validate() &&
+                      // _video != null &&
+                      // _image != null) {
+                    _videoUpload(_titleController.text, _video!, _image!, _tags,
+                        _linkController.text);
+                  // } else {
+                  
+                  // }
                 },
                 child: ReusableButton(lable: "Publish", isLoad: _isLoading),
               ),

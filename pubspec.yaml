@@ -59,6 +59,7 @@ dependencies:
   timezone: ^0.9.4
   firebase_messaging: ^14.7.10
   http: ^1.2.2
+  rxdart: ^0.28.0
 
   
  
