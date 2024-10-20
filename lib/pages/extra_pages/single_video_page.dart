@@ -11,6 +11,7 @@ import 'package:spread/services/firebase_auth.dart';
 import 'package:spread/services/user_services.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
+import 'package:spread/widgets/detaild_video_item_card.dart';
 import 'package:spread/widgets/video_item_card.dart';
 import 'package:spread/widgets/video_player.dart';
 
@@ -114,8 +115,7 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
               size: 25,
             )),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -152,7 +152,7 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
             const SizedBox(
               height: verPad,
             ),
-
+              
             Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: commonpad, vertical: commonpad),
@@ -162,11 +162,9 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                   //title
                   Text(
                     widget.video.title,
-                    style: Textstyles().title,
+                    style: Textstyles().subtitle,
                   ),
-                  const SizedBox(
-                    height: verPad,
-                  ),
+                
                   Text(
                     DateFormat.yMMMd()
                         .format(widget.video.publishedDate.toDate()),
@@ -253,7 +251,9 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                         _dislikeCount.toString(),
                         style: Textstyles().label,
                       ),
-
+                        const SizedBox(
+                        width: horPad,
+                      ),
                       //to comment screen
                       IconButton(
                           onPressed: () {
@@ -271,7 +271,7 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                     ],
                   ),
                   const SizedBox(
-                    width: 20,
+                    width: 25,
                   ),
                   //publisher details
                   Row(
@@ -279,9 +279,9 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                       //avatar
                       GestureDetector(
                         onTap: () {
-                           GoRouter.of(context).pushNamed(
-                                RouterNames.profilePage,
-                                extra: creator.userId);
+                          GoRouter.of(context).pushNamed(
+                              RouterNames.profilePage,
+                              extra: creator.userId);
                         },
                         child: CircleAvatar(
                           backgroundImage: NetworkImage(creator.image),
@@ -298,6 +298,10 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                             creator.name,
                             style: Textstyles().body,
                           ),
+                          Text(
+                            creator.followers.length.toString() + " Followers",
+                            style: Textstyles().label.copyWith(color:secondorywhite.withOpacity(0.5),fontSize: 12 ),
+                          ),
                         ],
                       )
                     ],
@@ -305,55 +309,38 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                 ],
               ),
             ),
-            // FutureBuilder(
-            //   future:
-            //       Provider.of<FilterProvider>(context, listen: false)
-            //           .setData(context),
-            //   builder: (context, snapshot) {
-            //     if (snapshot.connectionState ==
-            //         ConnectionState.waiting) {
-            //       return const Center(
-            //         child: CircularProgressIndicator(
-            //           color: secondorywhite,
-            //         ),
-            //       );
-            //     }
-            //     if (snapshot.hasError) {
-            //       return Center(
-            //           child: Text(
-            //         "Network Error",
-            //         style: Textstyles().body,
-            //       ));
-            //     }
+           
             const SizedBox(
-              width: horPad,
+              width: 25,
+            ),
+              
+            const Divider(
+              color: secondorywhite,
+              thickness: 0.5,
             ),
             //other videos
-            Expanded(
-              child: Consumer<FilterProvider>(
-                builder: (context, filterdata, child) {
-                  List<Videos> videoData =
-                      filterdata.filterData.whereType<Videos>().toList();
-                  return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    //todo : check lenth in future
-                    itemCount: videoData.length,
-                    itemBuilder: (context, index) {
-                      // if (videoData[index].videoId !=
-                      //     widget.video.videoId) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: VideoItemCard(video: videoData[index]),
-                      );
-                      //     }
-                    },
-                  );
-                },
-              ),
+            Consumer<FilterProvider>(
+              builder: (context, filterdata, child) {
+                List<Videos> videoData =
+                    filterdata.filterData.whereType<Videos>().toList();
+                return ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  //todo : check lenth in future
+                  itemCount: videoData.length,
+                  itemBuilder: (context, index) {
+                   
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: commonpad),
+                      child:DetaildVideoItemCard(video: videoData[index], username: creator.name),
+                    );
+                        
+                  },
+                );
+              },
             ),
-            // },
-            // )
+          
           ],
         ),
       ),

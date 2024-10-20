@@ -42,9 +42,8 @@ class _CoustomVideoPlayerState extends State<CoustomVideoPlayer> {
           backgroundColor: secondorywhite,
           playedColor: errorColor,
           bufferedColor: secondoryBlack,
-          handleColor: cardBlue),
+          handleColor: primaryYellow),
       placeholder: Placeholder(
-        
         child: Container(
           color: secondoryBlack,
         ),

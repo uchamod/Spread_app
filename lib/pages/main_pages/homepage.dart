@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:spread/models/artical.dart';
 import 'package:spread/models/watch_now.dart';
 import 'package:spread/provider/filter_provider.dart';
+import 'package:spread/router/route_names.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 import 'package:spread/widgets/artical_item_card.dart';
@@ -19,7 +21,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      // backgroundColor: Colors.transparent,
       body: SafeArea(
         //get data from future builder
         child: FutureBuilder(
@@ -54,12 +55,26 @@ class HomePage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         //add logo
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            "assets/Frame 1.svg",
-                            height: 65,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: SvgPicture.asset(
+                                "assets/Frame 1.svg",
+                                height: 65,
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  GoRouter.of(context).go(RouterNames.home);
+                                },
+                                icon: const Icon(
+                                  Icons.notifications,
+                                  size: 24,
+                                  color: primaryYellow,
+                                )),
+                          ],
                         ),
                         //filter chips
 
