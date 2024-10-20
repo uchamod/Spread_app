@@ -55,7 +55,7 @@ class _AuthPageState extends State<AuthPage> {
               children: [
                 //sticker
                 SvgPicture.asset(
-                  "assets/adult/Spread.svg",
+                  "assets/Search.svg",
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
@@ -148,7 +148,7 @@ class _AuthPageState extends State<AuthPage> {
                 //sing in with google or anonymoulsly
                 const Extralogin(),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.15,
+                  height: MediaQuery.of(context).size.height * 0.10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

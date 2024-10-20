@@ -15,7 +15,8 @@ class ArticalItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        GoRouter.of(context).pushNamed(RouterNames.singleArticalPage,extra: artical);
+        GoRouter.of(context)
+            .pushNamed(RouterNames.singleArticalPage, extra: artical);
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(commonpad),
@@ -30,7 +31,7 @@ class ArticalItemCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(commonpad),
               color: secondoryBlack,
-              border: Border.all(color: secondorywhite,width: 0.5),
+              border: Border.all(color: primaryYellow, width: 0.5),
               boxShadow: [
                 BoxShadow(
                   offset: const Offset(2, 3),
@@ -52,7 +53,7 @@ class ArticalItemCard extends StatelessWidget {
                       topRight: Radius.circular(commonpad)),
                   //artical image
                   child: AspectRatio(
-                    aspectRatio: 16/9,
+                    aspectRatio: 16 / 9,
                     child: Image.network(
                       artical.images,
                       fit: BoxFit.fitWidth,

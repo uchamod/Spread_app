@@ -13,58 +13,62 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.08,
-          ),
-          //sticker
-          SvgPicture.asset(
-            "assets/intro.svg",
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.08,
-          ),
-          //warning massage
-          Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: horPad, vertical: verPad),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: secondorywhite,
-                  width: 2,
-                )),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  "WARNING",
-                  style:
-                      Textstyles().title.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "This application may contain material intended for mature audiences, including explicit language, sexual content, violence, and substance use. Users must be 18 years or older to access this content. By proceeding, you confirm that you are of legal age and consent to viewing such material. Parental discretion is strongly advised.",
-                  style:
-                      Textstyles().body.copyWith(fontWeight: FontWeight.bold),
-                ),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: horPad),
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.08,
-          ),
-          //button to sing up page 1
-          InkWell(
-              onTap: () {
-                GoRouter.of(context).goNamed(RouterNames.authPage);
-              },
-              child: const ReusableButton(
-                lable: "Next",
-                isLoad: false,
-              )),
-        ],
+            //sticker
+            SvgPicture.asset(
+              "assets/Frame 1.svg",
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
+            ),
+            //warning massage
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: horPad, vertical: verPad),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: secondorywhite,
+                    width: 2,
+                  )),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "WARNING!",
+                    style: Textstyles().title.copyWith(
+                        fontWeight: FontWeight.bold, color: primaryYellow),
+                  ),
+                  Text(
+                    "This application may contain material intended for mature audiences, including explicit language, sexual content, violence, and substance use. Users must be 18 years or older to access this content. By proceeding, you confirm that you are of legal age and consent to viewing such material. Parental discretion is strongly advised.",
+                    style:
+                        Textstyles().body.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
+            ),
+            //button to sing up page 1
+            InkWell(
+                onTap: () {
+                  GoRouter.of(context).goNamed(RouterNames.authPage);
+                },
+                child: const ReusableButton(
+                  lable: "Next",
+                  isLoad: false,
+                )),
+          ],
+        ),
       ),
     );
   }

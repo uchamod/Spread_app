@@ -64,7 +64,7 @@ class _CommentPageState extends State<CommentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.transparent,
+    
       appBar: AppBar(),
       body: StreamBuilder(
         //fethch data

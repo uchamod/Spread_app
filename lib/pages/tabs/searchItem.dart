@@ -35,12 +35,14 @@ class _SerchitemState extends State<Serchitem> {
           .collection("microblogs")
           .where("title", isGreaterThanOrEqualTo: _searchController.text)
           .where("title", isLessThan: '${_searchController.text}z')
+          .where("tags", arrayContains: _searchController.text)
           .snapshots();
     } else {
       return FirebaseFirestore.instance
           .collection("videos")
           .where("title", isGreaterThanOrEqualTo: _searchController.text)
           .where("title", isLessThan: '${_searchController.text}z')
+          .where("tags", arrayContains: _searchController.text)
           .snapshots();
     }
   }
@@ -128,7 +130,7 @@ class _SerchitemState extends State<Serchitem> {
                     )
                   : Center(
                       child: Text(
-                        "Search Items",
+                        "",
                         style: Textstyles().subtitle,
                       ),
                     ),
