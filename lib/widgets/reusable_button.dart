@@ -16,8 +16,9 @@ class ReusableButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.08,
+      height: MediaQuery.of(context).size.height * 0.07,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(commonpad),
         color: primaryYellow,
         boxShadow: [
           BoxShadow(
@@ -34,9 +35,9 @@ class ReusableButton extends StatelessWidget {
               )
             : Text(
                 lable,
-                style: Textstyles()
-                    .title
-                    .copyWith(color: secondoryBlack, fontSize: 24),
+                style: Textstyles().subtitle.copyWith(
+                      color: secondoryBlack,
+                    ),
               ),
       ),
     );

@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 //sticker
                 SvgPicture.asset(
-                  "assets/adult/Spread.svg",
+                  "assets/Search.svg",
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                   },
                 ),
-               
+
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.04,
                 ),
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                 //sing in with google or anonymously
                 const Extralogin(),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

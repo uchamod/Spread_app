@@ -18,7 +18,7 @@ class AddItems extends StatelessWidget {
           backgroundColor: Colors.transparent,
           title: Text(
             "Add Your favourites",
-            style: Textstyles().title,
+            style: Textstyles().title.copyWith(color: primaryYellow),
           ),
           bottom: TabBar(
               dividerColor: secondorywhite,

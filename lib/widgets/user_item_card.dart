@@ -33,7 +33,7 @@ class UserItemCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(commonpad),
               color: secondoryBlack,
-              border: Border.all(color: secondorywhite, width: 0.5),
+              border: Border.all(color: primaryYellow, width: 0.5),
               boxShadow: [
                 BoxShadow(
                   offset: const Offset(2, 3),

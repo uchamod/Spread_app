@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:spread/models/people.dart';
 import 'package:spread/models/watch_now.dart';
 import 'package:spread/provider/filter_provider.dart';
 import 'package:spread/router/route_names.dart';
@@ -23,6 +25,18 @@ class SingleVideoPage extends StatefulWidget {
 class _SingleVideoPageState extends State<SingleVideoPage> {
   final AuthServices _authServices = AuthServices();
   final UserServices _userServices = UserServices();
+  People creator = People(
+      userId: "",
+      name: "UnKnown",
+      discription: "none",
+      location: "out of",
+      password: "1234",
+      image: "",
+      followers: [],
+      followings: [],
+      joinedDate: DateTime.now(),
+      updatedDate: DateTime.now());
+
   bool _isLike = false;
   bool _isDisLike = false;
   int? _likeCount = 0;
@@ -69,9 +83,19 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
     await _userServices.disLikeOnMedia(userId, widget.video.videoId, true);
   }
 
+  Future<void> _getVideoPublisher() async {
+    try {
+      creator = await _userServices.getUserById(widget.video.userId);
+    } catch (err) {
+      print("cannot get the video writer");
+    }
+  }
+
   @override
   void initState() {
+    _getVideoPublisher();
     _getAndShowLikes();
+
     super.initState();
   }
 
@@ -90,193 +114,247 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
               size: 25,
             )),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding:
-              const EdgeInsets.symmetric(horizontal: horPad, vertical: verPad),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //video
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child: CoustomVideoPlayer(videoUrl: widget.video.videoUrl),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //tags
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: commonpad, vertical: commonpad),
+              child: Wrap(
+                spacing: 8.0,
+                children: widget.video.tags.map((tag) {
+                  return Chip(
+                    side: BorderSide.none,
+                    label: Text(
+                      tag,
+                      style: Textstyles()
+                          .label
+                          .copyWith(color: secondoryBlack, fontSize: 11),
+                    ),
+                    backgroundColor: primaryYellow,
+                    deleteIcon: const Icon(
+                      Icons.close,
+                      color: secondoryBlack,
+                      grade: 15,
+                    ),
+                  );
+                }).toList(),
               ),
-              const SizedBox(
-                height: verPad,
-              ),
-              //title
-              Text(
-                widget.video.title,
-                style: Textstyles().title,
-              ),
-              const SizedBox(
-                height: verPad,
-              ),
-              //tags
-              Row(
+            ),
+            //video
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: CoustomVideoPlayer(videoUrl: widget.video.videoUrl),
+            ),
+            const SizedBox(
+              height: verPad,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: commonpad, vertical: commonpad),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (int i = 0; i < widget.video.tags.length; i++)
-                    Wrap(
-                      children: [
-                        Text(
-                          widget.video.tags[i],
-                          style: Textstyles().label,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        )
-                      ],
-                    )
-                ],
-              ),
-              const SizedBox(
-                height: verPad,
-              ),
-              //like dislike
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //like
-                  _isLike
-                      ? IconButton(
-                          onPressed: () {
-                            _likeOnMedia();
-                            setState(() {
-                              _likeCount = _likeCount! - 1;
-                              _isLike = false;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.thumb_up_alt_sharp,
-                            color: secondorywhite,
-                            size: 24,
-                          ))
-                      : IconButton(
-                          onPressed: () {
-                            _likeOnMedia();
-                            setState(() {
-                              _likeCount = _likeCount! + 1;
-                              _dislikeCount =
-                                  _dislikeCount == 0 ? 0 : _dislikeCount! - 1;
-                              _isLike = true;
-                              _isDisLike = false;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.thumb_up_alt_outlined,
-                            color: secondorywhite,
-                            size: 24,
-                          )),
+                  //title
                   Text(
-                    _likeCount.toString(),
+                    widget.video.title,
+                    style: Textstyles().title,
+                  ),
+                  const SizedBox(
+                    height: verPad,
+                  ),
+                  Text(
+                    DateFormat.yMMMd()
+                        .format(widget.video.publishedDate.toDate()),
                     style: Textstyles().label,
                   ),
                   const SizedBox(
-                    width: horPad,
+                    height: verPad,
                   ),
-                  //dislike
-                  _isDisLike
-                      ? IconButton(
+                  //like dislike
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      //like
+                      _isLike
+                          ? IconButton(
+                              onPressed: () {
+                                _likeOnMedia();
+                                setState(() {
+                                  _likeCount = _likeCount! - 1;
+                                  _isLike = false;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.thumb_up_alt_sharp,
+                                color: primaryYellow,
+                                size: 24,
+                              ))
+                          : IconButton(
+                              onPressed: () {
+                                _likeOnMedia();
+                                setState(() {
+                                  _likeCount = _likeCount! + 1;
+                                  _dislikeCount = _dislikeCount == 0
+                                      ? 0
+                                      : _dislikeCount! - 1;
+                                  _isLike = true;
+                                  _isDisLike = false;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.thumb_up_alt_outlined,
+                                color: secondorywhite,
+                                size: 24,
+                              )),
+                      Text(
+                        _likeCount.toString(),
+                        style: Textstyles().label,
+                      ),
+                      const SizedBox(
+                        width: horPad,
+                      ),
+                      //dislike
+                      _isDisLike
+                          ? IconButton(
+                              onPressed: () {
+                                _dislikeOnMedia();
+                                setState(() {
+                                  _dislikeCount = _dislikeCount! - 1;
+                                  _isDisLike = false;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.thumb_down_alt_rounded,
+                                color: primaryYellow,
+                                size: 24,
+                              ))
+                          : IconButton(
+                              onPressed: () {
+                                _dislikeOnMedia();
+                                setState(() {
+                                  _dislikeCount = _dislikeCount! + 1;
+                                  _likeCount =
+                                      _likeCount == 0 ? 0 : _likeCount! - 1;
+                                  _isDisLike = true;
+                                  _isLike = false;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.thumb_down_off_alt_rounded,
+                                color: secondorywhite,
+                                size: 24,
+                              )),
+                      Text(
+                        _dislikeCount.toString(),
+                        style: Textstyles().label,
+                      ),
+
+                      //to comment screen
+                      IconButton(
                           onPressed: () {
-                            _dislikeOnMedia();
-                            setState(() {
-                              _dislikeCount = _dislikeCount! - 1;
-                              _isDisLike = false;
+                            GoRouter.of(context)
+                                .pushNamed(RouterNames.commentPage, extra: {
+                              "MediaId": widget.video.videoId,
+                              "isVideo": true,
                             });
                           },
                           icon: const Icon(
-                            Icons.thumb_down_alt_rounded,
+                            Icons.comment_outlined,
                             color: secondorywhite,
-                            size: 24,
+                            size: 28,
                           ))
-                      : IconButton(
-                          onPressed: () {
-                            _dislikeOnMedia();
-                            setState(() {
-                              _dislikeCount = _dislikeCount! + 1;
-                              _likeCount =
-                                  _likeCount == 0 ? 0 : _likeCount! - 1;
-                              _isDisLike = true;
-                              _isLike = false;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.thumb_down_off_alt_rounded,
-                            color: secondorywhite,
-                            size: 24,
-                          )),
-                  Text(
-                    _dislikeCount.toString(),
-                    style: Textstyles().label,
+                    ],
                   ),
-                  const Spacer(),
-                  //to comment screen
-                  IconButton(
-                      onPressed: () {
-                        GoRouter.of(context)
-                            .pushNamed(RouterNames.commentPage, extra: {
-                          "MediaId": widget.video.videoId,
-                          "isVideo": true,
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.comment_outlined,
-                        color: secondorywhite,
-                        size: 28,
-                      ))
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  //publisher details
+                  Row(
+                    children: [
+                      //avatar
+                      GestureDetector(
+                        onTap: () {
+                           GoRouter.of(context).pushNamed(
+                                RouterNames.profilePage,
+                                extra: creator.userId);
+                        },
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(creator.image),
+                          radius: 18,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: horPad,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            creator.name,
+                            style: Textstyles().body,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ],
               ),
-
-              // FutureBuilder(
-              //   future:
-              //       Provider.of<FilterProvider>(context, listen: false)
-              //           .setData(context),
-              //   builder: (context, snapshot) {
-              //     if (snapshot.connectionState ==
-              //         ConnectionState.waiting) {
-              //       return const Center(
-              //         child: CircularProgressIndicator(
-              //           color: secondorywhite,
-              //         ),
-              //       );
-              //     }
-              //     if (snapshot.hasError) {
-              //       return Center(
-              //           child: Text(
-              //         "Network Error",
-              //         style: Textstyles().body,
-              //       ));
-              //     }
-
-              //other videos
-              Expanded(
-                child: Consumer<FilterProvider>(
-                  builder: (context, filterdata, child) {
-                    List<Videos> videoData =
-                        filterdata.filterData.whereType<Videos>().toList();
-                    return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      //todo : check lenth in future
-                      itemCount: videoData.length,
-                      itemBuilder: (context, index) {
-                        // if (videoData[index].videoId !=
-                        //     widget.video.videoId) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: VideoItemCard(video: videoData[index]),
-                        );
-                        //     }
-                      },
-                    );
-                  },
-                ),
+            ),
+            // FutureBuilder(
+            //   future:
+            //       Provider.of<FilterProvider>(context, listen: false)
+            //           .setData(context),
+            //   builder: (context, snapshot) {
+            //     if (snapshot.connectionState ==
+            //         ConnectionState.waiting) {
+            //       return const Center(
+            //         child: CircularProgressIndicator(
+            //           color: secondorywhite,
+            //         ),
+            //       );
+            //     }
+            //     if (snapshot.hasError) {
+            //       return Center(
+            //           child: Text(
+            //         "Network Error",
+            //         style: Textstyles().body,
+            //       ));
+            //     }
+            const SizedBox(
+              width: horPad,
+            ),
+            //other videos
+            Expanded(
+              child: Consumer<FilterProvider>(
+                builder: (context, filterdata, child) {
+                  List<Videos> videoData =
+                      filterdata.filterData.whereType<Videos>().toList();
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    //todo : check lenth in future
+                    itemCount: videoData.length,
+                    itemBuilder: (context, index) {
+                      // if (videoData[index].videoId !=
+                      //     widget.video.videoId) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 5),
+                        child: VideoItemCard(video: videoData[index]),
+                      );
+                      //     }
+                    },
+                  );
+                },
               ),
-              // },
-              // )
-            ],
-          ),
+            ),
+            // },
+            // )
+          ],
         ),
       ),
     );

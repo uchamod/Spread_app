@@ -11,12 +11,12 @@ class Items extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+      
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
-            "Add Your favourites",
-            style: Textstyles().title,
+            "Search Your favourites",
+            style: Textstyles().title.copyWith(color: primaryYellow),
           ),
           //tap bar properties
           bottom: TabBar(

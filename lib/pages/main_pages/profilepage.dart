@@ -71,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
           _isFollowing = true;
         });
       }
-      _followersCount = user!.followers.length;
+      _followersCount = user.followers.length;
       _followingCount = count;
 
       setState(() {

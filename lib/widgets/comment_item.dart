@@ -19,7 +19,8 @@ class CommentItem extends StatelessWidget {
           //user avatar
           GestureDetector(
             onTap: () {
-              GoRouter.of(context).pushNamed(RouterNames.profilePage,extra: userSnap["userId"]);
+              GoRouter.of(context).pushNamed(RouterNames.profilePage,
+                  extra: userSnap["userId"]);
             },
             child: CircleAvatar(
               backgroundImage: NetworkImage(userSnap["userProUrl"]),
@@ -37,8 +38,8 @@ class CommentItem extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(commonpad),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: cardColor,
+                borderRadius: BorderRadius.circular(commonpad),
+                color: secondorywhite.withOpacity(0.1),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

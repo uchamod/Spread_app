@@ -57,8 +57,8 @@ class HomePage extends StatelessWidget {
                         IconButton(
                           onPressed: () {},
                           icon: SvgPicture.asset(
-                            "assets/adult/Spread.svg",
-                            height: 35,
+                            "assets/Frame 1.svg",
+                            height: 65,
                           ),
                         ),
                         //filter chips
@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
                                 child: FilterChip(
                                   backgroundColor:
                                       secondorywhite.withOpacity(0.15),
- side: BorderSide.none,
+                                  side: BorderSide.none,
                                   label: Text(
                                     "Artical",
                                     style: filterData.getCategory() == "artical"
@@ -124,7 +124,7 @@ class HomePage extends StatelessWidget {
                                 child: FilterChip(
                                   backgroundColor:
                                       secondorywhite.withOpacity(0.15),
- side: BorderSide.none,
+                                  side: BorderSide.none,
                                   label: Text(
                                     "Videos",
                                     style: filterData.getCategory() == "videos"
@@ -149,7 +149,7 @@ class HomePage extends StatelessWidget {
                                 child: FilterChip(
                                   backgroundColor:
                                       secondorywhite.withOpacity(0.15),
-                                       side: BorderSide.none,
+                                  side: BorderSide.none,
                                   label: Text(
                                     "Chanels",
                                     style: filterData.getCategory() == "people"
