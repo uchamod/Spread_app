@@ -100,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const EditProfile(),
+          builder: (context) =>  EditProfile(userId:widget.userId,),
         ));
   }
 
@@ -172,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     //profile picture
                     CircleAvatar(
-                      backgroundImage: NetworkImage(user.image ?? ""),
+                      backgroundImage: NetworkImage(user.image),
                       radius: 65,
                     ),
                     SizedBox(

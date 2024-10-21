@@ -52,8 +52,6 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
     }
   }
 
-  //scafoold massage
-
   //create new user
   Future<void> createNewUser(
       String username,
@@ -69,12 +67,12 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
       String result = await _firestoreServices.saveNewUser(
           username, password, profileImage, discription, location);
       CommonFunctions()
-          .massage(result, Icons.check_circle, Colors.green, context);
+          .massage(result, Icons.check_circle, Colors.green, context, 2);
       await PushNotification.getFcmToken(
           FirebaseAuth.instance.currentUser!.uid);
     } catch (err) {
-      CommonFunctions()
-          .massage("Something went wrong", Icons.cancel, errorColor, context);
+      CommonFunctions().massage(
+          "Something went wrong", Icons.cancel, errorColor, context, 2);
     }
     setState(() {
       isloading = false;

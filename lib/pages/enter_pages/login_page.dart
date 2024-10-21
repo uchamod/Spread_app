@@ -40,10 +40,10 @@ class _LoginPageState extends State<LoginPage> {
       await _authServices.singInUser(username, password);
       GoRouter.of(context).goNamed(RouterNames.home);
       CommonFunctions().massage(
-          "LogIn Succsussfuly", Icons.check_circle, Colors.green, context);
+          "LogIn Succsussfuly", Icons.check_circle, Colors.green, context,2);
     } catch (err) {
       CommonFunctions()
-          .massage("Attempt Lost", Icons.cancel, errorColor, context);
+          .massage("Attempt Lost", Icons.cancel, errorColor, context,2);
     }
 
     setState(() {

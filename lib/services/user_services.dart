@@ -60,7 +60,7 @@ class UserServices {
     } catch (err) {
       print("user follwing error $err");
       CommonFunctions()
-          .massage("Network Error", Icons.cancel, errorColor, context);
+          .massage("Network Error", Icons.cancel, errorColor, context,2);
     }
   }
 

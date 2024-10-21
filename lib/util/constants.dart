@@ -15,3 +15,4 @@ Color backgroundBlue = const Color(0xff9ca3af);
 const Color secondorywhite = Color(0xffFFFFE3);
 const Color secondoryBlack = Color(0xff121212);
 const Color errorColor = Color(0xfff59e0b);
+const Color deleteColor = Color(0xfffdc2626);

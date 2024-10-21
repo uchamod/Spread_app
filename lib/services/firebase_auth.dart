@@ -106,14 +106,14 @@ class AuthServices {
             .doc(user.uid)
             .set(newUser.toJson());
         CommonFunctions().massage(
-            "succssusfuly registed", Icons.check_circle, Colors.green, context);
+            "succssusfuly registed", Icons.check_circle, Colors.green, context,2);
       }
     } on FirebaseAuthException catch (error) {
       throw mapFirebaseAuthExceptionCode(error.code);
     } catch (err) {
       print("google sing in error: ${err.toString()}");
       CommonFunctions()
-          .massage("Something went wrong", Icons.cancel, errorColor, context);
+          .massage("Something went wrong", Icons.cancel, errorColor, context,2);
     }
   }
 
@@ -125,14 +125,14 @@ class AuthServices {
       if (user != null) {
         print("succssussfuly sing in");
         CommonFunctions().massage(
-            "Sing In anonymous", Icons.check_circle, Colors.green, context);
+            "Sing In anonymous", Icons.check_circle, Colors.green, context,2);
       }
     } on FirebaseAuthException catch (error) {
       throw mapFirebaseAuthExceptionCode(error.code);
     } catch (err) {
       print("google sing in error: ${err.toString()}");
       CommonFunctions()
-          .massage("Something went wrong", Icons.cancel, errorColor, context);
+          .massage("Something went wrong", Icons.cancel, errorColor, context,2);
     }
   }
 }

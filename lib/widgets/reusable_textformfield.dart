@@ -13,6 +13,7 @@ class ReusableTextformfield extends StatelessWidget {
   final String? Function(String?)? validchecker;
   final void Function()? addTag;
   final void Function(String)? onSubmit;
+
   const ReusableTextformfield({
     super.key,
     required this.controller,
@@ -23,7 +24,8 @@ class ReusableTextformfield extends StatelessWidget {
     required this.maxLine,
     this.validchecker,
     this.addTag,
-    required this.isTagFiled, this.onSubmit,
+    required this.isTagFiled,
+    this.onSubmit,
   });
 
   @override

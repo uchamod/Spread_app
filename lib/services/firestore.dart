@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:spread/models/artical.dart';
@@ -26,7 +27,7 @@ class FirestoreServices {
   final CollectionReference _videoCollection =
       FirebaseFirestore.instance.collection("videos");
   final AuthServices _authServices = AuthServices();
-
+  final FirebaseStorage _storage = FirebaseStorage.instance;
   //save new user in database
   Future<String> saveNewUser(String username, String password,
       File profileImage, String discription, String location) async {
@@ -57,16 +58,54 @@ class FirestoreServices {
     }
   }
 
+  //update user
+  Future<void> updateUser(
+    String username,
+    String password,
+    File profileImage,
+    String discription,
+    String location,
+    String userId,
+    List followers,
+    List following,
+    DateTime joinedDate,
+    BuildContext context,
+  ) async {
+    try {
+      String imageUrl = await StorageServices()
+          .uploadImage("ProfilePics", profileImage, false);
+      People user = People(
+          userId: userId,
+          name: username,
+          discription: discription,
+          location: location,
+          password: password,
+          image: imageUrl,
+          followers: followers,
+          followings: following,
+          joinedDate: joinedDate,
+          updatedDate: DateTime.now());
+      await _userCollection.doc(userId).set(user.toJson());
+        CommonFunctions()
+          .massage("succsussfuly updated", Icons.check_circle, Colors.green, context, 2);
+      
+    } catch (err) {
+      CommonFunctions()
+          .massage("something went wrong", Icons.cancel, deleteColor, context, 2);
+    }
+  }
+
   //add new microblog
   Future<void> addBlog(String title, String content, File image,
       List<String> tags, String url, BuildContext context) async {
     try {
+      String blogId = Uuid().v1();
       //get image url
-      String imageUrl =
-          await StorageServices().uploadBlogImage("MicroBlogPosts", image);
+      String imageUrl = await StorageServices()
+          .uploadBlogImage("MicroBlogPosts", image, blogId);
 
       User? user = FirebaseAuth.instance.currentUser;
-      String blogId = Uuid().v1();
+
       Artical artical = Artical(
           articalId: blogId,
           title: title,
@@ -82,7 +121,7 @@ class FirestoreServices {
       //uploading
       await _blogCollection.doc(blogId).set(artical.toJson());
       CommonFunctions().massage("Upload Arrtical Succsussfuly",
-          Icons.check_circle, Colors.green, context);
+          Icons.check_circle, Colors.green, context, 2);
       //notify followers
       DocumentSnapshot userDoc = await _userCollection.doc(user.uid).get();
       List<dynamic> followers = userDoc['followers'] ?? [];
@@ -100,7 +139,7 @@ class FirestoreServices {
     } catch (err) {
       print("blog uploding error $err");
       CommonFunctions()
-          .massage("Fail to Upload", Icons.cancel, errorColor, context);
+          .massage("Fail to Upload", Icons.cancel, errorColor, context, 2);
     }
   }
 
@@ -110,10 +149,10 @@ class FirestoreServices {
     try {
       String videoId = Uuid().v1();
       //get video url
-      String videoUrl = await StorageServices().uploadVideo(videofile);
+      String videoUrl = await StorageServices().uploadVideo(videofile, videoId);
       //get thubnail url
       String imageUrl =
-          await StorageServices().uploadBlogImage("thubnails", image);
+          await StorageServices().uploadBlogImage("thubnails", image, videoId);
       User? user = FirebaseAuth.instance.currentUser;
       Videos video = Videos(
           videoId: videoId,
@@ -129,11 +168,11 @@ class FirestoreServices {
       //upload video
       await _videoCollection.doc(videoId).set(video.toJson());
       CommonFunctions().massage("Upload video Succsussfuly", Icons.check_circle,
-          Colors.green, context);
+          Colors.green, context, 2);
     } catch (err) {
       print("video uploding error $err");
       CommonFunctions()
-          .massage("Fail to Upload", Icons.cancel, errorColor, context);
+          .massage("Fail to Upload", Icons.cancel, errorColor, context, 2);
     }
   }
 
@@ -157,7 +196,7 @@ class FirestoreServices {
     } catch (err) {
       print("Fail to comment $err");
       CommonFunctions()
-          .massage("Fail to Upload", Icons.cancel, errorColor, context);
+          .massage("Fail to Upload", Icons.cancel, errorColor, context, 2);
     }
   }
 
@@ -204,4 +243,27 @@ class FirestoreServices {
   //   }
   //   return tokens;
   // }
+  Future<void> deletePost(String mediaId, bool isVideo, userId) async {
+    try {
+      if (isVideo) {
+        await _storage
+            .ref()
+            .child("videos")
+            .child(userId)
+            .child(mediaId)
+            .delete();
+        await _videoCollection.doc(mediaId).delete();
+      } else {
+        await _storage
+            .ref()
+            .child("MicroBlogPosts")
+            .child(userId)
+            .child(mediaId)
+            .delete();
+        await _blogCollection.doc(mediaId).delete();
+      }
+    } catch (err) {
+      print("error while deleting media" + err.toString());
+    }
+  }
 }
