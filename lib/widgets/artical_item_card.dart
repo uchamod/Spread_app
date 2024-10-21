@@ -9,7 +9,12 @@ import 'package:spread/util/texystyles.dart';
 
 class ArticalItemCard extends StatelessWidget {
   final Artical artical;
-  const ArticalItemCard({super.key, required this.artical});
+
+  
+  const ArticalItemCard({
+    super.key,
+    required this.artical,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +80,17 @@ class ArticalItemCard extends StatelessWidget {
                         maxLines: 8,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      // Row(
+                      //   children: [
+                      //     IconButton(
+                      //         onPressed:deleteArtical,
+                      //         icon: const Icon(
+                      //           Icons.delete_rounded,
+                      //           color: primaryYellow,
+                      //           size: 20,
+                      //         ))
+                      //   ],
+                      // )
                     ],
                   ),
                 )

@@ -7,13 +7,13 @@ import 'package:timezone/timezone.dart' as tz;
 class CommonFunctions {
   //function for coustom scafold
   void massage(
-      String res, IconData icon, Color iconColor, BuildContext context) {
+      String res, IconData icon, Color iconColor, BuildContext context,int duration) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           behavior: SnackBarBehavior.floating,
           margin:
               const EdgeInsets.only(top: verPad, left: horPad, right: horPad),
-          duration: const Duration(seconds: 2),
+          duration:  Duration(seconds: duration),
           dismissDirection: DismissDirection.up,
           backgroundColor: primaryYellow,
           content: Row(

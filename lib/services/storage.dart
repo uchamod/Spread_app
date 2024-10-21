@@ -36,9 +36,9 @@ class StorageServices {
   }
 
   //upload blog post
-  Future<String> uploadBlogImage(String folder, File image) async {
+  Future<String> uploadBlogImage(String folder, File image,String blogId) async {
     try {
-      String blogId = const Uuid().v1();
+    
       Reference reference = _storage
           .ref()
           .child(folder)
@@ -62,9 +62,9 @@ class StorageServices {
   }
 
   //upload video
-  Future<String> uploadVideo(File videofile) async {
+  Future<String> uploadVideo(File videofile,String videoId) async {
     try {
-      String videoId = const Uuid().v1();
+      
       Reference reference = await _storage
           .ref()
           .child("videos")
