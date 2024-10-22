@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spread/models/artical.dart';
 import 'package:spread/models/watch_now.dart';
-import 'package:spread/pages/extra_pages/edit_profile.dart';
+
 import 'package:spread/provider/filter_provider.dart';
 import 'package:spread/services/common_functions.dart';
 import 'package:spread/services/firestore.dart';
@@ -30,7 +30,7 @@ class _EditMediaState extends State<EditMedia> {
       builder: (context) {
         return SimpleDialog(
           alignment: Alignment.center,
-          backgroundColor: secondoryBlack,
+          backgroundColor: secondoryBlack.withOpacity(0.8),
           title: Text(
             "Are You Sure ?",
             style: Textstyles().subtitle,
@@ -40,7 +40,7 @@ class _EditMediaState extends State<EditMedia> {
             SimpleDialogOption(
               child: Text(
                 "Delete",
-                style: Textstyles().body,
+                style: Textstyles().body.copyWith(color: primaryYellow),
               ),
               onPressed: () async {
                 isVideo
@@ -48,6 +48,7 @@ class _EditMediaState extends State<EditMedia> {
                         .deletePost(video!.videoId, true, video.userId)
                     : FirestoreServices()
                         .deletePost(artical!.articalId, false, artical.userId);
+                Navigator.of(context).pop();
               },
             ),
             const Divider(),
@@ -126,7 +127,7 @@ class _EditMediaState extends State<EditMedia> {
             Textstyles().label.copyWith(color: secondorywhite.withOpacity(0.5)),
       ),
       trailing: IconButton(
-        //delete media data and refresh
+          //delete media data and refresh
           onPressed: () async {
             _deleteMedia(context, isVideo, artical, video);
             CommonFunctions().massage(
@@ -134,7 +135,7 @@ class _EditMediaState extends State<EditMedia> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EditProfile(
+                  builder: (context) => EditMedia(
                     userId: widget.userId,
                   ),
                 ));

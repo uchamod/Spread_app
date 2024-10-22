@@ -153,11 +153,11 @@ class _EditUserState extends State<EditUser> {
                 //update data
                 GestureDetector(
                     onTap: () async {
-                      setState(() {
-                        isloading = true;
-                      });
+                      // setState(() {
+                      //   isloading = true;
+                      // });
                       _imagefile ??= stringToFile(user.image);
-                      FirestoreServices().updateUser(
+                    await  FirestoreServices().updateUser(
                           _nameController.text,
                           _passwordController.text,
                           _imagefile!,
@@ -168,9 +168,10 @@ class _EditUserState extends State<EditUser> {
                           user.followings,
                           user.joinedDate,
                           context);
-                      setState(() {
-                        isloading = false;
-                      });
+                      currentUser.refreshUser();
+                      // setState(() {
+                      //   isloading = false;
+                      // });
                     },
                     child: ReusableButton(
                         lable: "Update Profile", isLoad: isloading)),

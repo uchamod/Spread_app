@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spread/router/route_names.dart';
-import 'package:spread/services/common_functions.dart';
 import 'package:spread/services/firebase_auth.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
@@ -32,22 +31,18 @@ class _LoginPageState extends State<LoginPage> {
   bool isloading = false;
 
   //sing in user
-  Future<void> singIn(String username, String password) async {
+  Future<void> singIn(
+    String username,
+    String password,
+  ) async {
     setState(() {
       isloading = true;
     });
-    try {
-      await _authServices.singInUser(username, password);
-      GoRouter.of(context).goNamed(RouterNames.home);
-      CommonFunctions().massage(
-          "LogIn Succsussfuly", Icons.check_circle, Colors.green, context,2);
-    } catch (err) {
-      CommonFunctions()
-          .massage("Attempt Lost", Icons.cancel, errorColor, context,2);
-    }
+
+    await _authServices.singInUser(username, password, context);
 
     setState(() {
-      isloading = true;
+      isloading = false;
     });
   }
 
