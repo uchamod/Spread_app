@@ -21,22 +21,12 @@ class SingleArticalPage extends StatefulWidget {
 class _SingleArticalPageState extends State<SingleArticalPage> {
   final AuthServices _authServices = AuthServices();
   final UserServices _userServices = UserServices();
-  People writer = People(
-      userId: "",
-      name: "UnKnown",
-      discription: "none",
-      location: "out of",
-      password: "1234",
-      image: "",
-      followers: [],
-      followings: [],
-      joinedDate: DateTime.now(),
-      updatedDate: DateTime.now());
+ late People writer;
   bool _isLike = false;
   bool _isDisLike = false;
   int? _likeCount = 0;
   int? _dislikeCount = 0;
-  
+  bool _isLoading = true;
   //show likes
   Future<void> _getAndShowLikes() async {
     try {
@@ -83,6 +73,7 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
   Future<void> _getArticalWriter() async {
     try {
       writer = await _userServices.getUserById(widget.artical.userId);
+    
     } catch (err) {
       print("cannot get the writer");
     }
@@ -90,9 +81,37 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
 
   @override
   initState() {
-    _getAndShowLikes();
-    _getArticalWriter();
     super.initState();
+
+    writer = People(
+        userId: "",
+        name: "UnKnown",
+        discription: "none",
+        location: "out of",
+        password: "1234",
+        image: "",
+        followers: [],
+        followings: [],
+        joinedDate: DateTime.now(),
+        updatedDate: DateTime.now());
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    try {
+      await Future.wait([
+        _getArticalWriter(),
+        _getAndShowLikes(),
+      ]);
+    } catch (err) {
+      print('Error initializing data: $err');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -147,8 +166,10 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
                                 extra: writer.userId);
                           },
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage(writer.image),
-                            radius: 18,
+                            backgroundImage: writer.image != ""
+                                ? NetworkImage(writer.image) as ImageProvider
+                                : const AssetImage("assets/avatar2.png")
+                                    as ImageProvider,
                           ),
                         ),
                         const SizedBox(
@@ -163,7 +184,8 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
                               style: Textstyles().subtitle,
                             ),
                             Text(
-                               DateFormat.yMMMd().format(widget.artical.publishedDate.toDate()),
+                              DateFormat.yMMMd().format(
+                                  widget.artical.publishedDate.toDate()),
                               style: Textstyles()
                                   .label
                                   .copyWith(color: secondorywhite),
@@ -210,11 +232,6 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
                                 .copyWith(color: secondoryBlack, fontSize: 11),
                           ),
                           backgroundColor: primaryYellow,
-                          deleteIcon: const Icon(
-                            Icons.close,
-                            color: secondoryBlack,
-                            grade: 15,
-                          ),
                         );
                       }).toList(),
                     ),
@@ -324,26 +341,6 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
           ),
         ),
       ),
-
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: cardColor,
-      //   elevation: 1,
-      //   hoverColor: cardBlue,
-      //   onPressed: () {
-      //     GoRouter.of(context).pushNamed(
-      //       RouterNames.commentPage,
-      //       extra: {
-      //         "MediaId": widget.artical.articalId,
-      //         "isVideo": false,
-      //       },
-      //     );
-      //   },
-      //   child: const Icon(
-      //     Icons.comment_outlined,
-      //     size: 30,
-      //     color: secondorywhite,
-      //   ),
-      // ),
     );
   }
 }
