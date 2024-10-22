@@ -12,7 +12,6 @@ import 'package:spread/services/user_services.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 import 'package:spread/widgets/detaild_video_item_card.dart';
-import 'package:spread/widgets/video_item_card.dart';
 import 'package:spread/widgets/video_player.dart';
 
 class SingleVideoPage extends StatefulWidget {
@@ -26,23 +25,12 @@ class SingleVideoPage extends StatefulWidget {
 class _SingleVideoPageState extends State<SingleVideoPage> {
   final AuthServices _authServices = AuthServices();
   final UserServices _userServices = UserServices();
-  People creator = People(
-      userId: "",
-      name: "UnKnown",
-      discription: "none",
-      location: "out of",
-      password: "1234",
-      image: "",
-      followers: [],
-      followings: [],
-      joinedDate: DateTime.now(),
-      updatedDate: DateTime.now());
-
+  late People creator;
   bool _isLike = false;
   bool _isDisLike = false;
   int? _likeCount = 0;
   int? _dislikeCount = 0;
-
+  bool _isLoading = true;
   //show likes
   Future<void> _getAndShowLikes() async {
     try {
@@ -93,11 +81,38 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
   }
 
   @override
-  void initState() {
-    _getVideoPublisher();
-    _getAndShowLikes();
-
+  initState() {
     super.initState();
+
+    creator = People(
+        userId: "",
+        name: "UnKnown",
+        discription: "none",
+        location: "out of",
+        password: "1234",
+        image: "",
+        followers: [],
+        followings: [],
+        joinedDate: DateTime.now(),
+        updatedDate: DateTime.now());
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    try {
+      await Future.wait([
+        _getVideoPublisher(),
+        _getAndShowLikes(),
+      ]);
+    } catch (err) {
+      print('Error initializing data: $err');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -152,7 +167,7 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
             const SizedBox(
               height: verPad,
             ),
-              
+
             Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: commonpad, vertical: commonpad),
@@ -164,7 +179,7 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                     widget.video.title,
                     style: Textstyles().subtitle,
                   ),
-                
+
                   Text(
                     DateFormat.yMMMd()
                         .format(widget.video.publishedDate.toDate()),
@@ -251,7 +266,7 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                         _dislikeCount.toString(),
                         style: Textstyles().label,
                       ),
-                        const SizedBox(
+                      const SizedBox(
                         width: horPad,
                       ),
                       //to comment screen
@@ -284,8 +299,10 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                               extra: creator.userId);
                         },
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(creator.image),
-                          radius: 18,
+                          backgroundImage: creator.image != ""
+                              ? NetworkImage(creator.image) as ImageProvider
+                              : const AssetImage("assets/avatar2.png")
+                                  as ImageProvider,
                         ),
                       ),
                       const SizedBox(
@@ -300,7 +317,9 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                           ),
                           Text(
                             creator.followers.length.toString() + " Followers",
-                            style: Textstyles().label.copyWith(color:secondorywhite.withOpacity(0.5),fontSize: 12 ),
+                            style: Textstyles().label.copyWith(
+                                color: secondorywhite.withOpacity(0.5),
+                                fontSize: 12),
                           ),
                         ],
                       )
@@ -309,11 +328,11 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                 ],
               ),
             ),
-           
+
             const SizedBox(
               width: 25,
             ),
-              
+
             const Divider(
               color: secondorywhite,
               thickness: 0.5,
@@ -330,17 +349,15 @@ class _SingleVideoPageState extends State<SingleVideoPage> {
                   //todo : check lenth in future
                   itemCount: videoData.length,
                   itemBuilder: (context, index) {
-                   
                     return Padding(
                       padding: const EdgeInsets.only(bottom: commonpad),
-                      child:DetaildVideoItemCard(video: videoData[index], username: creator.name),
+                      child: DetaildVideoItemCard(
+                          video: videoData[index], username: creator.name),
                     );
-                        
                   },
                 );
               },
             ),
-          
           ],
         ),
       ),

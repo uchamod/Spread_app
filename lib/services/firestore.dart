@@ -62,7 +62,7 @@ class FirestoreServices {
   Future<void> updateUser(
     String username,
     String password,
-    File profileImage,
+    String imageToUpload,
     String discription,
     String location,
     String userId,
@@ -72,26 +72,35 @@ class FirestoreServices {
     BuildContext context,
   ) async {
     try {
-      String imageUrl = await StorageServices()
-          .uploadImage("ProfilePics", profileImage, false);
-      People user = People(
-          userId: userId,
-          name: username,
-          discription: discription,
-          location: location,
-          password: password,
-          image: imageUrl,
-          followers: followers,
-          followings: following,
-          joinedDate: joinedDate,
-          updatedDate: DateTime.now());
-      await _userCollection.doc(userId).set(user.toJson());
-        CommonFunctions()
-          .massage("succsussfuly updated", Icons.check_circle, Colors.green, context, 2);
-      
+      // String imageUrl = await StorageServices()
+      //     .uploadImage("ProfilePics", profileImage, false);
+      // People user = People(
+      //     userId: userId,
+      //     name: username,
+      //     discription: discription,
+      //     location: location,
+      //     password: password,
+      //     image: imageToUpload,
+      //     followers: followers,
+      //     followings: following,
+      //     joinedDate: joinedDate,
+      //     updatedDate: DateTime.now());
+      await _userCollection.doc(userId).update({
+        "name": username,
+        "discription": discription,
+        "location": location,
+        "password": password,
+        "image": imageToUpload,
+        "followers": followers,
+        "following": following,
+        "joinedDate": joinedDate,
+        "updatedDate": DateTime.now()
+      });
+      CommonFunctions().massage("Profile updated successfully",
+          Icons.check_circle, Colors.green, context, 2);
     } catch (err) {
-      CommonFunctions()
-          .massage("something went wrong", Icons.cancel, deleteColor, context, 2);
+      CommonFunctions().massage(
+          "something went wrong", Icons.cancel, deleteColor, context, 2);
     }
   }
 
