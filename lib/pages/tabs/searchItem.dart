@@ -138,11 +138,16 @@ class _SerchitemState extends State<Serchitem> {
                             ),
                           );
                         } else if (!snapshot.hasData) {
-                          return Center(
-                            child: Text(
-                              "No Search items",
-                              style: Textstyles().subtitle,
-                            ),
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Text(
+                                  "No data found",
+                                  style: Textstyles().body,
+                                ),
+                              ),
+                            ],
                           );
                         }
                         //show relevan data

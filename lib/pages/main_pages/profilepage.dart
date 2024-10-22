@@ -155,14 +155,14 @@ class _ProfilePageState extends State<ProfilePage> {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          }  if (user == null) {
+            return const Center(child: Text("User Not Found"));
           }
           if (_hasError) {
             return const Center(child: Text("Network Error!"));
           }
 
-          if (user == null) {
-            return const Center(child: Text("User Not Found"));
-          }
+         
 
           return Stack(children: [
             SingleChildScrollView(
