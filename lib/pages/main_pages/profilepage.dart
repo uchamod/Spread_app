@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
   late Future<People?> _showUser;
   String _inUserId = "";
   int? _followersCount = 0;
-  int? _followingCount = 1;
+  int? _followingCount = 0;
   bool _isFollowing = false;
   @override
   void initState() {
@@ -100,7 +100,9 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>  EditProfile(userId:widget.userId,),
+          builder: (context) => EditProfile(
+            userId: widget.userId,
+          ),
         ));
   }
 
