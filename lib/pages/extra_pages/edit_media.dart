@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spread/models/artical.dart';
 import 'package:spread/models/watch_now.dart';
-
 import 'package:spread/provider/filter_provider.dart';
 import 'package:spread/services/common_functions.dart';
 import 'package:spread/services/firestore.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
+import 'package:spread/widgets/mediaData_tile.dart';
 
 class EditMedia extends StatefulWidget {
   final String userId;
@@ -21,53 +21,74 @@ class EditMedia extends StatefulWidget {
 }
 
 class _EditMediaState extends State<EditMedia> {
-  //show dialog option box
-  _deleteMedia(BuildContext parentcontext, bool isVideo, Artical? artical,
-      Videos? video) async {
-    //show media selector | dialog box
-    return showDialog(
-      context: parentcontext,
+  bool _isLoading = false;
+  //delete media alert
+  Future<bool> _deleteMedia(BuildContext context, bool isVideo,
+      Artical? artical, Videos? video) async {
+    final result = await showDialog<bool>(
+      context: context,
       builder: (context) {
-        return SimpleDialog(
-          alignment: Alignment.center,
+        return AlertDialog(
           backgroundColor: secondoryBlack.withOpacity(0.8),
           title: Text(
-            "Are You Sure ?",
+            "Are You Sure?",
             style: Textstyles().subtitle,
           ),
-          children: [
-            //take a photo
-            SimpleDialogOption(
-              child: Text(
-                "Delete",
-                style: Textstyles().body.copyWith(color: primaryYellow),
-              ),
-              onPressed: () async {
-                isVideo
-                    ? FirestoreServices()
-                        .deletePost(video!.videoId, true, video.userId)
-                    : FirestoreServices()
-                        .deletePost(artical!.articalId, false, artical.userId);
-                Navigator.of(context).pop();
-              },
-            ),
-            const Divider(),
-
-            //cancel selection
-            SimpleDialogOption(
+          actions: [
+            TextButton(
               child: Text(
                 "Cancel",
                 style: Textstyles().body,
               ),
-              onPressed: () async {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            TextButton(
+              child: Text(
+                "Delete",
+                style: Textstyles().body.copyWith(color: primaryYellow),
+              ),
+              onPressed: () => Navigator.of(context).pop(true),
             ),
           ],
         );
       },
     );
+
+    if (result != true) return false;
+
+    setState(() => _isLoading = true);
+
+    try {
+      if (isVideo) {
+        await FirestoreServices()
+            .deletePost(video!.videoId, true, video.userId);
+      } else {
+        await FirestoreServices()
+            .deletePost(artical!.articalId, false, artical.userId);
+      }
+
+      // Refresh the provider data
+      if (mounted) {
+        Provider.of<FilterProvider>(context, listen: false)
+            .filterByUserId(widget.userId);
+      }
+
+      return true;
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete: ${e.toString()}')),
+        );
+      }
+      return false;
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
   }
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +96,19 @@ class _EditMediaState extends State<EditMedia> {
       builder: (context, filterData, child) {
         filterData.filterByUserId(widget.userId);
         List<dynamic> userMediaData = filterData.userData;
-        userMediaData.shuffle();
+
+        if (_isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (userMediaData.isEmpty) {
+          return Center(
+            child: Text(
+              'No media found',
+              style: Textstyles().body,
+            ),
+          );
+        }
         return Padding(
           padding: const EdgeInsets.symmetric(
               horizontal: commonpad, vertical: commonpad),
@@ -87,15 +120,29 @@ class _EditMediaState extends State<EditMedia> {
                 scrollDirection: Axis.vertical,
                 itemCount: userMediaData.length,
                 itemBuilder: (context, index) {
-                  return userMediaData[index] is Artical
-                      ? _mediaRow(
-                          context: context,
-                          isVideo: false,
-                          artical: userMediaData[index])
-                      : _mediaRow(
-                          context: context,
-                          isVideo: true,
-                          video: userMediaData[index]);
+                  dynamic item = userMediaData[index];
+                  return MediaListTile(
+                    isVideo: item is Videos,
+                    artical: item is Artical ? item : null,
+                    video: item is Videos ? item : null,
+                    onDelete: () async {
+                      final result = await _deleteMedia(
+                        context,
+                        item is Videos,
+                        item is Artical ? item : null,
+                        item is Videos ? item : null,
+                      );
+                      if (result && mounted) {
+                        CommonFunctions().massage(
+                          "Media Deleted Successfully",
+                          Icons.check_circle,
+                          Colors.green,
+                          context,
+                          2,
+                        );
+                      }
+                    },
+                  );
                 },
               )
             ],
@@ -105,46 +152,5 @@ class _EditMediaState extends State<EditMedia> {
     );
   }
 
-  //List tile for show video and artical data
-  Widget _mediaRow(
-      {required BuildContext context,
-      required bool isVideo,
-      Artical? artical,
-      Videos? video}) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(
-          horizontal: commonpad, vertical: commonpad),
-      tileColor: secondoryBlack,
-      leading: Icon(
-        isVideo ? Icons.video_file_rounded : Icons.article_rounded,
-        size: 32,
-        color: secondorywhite.withOpacity(0.5),
-      ),
-      title: Text(isVideo ? video!.title : artical!.title),
-      subtitle: Text(
-        isVideo ? "Video" : "Artical",
-        style:
-            Textstyles().label.copyWith(color: secondorywhite.withOpacity(0.5)),
-      ),
-      trailing: IconButton(
-          //delete media data and refresh
-          onPressed: () async {
-            _deleteMedia(context, isVideo, artical, video);
-            CommonFunctions().massage(
-                "Deleting Media...", Icons.delete, deleteColor, context, 4);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditMedia(
-                    userId: widget.userId,
-                  ),
-                ));
-          },
-          icon: Icon(
-            Icons.delete,
-            color: secondorywhite.withOpacity(0.5),
-            size: 24,
-          )),
-    );
-  }
+  
 }

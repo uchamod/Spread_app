@@ -207,11 +207,16 @@ class HomePage extends StatelessWidget {
                             }).toList(),
                           )
                         else
-                          Center(
-                            child: Text(
-                              "No Data to show",
-                              style: Textstyles().subtitle,
-                            ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Text(
+                                  "No data found",
+                                  style: Textstyles().body,
+                                ),
+                              ),
+                            ],
                           ),
                       ],
                     ),

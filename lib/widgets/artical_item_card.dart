@@ -10,7 +10,6 @@ import 'package:spread/util/texystyles.dart';
 class ArticalItemCard extends StatelessWidget {
   final Artical artical;
 
-  
   const ArticalItemCard({
     super.key,
     required this.artical,
@@ -69,6 +68,7 @@ class ArticalItemCard extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: horPad, vertical: verPad),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         artical.title,
@@ -80,17 +80,6 @@ class ArticalItemCard extends StatelessWidget {
                         maxLines: 8,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      // Row(
-                      //   children: [
-                      //     IconButton(
-                      //         onPressed:deleteArtical,
-                      //         icon: const Icon(
-                      //           Icons.delete_rounded,
-                      //           color: primaryYellow,
-                      //           size: 20,
-                      //         ))
-                      //   ],
-                      // )
                     ],
                   ),
                 )
