@@ -65,16 +65,12 @@ Special thanks to:
   - And other supporting packages
 
 ## Contact
-- 👨‍💻 Developer: [Your Name]
-- 📧 Email: [Your Email]
+- 👨‍💻 Developer: [Chamod Udara]
+- 📧 Email: [uchamod@gmail.com]
 - 🌐 GitHub: [@uchamod](https://github.com/uchamod)
-- 💼 LinkedIn: [Your LinkedIn]
+- 💼 LinkedIn: [[Your LinkedIn](https://www.linkedin.com/in/chamod-udara-b3927a239/)]
 
 ---
-
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=uchamod&theme=dark&hide_border=false&include_all_commits=false&count_private=false&layout=compact" alt="Top Languages" width="400"/>
-</div>
 
 ### 📱 Screenshots
 [Add your app screenshots here]
