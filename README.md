@@ -65,10 +65,10 @@ Special thanks to:
   - And other supporting packages
 
 ## Contact
-- 👨‍💻 Developer: [Chamod Udara]
-- 📧 Email: [uchamod@gmail.com]
-- 🌐 GitHub: [@uchamod](https://github.com/uchamod)
-- 💼 LinkedIn: [[Your LinkedIn](https://www.linkedin.com/in/chamod-udara-b3927a239/)]
+- 👨‍💻 Developer: Chamod Udara
+- 📧 Email: uchamod@gmail.com
+- 🌐 GitHub: https://github.com/uchamod
+- 💼 LinkedIn: https://www.linkedin.com/in/chamod-udara-b3927a239/
 
 ---
 
