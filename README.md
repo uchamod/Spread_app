@@ -75,7 +75,7 @@ Special thanks to:
 ### 📱 Screenshots
 <img src="screenshots/Facebook post - 1.png" width="600" alt="Screenshot description">
 <img src="screenshots/Facebook post - 1.png" width="600" alt="Screenshot description">
-<img src="screenshots/Facebook post - 1.png" width="600" alt="Screenshot description">
+<img src="screenshots/Facebook post - 1.png" width="600" alt="Screenshot description"><br/>
 <img src="screenshots/Facebook post - 1.png" width="600" alt="Screenshot description">
 
 ### 🤝 Contributing
