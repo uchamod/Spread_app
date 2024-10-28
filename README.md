@@ -73,7 +73,7 @@ Special thanks to:
 ---
 
 ### 📱 Screenshots
-[Add your app screenshots here]
+<img src="screenshots/Facebook post - 1.png" width="400" alt="Screenshot description">
 
 ### 🤝 Contributing
 Contributions are always welcome! Please read the contribution guidelines first.
