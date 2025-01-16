@@ -10,7 +10,7 @@ class Artical {
   final String images;
   final List likes;
   final List dislike;
-  final Timestamp publishedDate;
+  final DateTime publishedDate;
   final String? weblink;
 
   Artical({
@@ -37,7 +37,9 @@ class Artical {
       "Images": images,
       "likes": likes,
       "dislike": dislike,
-      "publishedDate": publishedDate,
+      "publishedDate": publishedDate is Timestamp
+          ? publishedDate
+          : Timestamp.fromDate(publishedDate),
       "weblink": weblink,
     };
   }
@@ -53,7 +55,7 @@ class Artical {
         images: json["Images"],
         likes: json["likes"],
         dislike: json["dislike"],
-        publishedDate: json["publishedDate"],
+        publishedDate: (json["publishedDate"] as Timestamp).toDate(),
         weblink: json["weblink"]);
   }
 }

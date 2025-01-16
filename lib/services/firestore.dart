@@ -28,6 +28,8 @@ class FirestoreServices {
       FirebaseFirestore.instance.collection("videos");
   final AuthServices _authServices = AuthServices();
   final FirebaseStorage _storage = FirebaseStorage.instance;
+ 
+  //FirestoreServices({});
   //save new user in database
   Future<String> saveNewUser(String username, String password,
       File profileImage, String discription, String location) async {
@@ -122,7 +124,7 @@ class FirestoreServices {
           tags: tags,
           userId: user!.uid,
           likes: [],
-          publishedDate: Timestamp.now(),
+          publishedDate: DateTime.now(),
           images: imageUrl,
           weblink: url,
           dislike: []);

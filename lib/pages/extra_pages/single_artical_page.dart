@@ -185,7 +185,7 @@ class _SingleArticalPageState extends State<SingleArticalPage> {
                             ),
                             Text(
                               DateFormat.yMMMd().format(
-                                  widget.artical.publishedDate.toDate()),
+                                  widget.artical.publishedDate),
                               style: Textstyles()
                                   .label
                                   .copyWith(color: secondorywhite),
