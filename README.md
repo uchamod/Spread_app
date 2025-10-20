@@ -1,16 +1,85 @@
-# spread
+# Spread App 📱
 
-A new Flutter project.
+## Overview
+Spread App is a feature-rich social media platform built with Flutter that enables users to share articles and videos. The app provides a seamless experience for content creation, consumption, and social interaction.
 
-## Getting Started
+## Features
+- 👤 **User Authentication**
+  - Secure login and registration with Firebase
+  - Profile management and customization
 
-This project is a starting point for a Flutter application.
+- 📱 **Core Functionalities**
+  - Article sharing and creation
+  - Video upload and sharing
+  - Real-time content updates
+  - Like and comment system
+  - Content filtering options
 
-A few resources to get you started if this is your first Flutter project:
+- 🎯 **Advanced Features**
+  - Media categorization
+  - User follow system
+  - Personalized feed
+  - Search functionality
+  - Push notifications
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Prerequisites
+- Flutter SDK (>=2.0.0)
+- Dart (>=2.12.0)
+- Firebase account
+- Android Studio or VS Code
+
+### Setup Steps
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/uchamod/Spread_app.git
+   cd Spread_app
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   flutter pub get
+   ```
+
+3. **Firebase Configuration**
+   - Add `google-services.json` to `/android/app/`
+   - Add `GoogleService-Info.plist` to `/ios/Runner/`
+   - Enable Authentication and Firestore in Firebase Console
+
+4. **Run the Application**
+   ```bash
+   flutter run
+   ```
+
+## Acknowledgment
+Special thanks to:
+- Flutter team for the amazing framework
+- Firebase for backend services
+- All contributors who helped improve this project
+- Open source packages used in this project:
+  - provider
+  - firebase_core
+  - cloud_firestore
+  - firebase_auth
+  - And other supporting packages
+
+## Contact
+- 👨‍💻 Developer: Chamod Udara
+- 📧 Email: uchamod@gmail.com
+- 🌐 GitHub: https://github.com/uchamod
+- 💼 LinkedIn: https://www.linkedin.com/in/chamod-udara-b3927a239/
+
+---
+
+### 📱 Screenshots
+<img src="screenshots/Facebook post - 1.png" width="500" alt="Screenshot description">
+<img src="screenshots/Facebook post - 1.png" width="500" alt="Screenshot description">
+<img src="screenshots/Facebook post - 1.png" width="500" alt="Screenshot description"><br/>
+<img src="screenshots/Facebook post - 1.png" width="500" alt="Screenshot description">
+
+### 🤝 Contributing
+Contributions are always welcome! Please read the contribution guidelines first.
+
+### 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

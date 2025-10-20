@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Videos {
   final String videoId;
   final String title;
@@ -6,7 +8,8 @@ class Videos {
   final String tubnail;
   final String userId;
   final List likes;
-  final DateTime publishedDate;
+  final List dislike;
+  final Timestamp publishedDate;
   final String? weblink;
 
   Videos(
@@ -17,6 +20,7 @@ class Videos {
       required this.tubnail,
       required this.userId,
       required this.likes,
+      required this.dislike,
       required this.publishedDate,
       required this.weblink});
 
@@ -30,6 +34,7 @@ class Videos {
       "tubnail": tubnail,
       "userId": userId,
       "likes": likes,
+      "dislike": dislike,
       "publishedDate": publishedDate
     };
   }
@@ -44,6 +49,7 @@ class Videos {
       tubnail: json["tubnail"],
       userId: json["userId"],
       likes: json["likes"],
+      dislike: json["dislike"],
       publishedDate: json["publishedDate"],
       weblink: json["weblink"],
     );

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:spread/models/artical.dart';
 import 'package:spread/models/watch_now.dart';
 import 'package:spread/provider/filter_provider.dart';
+import 'package:spread/router/route_names.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
 import 'package:spread/widgets/artical_item_card.dart';
@@ -19,7 +21,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: Colors.transparent,
       body: SafeArea(
         //get data from future builder
         child: FutureBuilder(
@@ -29,7 +30,9 @@ class HomePage extends StatelessWidget {
             //check state and provide context
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: secondorywhite,
+                ),
               );
             } else if (snapshot.hasError) {
               return Center(
@@ -52,12 +55,26 @@ class HomePage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         //add logo
-                        IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            "assets/adult/Spread.svg",
-                            height: 35,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: SvgPicture.asset(
+                                "assets/Frame 1.svg",
+                                height: 65,
+                              ),
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  GoRouter.of(context).go(RouterNames.home);
+                                },
+                                icon: const Icon(
+                                  Icons.notifications,
+                                  size: 24,
+                                  color: primaryYellow,
+                                )),
+                          ],
                         ),
                         //filter chips
 
@@ -67,22 +84,23 @@ class HomePage extends StatelessWidget {
                             children: [
                               //all
                               Padding(
-                                padding: const EdgeInsets.only(right: 8),
+                                padding: const EdgeInsets.only(right: 6),
                                 child: FilterChip(
-                                  backgroundColor: backgroundBlue,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(filterborder),
-                                  ),
-                                  side: const BorderSide(
-                                      color: secondorywhite, width: 2),
+                                  backgroundColor:
+                                      secondorywhite.withOpacity(0.15),
+
                                   label: Text(
                                     "All",
-                                    style: Textstyles().subtitle,
+                                    style: filterData.getCategory() == "all"
+                                        ? Textstyles()
+                                            .body
+                                            .copyWith(color: secondoryBlack)
+                                        : Textstyles().body,
                                   ),
-                                  selectedColor: backgroundPurple,
+                                  selectedColor: secondorywhite,
                                   showCheckmark: false,
                                   selected: filterData.getCategory() == "all",
+                                  side: BorderSide.none,
 
                                   //show all items
                                   onSelected: (value) {
@@ -92,19 +110,20 @@ class HomePage extends StatelessWidget {
                               ),
                               //articals
                               Padding(
-                                padding: const EdgeInsets.only(right: 8),
+                                padding: const EdgeInsets.only(right: 6),
                                 child: FilterChip(
-                                  backgroundColor: backgroundBlue,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(filterborder)),
-                                  side: const BorderSide(
-                                      color: secondorywhite, width: 2),
+                                  backgroundColor:
+                                      secondorywhite.withOpacity(0.15),
+                                  side: BorderSide.none,
                                   label: Text(
                                     "Artical",
-                                    style: Textstyles().subtitle,
+                                    style: filterData.getCategory() == "artical"
+                                        ? Textstyles()
+                                            .body
+                                            .copyWith(color: secondoryBlack)
+                                        : Textstyles().body,
                                   ),
-                                  selectedColor: backgroundPurple,
+                                  selectedColor: secondorywhite,
                                   showCheckmark: false,
                                   selected:
                                       filterData.getCategory() == "artical",
@@ -116,19 +135,20 @@ class HomePage extends StatelessWidget {
                               ),
                               //videos
                               Padding(
-                                padding: const EdgeInsets.only(right: 8),
+                                padding: const EdgeInsets.only(right: 6),
                                 child: FilterChip(
-                                  backgroundColor: backgroundBlue,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(filterborder)),
-                                  side: const BorderSide(
-                                      color: secondorywhite, width: 2),
+                                  backgroundColor:
+                                      secondorywhite.withOpacity(0.15),
+                                  side: BorderSide.none,
                                   label: Text(
-                                    "Watch Now",
-                                    style: Textstyles().subtitle,
+                                    "Videos",
+                                    style: filterData.getCategory() == "videos"
+                                        ? Textstyles()
+                                            .body
+                                            .copyWith(color: secondoryBlack)
+                                        : Textstyles().body,
                                   ),
-                                  selectedColor: backgroundPurple,
+                                  selectedColor: secondorywhite,
                                   showCheckmark: false,
                                   selected:
                                       filterData.getCategory() == "videos",
@@ -140,19 +160,20 @@ class HomePage extends StatelessWidget {
                               ),
                               //people
                               Padding(
-                                padding: const EdgeInsets.only(right: 8),
+                                padding: const EdgeInsets.only(right: 6),
                                 child: FilterChip(
-                                  backgroundColor: backgroundBlue,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(filterborder)),
-                                  side: const BorderSide(
-                                      color: secondorywhite, width: 2),
+                                  backgroundColor:
+                                      secondorywhite.withOpacity(0.15),
+                                  side: BorderSide.none,
                                   label: Text(
-                                    "People",
-                                    style: Textstyles().subtitle,
+                                    "Chanels",
+                                    style: filterData.getCategory() == "people"
+                                        ? Textstyles()
+                                            .body
+                                            .copyWith(color: secondoryBlack)
+                                        : Textstyles().body,
                                   ),
-                                  selectedColor: backgroundPurple,
+                                  selectedColor: secondorywhite,
                                   showCheckmark: false,
                                   selected:
                                       filterData.getCategory() == "people",
@@ -174,6 +195,7 @@ class HomePage extends StatelessWidget {
                             mainAxisSpacing: 8,
                             axisDirection: AxisDirection.down,
                             children: selectedData.map((item) {
+                              //item
                               return GestureDetector(
                                 onTap: () {},
                                 child: item is Artical
@@ -185,8 +207,16 @@ class HomePage extends StatelessWidget {
                             }).toList(),
                           )
                         else
-                          const Center(
-                            child: CircularProgressIndicator(),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Text(
+                                  "No data found",
+                                  style: Textstyles().body,
+                                ),
+                              ),
+                            ],
                           ),
                       ],
                     ),

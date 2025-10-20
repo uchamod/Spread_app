@@ -9,7 +9,7 @@ class People {
   final String password;
   final DateTime joinedDate;
   final DateTime updatedDate;
-  final String? image;
+  final String image;
   final List followers;
   final List followings;
 
@@ -53,7 +53,7 @@ class People {
         joinedDate: (json["joinedDate"] ?? "" as Timestamp).toDate(),
         updatedDate: (json["updatedDate"] ?? "" as Timestamp).toDate(),
         image: json["image"] ?? "",
-        followers: json["followers"] ?? "",
-        followings: json["followings"] ?? "");
+        followers: json["followers"] ?? [],
+        followings: json["followings"] ?? []);
   }
 }

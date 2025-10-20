@@ -1,12 +1,15 @@
 //articals
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Artical {
   final String articalId;
   final String title;
   final String discription;
-  final String category;
+  final List tags;
   final String userId;
-  final List? images;
-  final dynamic likes;
+  final String images;
+  final List likes;
+  final List dislike;
   final DateTime publishedDate;
   final String? weblink;
 
@@ -14,9 +17,10 @@ class Artical {
     required this.articalId,
     required this.title,
     required this.discription,
-    required this.category,
+    required this.tags,
     required this.userId,
     required this.likes,
+    required this.dislike,
     required this.publishedDate,
     required this.images,
     required this.weblink,
@@ -27,12 +31,15 @@ class Artical {
     return {
       "articalId": articalId,
       "title": title,
-      "category": category,
+      "tags": tags,
       "discription": discription,
       "userId": userId,
       "Images": images,
       "likes": likes,
-      "publishedDate": publishedDate,
+      "dislike": dislike,
+      "publishedDate": publishedDate is Timestamp
+          ? publishedDate
+          : Timestamp.fromDate(publishedDate),
       "weblink": weblink,
     };
   }
@@ -42,12 +49,13 @@ class Artical {
     return Artical(
         articalId: json["articalId"],
         title: json["title"],
-        category: json["category"],
+        tags: json["tags"],
         discription: json["discription"],
         userId: json["userId"],
         images: json["Images"],
         likes: json["likes"],
-        publishedDate: json["publishedDate"],
+        dislike: json["dislike"],
+        publishedDate: (json["publishedDate"] as Timestamp).toDate(),
         weblink: json["weblink"]);
   }
 }

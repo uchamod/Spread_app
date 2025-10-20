@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spread/router/route_names.dart';
-import 'package:spread/services/common_functions.dart';
 import 'package:spread/services/firebase_auth.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
@@ -27,57 +26,47 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
   //varibels
-  final double filedpad = 12;
+  final double filedpad = 10;
   //load controller
   bool isloading = false;
 
   //sing in user
-  Future<void> singIn(String username, String password) async {
+  Future<void> singIn(
+    String username,
+    String password,
+  ) async {
     setState(() {
       isloading = true;
     });
-    try {
-      await _authServices.singInUser(username, password);
-      CommonFunctions().massage(
-          "LogIn Succsussfuly", Icons.check_circle, Colors.green, context);
-    } catch (err) {
-      CommonFunctions()
-          .massage("Attempt Lost", Icons.cancel, errorColor, context);
-    }
+
+    await _authServices.singInUser(username, password, context);
 
     setState(() {
-      isloading = true;
+      isloading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final double topPad = MediaQuery.of(context).size.height * 0.15;
-    return Container(
-      padding: EdgeInsets.only(left: horPad, right: horPad, top: topPad),
-      decoration: const BoxDecoration(
-        //add greadient background
-        gradient: LinearGradient(
-            colors: [backgroundBlue, backgroundPurple],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(
+    final double topPad = MediaQuery.of(context).size.height * 0.1;
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(horPad, topPad, horPad, 0),
+        child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
               children: [
                 //sticker
                 SvgPicture.asset(
-                  "assets/adult/Spread.svg",
+                  "assets/Search.svg",
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.1,
                 ),
                 //username
                 ReusableTextformfield(
+                  isTagFiled: false,
                   controller: _nameController,
                   hint: "nickname",
                   inputAction: TextInputAction.next,
@@ -97,6 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 //password
                 ReusableTextformfield(
+                  isTagFiled: false,
                   controller: _passwordController,
                   hint: "password",
                   inputAction: TextInputAction.done,
@@ -111,13 +101,9 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: filedpad,
-                ),
-                //confirm password
 
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 //sing in button
                 InkWell(
@@ -132,12 +118,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: MediaQuery.of(context).size.height * 0.04,
                 ),
                 //sing in with google or anonymously
                 const Extralogin(),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
+                  height: MediaQuery.of(context).size.height * 0.15,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
