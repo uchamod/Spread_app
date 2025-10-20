@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spread/router/route_names.dart';
 import 'package:spread/services/common_functions.dart';
-import 'package:spread/services/firebase_auth.dart';
 import 'package:spread/services/firestore.dart';
 import 'package:spread/util/constants.dart';
 import 'package:spread/util/texystyles.dart';
@@ -18,7 +17,8 @@ class UserDeatilsPage extends StatefulWidget {
   final String username;
   final String password;
 
-  const UserDeatilsPage({super.key, required this.username, required this.password});
+  const UserDeatilsPage(
+      {super.key, required this.username, required this.password});
 
   @override
   State<UserDeatilsPage> createState() => _UserDeatilsPageState();
@@ -26,7 +26,7 @@ class UserDeatilsPage extends StatefulWidget {
 
 class _UserDeatilsPageState extends State<UserDeatilsPage> {
   final FirestoreServices _firestoreServices = FirestoreServices();
- 
+
   //textfield conttrollers
   final TextEditingController _discriptionController = TextEditingController();
 
@@ -42,8 +42,8 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
   bool isloading = false;
   //select image
   Future<void> imagePicker(ImageSource source) async {
-    ImagePicker _imgPicker = ImagePicker();
-    final image = await _imgPicker.pickImage(source: source);
+    ImagePicker imgPicker = ImagePicker();
+    final image = await imgPicker.pickImage(source: source);
     if (image != null) {
       setState(() {
         _imagefile = File(image.path);
@@ -71,7 +71,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
           .massage(result, Icons.check_circle, Colors.green, context);
     } catch (err) {
       CommonFunctions()
-          .massage("Something went wrong", Icons.cancel, errorColor, context);
+          .massage("Network error", Icons.cancel, errorColor, context);
     }
     setState(() {
       isloading = false;
@@ -136,7 +136,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                 //discription
                 ReusableTextformfield(
                   controller: _discriptionController,
-                  hint: "Something about you...",
+                  hint: "Something about yourself...",
                   inputAction: TextInputAction.next,
                   inputType: TextInputType.name,
                   isShow: false,
