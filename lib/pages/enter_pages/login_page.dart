@@ -46,18 +46,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  //sing in with google
-  Future<void> _signInWithGoogle(BuildContext context) async {
-    try {
-      // Sign in with Google
-      await _authServices.googleSingIn(context);
-
-      GoRouter.of(context).goNamed(RouterNames.home);
-    } catch (e) {
-      print('Error signing in with Google: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final double topPad = MediaQuery.of(context).size.height * 0.1;
@@ -107,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                   maxLine: 1,
                   validchecker: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Please enter password";
+                      return "Please enter your password";
                     }
 
                     return null;

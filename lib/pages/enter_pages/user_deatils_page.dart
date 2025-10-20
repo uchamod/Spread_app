@@ -43,8 +43,8 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
   bool isloading = false;
   //select image
   Future<void> imagePicker(ImageSource source) async {
-    ImagePicker _imgPicker = ImagePicker();
-    final image = await _imgPicker.pickImage(source: source);
+    ImagePicker imgPicker = ImagePicker();
+    final image = await imgPicker.pickImage(source: source);
     if (image != null) {
       setState(() {
         _imagefile = File(image.path);
@@ -71,8 +71,8 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
       await PushNotification.getFcmToken(
           FirebaseAuth.instance.currentUser!.uid);
     } catch (err) {
-      CommonFunctions().massage(
-          "Something went wrong", Icons.cancel, errorColor, context, 2);
+      CommonFunctions()
+          .massage("Network error", Icons.cancel, errorColor, context);
     }
     setState(() {
       isloading = false;
@@ -130,7 +130,7 @@ class _UserDeatilsPageState extends State<UserDeatilsPage> {
                 ReusableTextformfield(
                   isTagFiled: false,
                   controller: _discriptionController,
-                  hint: "Something about you...",
+                  hint: "Something about yourself...",
                   inputAction: TextInputAction.next,
                   inputType: TextInputType.name,
                   isShow: false,
