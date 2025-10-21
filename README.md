@@ -74,9 +74,9 @@ Special thanks to:
 
 ### 📱 Screenshots
 <img src="screenshots/Facebook post - 1.png" width="500" alt="Screenshot description">
-<img src="screenshots/Facebook post - 1.png" width="500" alt="Screenshot description">
-<img src="screenshots/Facebook post - 1.png" width="500" alt="Screenshot description"><br/>
-<img src="screenshots/Facebook post - 1.png" width="500" alt="Screenshot description">
+<img src="screenshots/Facebook post - 2.png" width="500" alt="Screenshot description">
+<img src="screenshots/Facebook post - 3.png" width="500" alt="Screenshot description"><br/>
+<img src="screenshots/Facebook post - 4.png" width="500" alt="Screenshot description">
 
 ### 🤝 Contributing
 Contributions are always welcome! Please read the contribution guidelines first.
